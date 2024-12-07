@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'dsssp';
+  src:
+    url('font/dsssp.ttf?du0lc4') format('truetype'),
+    url('font/dsssp.woff?du0lc4') format('woff'),
+    url('font/dsssp.svg?du0lc4#dsssp') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^='icon-'],
+[class*=' icon-'] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'dsssp' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-bandpass:before {
+  content: '\e900';
+}
+.icon-empty:before {
+  content: '\e901';
+}
+.icon-gain:before {
+  content: '\e902';
+}
+.icon-high-pass:before {
+  content: '\e906';
+}
+.icon-high-shelf:before {
+  content: '\e903';
+}
+.icon-low-pass:before {
+  content: '\e904';
+}
+.icon-low-shelf:before {
+  content: '\e905';
+}
+.icon-notch:before {
+  content: '\e907';
+}
+.icon-peak:before {
+  content: '\e908';
+}
