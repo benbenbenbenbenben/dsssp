@@ -24,7 +24,7 @@ export default defineConfig({
     }),
     visualizer({
       open: true,
-      filename: 'dist/stats.html'
+      filename: 'docs/stats.html'
     })
   ],
   build: {
