@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 
+import { type FilterGradientProps } from '../types'
+import { getZeroGain } from '../utils'
 import { useGraph } from './FrequencyGraphProvider'
-import { type FilterGradientProps } from './types'
-import { getZeroGain } from './utils'
 
 export const FilterGradient = ({
   id,

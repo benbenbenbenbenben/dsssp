@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 
+import { calcFrequency, calcMagnitude, fastFloor } from '../math'
+import { type MouseTrackerProps } from '../types'
+import { getMousePosition } from '../utils'
 import { useGraph } from './FrequencyGraphProvider'
-import { calcFrequency, calcMagnitude, fastFloor } from './math'
-import { type MouseTrackerProps } from './types'
-import { getMousePosition } from './utils'
 
 export const MouseTracker = ({
   lineWidth,

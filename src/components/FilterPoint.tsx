@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import React, { useMemo, useRef, useState } from 'react'
 
-import { useGraph } from './FrequencyGraphProvider'
 import {
   calcFrequency,
   calcMagnitude,
@@ -9,14 +8,15 @@ import {
   limitRange,
   scaleMagnitude,
   stripTail
-} from './math'
-import { type FilterPointProps } from './types'
+} from '../math'
+import { type FilterPointProps } from '../types'
 import {
   getIconStyles,
   getIconSymbol,
   getMousePosition,
   getZeroGain
-} from './utils'
+} from '../utils'
+import { useGraph } from './FrequencyGraphProvider'
 
 export const FilterPoint = ({
   filter,

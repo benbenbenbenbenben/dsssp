@@ -1,7 +1,7 @@
 import React from 'react'
 
+import { getCenterLine } from '../math'
 import { useGraph } from './FrequencyGraphProvider'
-import { getCenterLine } from './math'
 
 export const GainGrid = () => {
   const {

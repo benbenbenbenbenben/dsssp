@@ -1,7 +1,7 @@
+import { calcCurve } from '../math'
+import { type FilterCurveProps } from '../types'
 import { FilterPin } from './FilterPin'
 import { useGraph } from './FrequencyGraphProvider'
-import { calcCurve } from './math'
-import { type FilterCurveProps } from './types'
 
 export const FilterCurve = ({
   filter,

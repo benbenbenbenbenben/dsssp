@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext } from 'react'
 
-import { type GraphScale, type GraphTheme } from './types'
+import { type GraphScale, type GraphTheme } from '../types'
 
 type FrequencyGraph = {
   theme: GraphTheme

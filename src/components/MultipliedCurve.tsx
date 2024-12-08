@@ -1,6 +1,6 @@
+import { calcMultipliedCurve } from '../math'
+import { type MultipliedCurveProps } from '../types'
 import { useGraph } from './FrequencyGraphProvider'
-import { calcMultipliedCurve } from './math'
-import { type MultipliedCurveProps } from './types'
 
 export const MultipliedCurve = ({
   magnitudes,

@@ -1,7 +1,7 @@
-import '../../icons/font.css'
+import '../icons/font.css'
 
-import { type FilterIconProps, type FilterTypedIconProps } from './types'
-import { getIconStyles, getIconSymbol } from './utils'
+import { type FilterIconProps, type FilterTypedIconProps } from '../types'
+import { getIconStyles, getIconSymbol } from '../utils'
 
 export const FilterIcon = ({
   color = '#FFFFFF',

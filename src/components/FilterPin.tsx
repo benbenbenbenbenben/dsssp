@@ -1,11 +1,11 @@
-import { useGraph } from './FrequencyGraphProvider'
 import {
   calcMagnitudeForFrequency,
   getCenterLine,
   scaleMagnitude
-} from './math'
-import { type FilterPinProps } from './types'
-import { getZeroGain } from './utils'
+} from '../math'
+import { type FilterPinProps } from '../types'
+import { getZeroGain } from '../utils'
+import { useGraph } from './FrequencyGraphProvider'
 
 export const FilterPin = ({
   filter,

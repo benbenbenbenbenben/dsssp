@@ -1,12 +1,12 @@
 import merge from 'deepmerge'
 import React, { forwardRef } from 'react'
 
-import { defaultScale, defaultTheme } from './constants'
+import { defaultScale, defaultTheme } from '../constants'
+import { type GraphScale, type GraphTheme } from '../types'
 import FrequencyGraphProvider from './FrequencyGraphProvider'
 import { FrequencyGrid } from './FrequencyGrid'
 import { GainGrid } from './GainGrid'
 import { GraphGradient } from './GraphGradient'
-import { type GraphScale, type GraphTheme } from './types'
 
 export const FrequencyResponseGraph = forwardRef<
   SVGSVGElement,
