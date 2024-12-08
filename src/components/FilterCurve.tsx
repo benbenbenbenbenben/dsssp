@@ -56,6 +56,10 @@ export type FilterCurveProps = {
   activeLineWidth?: number
 }
 
+/**
+ * The `FilterCurve` component renders the frequency response curve of a given filter on the graph.
+ * It displays the filter's shape and can optionally show a vertical pin connecting to the `FilterPoint`.
+ */
 export const FilterCurve = ({
   filter,
   color,

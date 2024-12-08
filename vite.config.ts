@@ -47,12 +47,5 @@ export default defineConfig({
     minify: 'esbuild',
     target: 'esnext'
   },
-  css: {
-    preprocessorOptions: {
-      css: {
-        charset: false
-      }
-    }
-  },
   assetsInclude: ['**/*.woff', '**/*.ttf', '**/*.svg']
 })
