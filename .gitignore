@@ -9,6 +9,7 @@
 # production
 /build
 /dist
+/docs
 
 # misc
 /.next
@@ -20,3 +21,5 @@
 .env
 .scannerwork
 ss.bat
+
+*storybook.log
