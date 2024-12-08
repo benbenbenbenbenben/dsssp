@@ -9,6 +9,7 @@
     "serve": "vite preview",
     "typecheck": "tsc --noEmit",
     "generate-docs": "node scripts/generate-docs.js",
+    "generate-mdx-docs": "node scripts/generate-mdx-docs.js",
     "prettier": "prettier --check ./**/*.{ts,tsx,js,jsx}",
     "prettier:fix": "prettier  --write ./**/*.{ts,tsx,js,jsx}",
     "eslint": "eslint \"./**/*.{ts,tsx,js,jsx}\"",

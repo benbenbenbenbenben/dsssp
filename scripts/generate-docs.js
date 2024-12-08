@@ -5,6 +5,9 @@ import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+const projectRoot = path.resolve(__dirname, '..')
+const componentPath = path.join(projectRoot, 'src/components/index.ts')
+const docsPath = path.join(projectRoot, 'docs/components.json')
 
 const options = {
   savePropValueAsString: true,
@@ -12,12 +15,8 @@ const options = {
   shouldRemoveUndefinedFromOptional: true
 }
 
-const componentPath = path.join(__dirname, 'src/components/index.ts')
 const components = docgen
-  .withCustomConfig('./tsconfig.json', options)
+  .withCustomConfig(path.join(projectRoot, 'tsconfig.json'), options)
   .parse([componentPath])
 
-fs.writeFileSync(
-  path.join(__dirname, '../docs', 'components.json'),
-  JSON.stringify(components, null, 2)
-)
+fs.writeFileSync(docsPath, JSON.stringify(components, null, 2))

@@ -136,22 +136,6 @@ export type FilterIconProps = {
 
 export type FilterTypedIconProps = Omit<FilterIconProps, 'type'>
 
-export type FilterCurveProps = {
-  filter: GraphFilter
-  color?: string
-  index?: number
-  lineWidth?: number
-  opacity?: number
-
-  showPin?: boolean
-  gradientId?: string
-
-  active?: boolean
-  activeColor?: string
-  activeLineWidth?: number
-  activeOpacity?: number
-}
-
 export type FilterGradientProps = {
   id: string
   filter: GraphFilter
