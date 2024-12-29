@@ -1,7 +1,19 @@
-import '../icons/font.css'
+import { type CSSProperties } from 'react'
+import { type FilterType, type GraphFilter } from '../../types'
+import { getIconStyles, getIconSymbol } from '../../utils'
+import '../../icons/font.css'
 
-import { type FilterIconProps, type FilterTypedIconProps } from '../types'
-import { getIconStyles, getIconSymbol } from '../utils'
+export type FilterIconProps = {
+  type?: FilterType
+  gain?: number
+  filter?: GraphFilter
+  size?: number
+  color?: string
+  style?: CSSProperties
+  className?: string
+}
+
+export type FilterTypedIconProps = Omit<FilterIconProps, 'type'>
 
 export const FilterIcon = ({
   color = '#FFFFFF',
@@ -33,6 +45,7 @@ export const FilterIcon = ({
         fontFamily: 'dsssp',
         textAlign: 'center',
         display: 'inline-block',
+        verticalAlign: 'middle',
         ...style,
         ...iconStyles
       }}
@@ -42,29 +55,56 @@ export const FilterIcon = ({
 }
 
 export const FilterIconBypass = (props: FilterTypedIconProps) => (
-  <FilterIcon {...props} type="BYPASS" />
+  <FilterIcon
+    {...props}
+    type="BYPASS"
+  />
 )
 export const FilterIconLowPass = (props: FilterTypedIconProps) => (
-  <FilterIcon {...props} type="LOWPASS1" />
+  <FilterIcon
+    {...props}
+    type="LOWPASS1"
+  />
 )
 export const FilterIconHighPass = (props: FilterTypedIconProps) => (
-  <FilterIcon {...props} type="HIGHPASS1" />
+  <FilterIcon
+    {...props}
+    type="HIGHPASS1"
+  />
 )
 export const FilterIconLowShelf = (props: FilterTypedIconProps) => (
-  <FilterIcon {...props} type="LOWSHELF1" />
+  <FilterIcon
+    {...props}
+    type="LOWSHELF1"
+  />
 )
 export const FilterIconHighShelf = (props: FilterTypedIconProps) => (
-  <FilterIcon {...props} type="HIGHSHELF1" />
+  <FilterIcon
+    {...props}
+    type="HIGHSHELF1"
+  />
 )
 export const FilterIconBandPass = (props: FilterTypedIconProps) => (
-  <FilterIcon {...props} type="BANDPASS" />
+  <FilterIcon
+    {...props}
+    type="BANDPASS"
+  />
 )
 export const FilterIconNotch = (props: FilterTypedIconProps) => (
-  <FilterIcon {...props} type="NOTCH" />
+  <FilterIcon
+    {...props}
+    type="NOTCH"
+  />
 )
 export const FilterIconPeak = (props: FilterTypedIconProps) => (
-  <FilterIcon {...props} type="PEAK" />
+  <FilterIcon
+    {...props}
+    type="PEAK"
+  />
 )
 export const FilterIconGain = (props: FilterTypedIconProps) => (
-  <FilterIcon {...props} type="GAIN" />
+  <FilterIcon
+    {...props}
+    type="GAIN"
+  />
 )

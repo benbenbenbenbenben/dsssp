@@ -1,51 +1,37 @@
+/// <reference types="vitest" />
+import { join, resolve } from 'node:path'
+import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
-import { viteStaticCopy } from 'vite-plugin-static-copy'
 import dts from 'vite-plugin-dts'
-import { visualizer } from 'rollup-plugin-visualizer'
+
+import { peerDependencies } from './package.json'
 
 export default defineConfig({
-  define: {
-    'process.env.NODE_ENV': JSON.stringify('production')
-  },
   plugins: [
     react({
-      jsxRuntime: 'automatic'
+      jsxImportSource: 'react'
     }),
-    dts({
-      insertTypesEntry: true
-    }),
-    viteStaticCopy({
-      targets: [
-        { src: 'src/icons/font.css', dest: 'styles' },
-        { src: 'src/icons/font/*', dest: 'font' }
-      ]
-    }),
-    visualizer({
-      open: true,
-      filename: 'docs/stats.html'
-    })
+    dts({ rollupTypes: true }) // Output .d.ts files
   ],
   build: {
+    target: 'esnext',
+    minify: false,
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'DssspIoLibrary',
-      fileName: (format) => `dsssp-io.${format}.js`,
-      formats: ['es', 'umd']
+      entry: resolve(__dirname, join('src', 'index.ts')),
+      fileName: 'index',
+      formats: ['es', 'cjs']
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
-      output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM'
-        },
-        minifyInternalExports: true
-      }
-    },
-    minify: 'esbuild',
-    target: 'esnext'
+      // Exclude peer dependencies from the bundle to reduce bundle size
+      external: ['react/jsx-runtime', ...Object.keys(peerDependencies)]
+    }
   },
-  assetsInclude: ['**/*.woff', '**/*.ttf', '**/*.svg']
+  test: {
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.ts',
+    coverage: {
+      all: false,
+      enabled: true
+    }
+  }
 })

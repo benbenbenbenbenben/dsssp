@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
-import React, { useMemo, useRef, useState } from 'react'
+import type React from 'react'
+import { useMemo, useRef, useState, type CSSProperties } from 'react'
 
 import {
   calcFrequency,
@@ -8,15 +9,56 @@ import {
   limitRange,
   scaleMagnitude,
   stripTail
-} from '../math'
-import { type FilterPointProps } from '../types'
+} from '../../math'
 import {
   getIconStyles,
   getIconSymbol,
   getMousePosition,
   getZeroGain
-} from '../utils'
-import { useGraph } from './FrequencyGraphProvider'
+} from '../../utils'
+import '../../icons/font.css'
+import { type GraphFilter, useGraph } from '../..'
+
+type FilterChangeEvent = Partial<GraphFilter> & {
+  index?: number
+  ended?: boolean
+}
+
+export type FilterPointProps = {
+  filter: GraphFilter
+  index?: number
+  dragX?: boolean
+  dragY?: boolean
+  radius?: number
+  active?: boolean
+  lineWidth?: number
+
+  showIcon?: boolean
+
+  label?: string
+  labelFontFamily?: string
+  labelFontSize?: number
+  labelColor?: CSSProperties['color']
+
+  color?: CSSProperties['color']
+  zeroColor?: CSSProperties['color']
+  dragColor?: CSSProperties['color']
+  activeColor?: CSSProperties['color']
+
+  background?: CSSProperties['color']
+  zeroBackground?: CSSProperties['color']
+  dragBackground?: CSSProperties['color']
+  activeBackground?: CSSProperties['color']
+
+  backgroundOpacity?: CSSProperties['opacity']
+  dragBackgroundOpacity?: CSSProperties['opacity']
+  activeBackgroundOpacity?: CSSProperties['opacity']
+
+  onChange?: (filterEvent: FilterChangeEvent) => void
+  onEnter?: (filterEvent: FilterChangeEvent) => void
+  onLeave?: () => void
+  onDrag?: (dragging: boolean) => void
+}
 
 export const FilterPoint = ({
   filter,
@@ -29,13 +71,19 @@ export const FilterPoint = ({
   labelFontSize,
   labelFontFamily,
   labelColor,
-  color,
   radius,
   lineWidth,
-  background,
-  activeColor,
+
+  color,
   zeroColor,
+  dragColor,
+  activeColor,
+
+  background,
   zeroBackground,
+  dragBackground,
+  activeBackground,
+
   backgroundOpacity,
   dragBackgroundOpacity,
   activeBackgroundOpacity,
@@ -47,15 +95,21 @@ export const FilterPoint = ({
   const {
     svgRef,
     scale,
+    logScale,
+    height,
+    width,
     theme: {
       filters: { zeroPoint, colors, defaultColor, point }
     }
   } = useGraph()
-  const { minDB, maxDB, height, width, minFreq, maxFreq, logScale } = scale
+  const { minGain, maxGain, minFreq, maxFreq } = scale
   const { freq: filterFreq, gain: filterGain, q: filterQ, type } = filter
 
   const circleRef = useRef<SVGCircleElement | null>(null)
+  const labelRef = useRef<SVGTextElement | null>(null)
+
   const [hovered, setHovered] = useState(false)
+  const [dragging, setDragging] = useState(false)
 
   const [zeroGain, passFilter] = useMemo(
     () => [getZeroGain(type), type.includes('PASS') || type === 'NOTCH'],
@@ -63,29 +117,29 @@ export const FilterPoint = ({
   )
 
   const x = logScale.x(filterFreq)
-  const centerY = getCenterLine(minDB, maxDB, height)
+  const centerY = getCenterLine(minGain, maxGain, height)
   const y = !passFilter
-    ? scaleMagnitude(filterGain, minDB, maxDB, height)
+    ? scaleMagnitude(filterGain, minGain, maxGain, height)
     : centerY
 
   let offset: { x: number; y: number } = { x: 0, y: 0 }
-  let selectedElement: SVGCircleElement | null = null
-
-  const zeroValue = filterGain === 0 && !zeroGain
 
   let cx: number
   let cy: number
-  let moveFreq: number
-  let moveGain: number
+  const moveFreq = useRef(filterFreq)
+  const moveGain = useRef(filterGain)
+
+  const zeroValue = moveGain.current === 0 && !zeroGain
 
   const dragMove = (e: MouseEvent) => {
-    if (!selectedElement) return
+    if (!circleRef.current) return
     const { x, y } = getMousePosition(e)
 
     if (dragX) {
       cx = limitRange(x - offset.x, 0, width)
-      selectedElement.setAttributeNS(null, 'cx', String(cx))
-      moveFreq = limitRange(
+      circleRef.current.setAttributeNS(null, 'cx', String(cx))
+      labelRef.current?.setAttributeNS(null, 'x', String(cx))
+      moveFreq.current = limitRange(
         calcFrequency(cx, width, minFreq, maxFreq),
         minFreq,
         maxFreq
@@ -98,33 +152,37 @@ export const FilterPoint = ({
       } else {
         cy = limitRange(y - offset.y, 0, height)
       }
-      selectedElement.setAttributeNS(null, 'cy', String(cy))
-      const gain = calcMagnitude(cy, minDB, maxDB, height)
-      moveGain = gain < 0.05 && gain > -0.05 ? 0 : gain
+      circleRef.current.setAttributeNS(null, 'cy', String(cy))
+      labelRef.current?.setAttributeNS(null, 'y', String(cy))
+      const gain = calcMagnitude(cy, minGain, maxGain, height)
+      // TODO: move this rounding to props
+      moveGain.current = gain < 0.05 && gain > -0.05 ? 0 : gain
     }
     onChange?.({
       index,
-      freq: moveFreq,
-      ...(!passFilter ? { gain: moveGain } : {})
+      freq: moveFreq.current,
+      ...(!passFilter ? { gain: moveGain.current } : {})
     })
   }
 
   const dragEnd = (e: MouseEvent) => {
     dragMove(e)
     const svg = svgRef.current
-    if (!selectedElement || !svg) return
-    selectedElement.setAttribute(
+    const circleEl = circleRef.current
+
+    if (!svg || !circleEl) return
+    circleEl.setAttribute(
       'fill-opacity',
       String(activeBackgroundOpacity || point.backgroundOpacity.active)
     )
     svg.removeEventListener('mousemove', dragMove)
     svg.removeEventListener('mouseup', dragEnd)
     svg.removeEventListener('mouseleave', dragEnd)
-    selectedElement = null
+    setDragging(false)
     onChange?.({
       index,
-      freq: moveFreq,
-      gain: moveGain,
+      freq: moveFreq.current,
+      gain: moveGain.current,
       ended: true
     })
     onDrag?.(false)
@@ -133,11 +191,14 @@ export const FilterPoint = ({
   const dragStart = (e: React.MouseEvent<SVGCircleElement, MouseEvent>) => {
     const svg = svgRef.current
     if (!svg) return
-    selectedElement = e.currentTarget
+    // selectedElement = e.currentTarget
+    setDragging(true)
+    const circleEl = circleRef.current
+    // console.log('selectedElement', selectedElement, 'ref', circleRef.current)
     offset = getMousePosition(e as unknown as MouseEvent)
-    offset.x -= parseFloat(selectedElement.getAttributeNS(null, 'cx') || '0')
-    offset.y -= parseFloat(selectedElement.getAttributeNS(null, 'cy') || '0')
-    selectedElement.setAttribute(
+    offset.x -= parseFloat(circleEl?.getAttributeNS(null, 'cx') || '0')
+    offset.y -= parseFloat(circleEl?.getAttributeNS(null, 'cy') || '0')
+    circleEl?.setAttribute(
       'fill-opacity',
       String(dragBackgroundOpacity || point.backgroundOpacity.drag)
     )
@@ -171,21 +232,29 @@ export const FilterPoint = ({
 
   const strokeWidth = lineWidth || point.lineWidth
 
-  const normalColor = color || colors?.[index]?.point || defaultColor
+  const pointColor = color || colors?.[index]?.point || defaultColor
+  const bgColor = background || colors?.[index]?.background || pointColor
+
   const strokeColor = zeroValue
     ? zeroColor || zeroPoint.color
-    : active || hovered
-      ? activeColor || colors?.[index]?.active || normalColor // fallback to regular point color if active color is not defined
-      : normalColor
+    : dragging
+      ? dragColor || colors?.[index]?.drag || pointColor
+      : active || hovered
+        ? activeColor || colors?.[index]?.active || pointColor // fallback to regular point color if active color is not defined
+        : pointColor
 
   const fillColor = zeroValue
     ? zeroBackground || zeroPoint.background
-    : background || colors?.[index]?.background || defaultColor
+    : dragging
+      ? dragBackground || colors?.[index]?.drag || bgColor
+      : active || hovered
+        ? activeBackground || colors?.[index]?.activeBackground || bgColor
+        : bgColor
 
   const fillOpacity =
     active || hovered
-      ? activeBackgroundOpacity || point.backgroundOpacity.active
-      : backgroundOpacity || point.backgroundOpacity.normal
+      ? (activeBackgroundOpacity ?? point.backgroundOpacity.active)
+      : (backgroundOpacity ?? point.backgroundOpacity.normal)
 
   if (label || showIcon) {
     labelColor ||= point.label.color
@@ -218,20 +287,19 @@ export const FilterPoint = ({
         onMouseDown={dragStart}
       />
       {Boolean(label) && (
-        <g transform={`translate(${x}, ${y})`}>
-          <text
-            x={0}
-            y={0}
-            textAnchor="middle"
-            dominantBaseline="central"
-            fill={labelColor}
-            fontSize={labelFontSize}
-            fontFamily={labelFontFamily}
-            style={{ pointerEvents: 'none' }}
-            dangerouslySetInnerHTML={{ __html: label }}
-            {...labelStyle}
-          />
-        </g>
+        <text
+          ref={labelRef}
+          x={x}
+          y={y}
+          textAnchor="middle"
+          alignmentBaseline="central"
+          fill={labelColor}
+          fontSize={labelFontSize}
+          fontFamily={labelFontFamily}
+          style={{ pointerEvents: 'none' }}
+          dangerouslySetInnerHTML={{ __html: label }}
+          {...labelStyle}
+        />
       )}
     </>
   )

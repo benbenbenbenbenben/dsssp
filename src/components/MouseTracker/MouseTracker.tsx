@@ -1,24 +1,36 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, type CSSProperties } from 'react'
 
-import { calcFrequency, calcMagnitude, fastFloor } from '../math'
-import { type MouseTrackerProps } from '../types'
-import { getMousePosition } from '../utils'
-import { useGraph } from './FrequencyGraphProvider'
+import { calcFrequency, calcMagnitude, fastFloor } from '../../math'
+import { getMousePosition } from '../../utils'
+import { useGraph } from '../..'
+
+export type MouseTrackerProps = {
+  lineWidth?: number
+  lineColor?: CSSProperties['color']
+  backgroundColor?: CSSProperties['color']
+  gainPrecision?: number
+}
 
 export const MouseTracker = ({
   lineWidth,
   lineColor,
-  backgroundColor
+  backgroundColor,
+  gainPrecision = 1
 }: MouseTrackerProps) => {
   const {
+    width,
+    height,
     scale,
     svgRef,
     theme: {
-      background: { tracker }
+      background: {
+        tracker,
+        label: { fontSize, fontFamily }
+      }
     }
   } = useGraph()
 
-  const { minDB, maxDB, height, width, minFreq, maxFreq } = scale
+  const { minGain, maxGain, minFreq, maxFreq } = scale
 
   const strokeDasharray = '1,3'
   const color = lineColor || tracker.lineColor
@@ -39,7 +51,9 @@ export const MouseTracker = ({
     const { x, y } = getMousePosition(e)
     setMouse({ x, y })
 
-    const newGain = calcMagnitude(y, minDB, maxDB, height).toFixed(1)
+    const newGain = calcMagnitude(y, minGain, maxGain, height).toFixed(
+      gainPrecision
+    )
     if (newGain !== String(gainLabel)) {
       setGainLabel(Number(newGain))
     }
@@ -94,7 +108,8 @@ export const MouseTracker = ({
         x={mouse.x - freqWidth / 2}
         y={height - 5}
         fill={color}
-        fontSize="10px"
+        fontSize={fontSize}
+        fontFamily={fontFamily}
       >
         {freqLabel}
       </text>
@@ -112,7 +127,8 @@ export const MouseTracker = ({
         x={3}
         y={mouse.y + 3}
         fill={color}
-        fontSize="10px"
+        fontSize={fontSize}
+        fontFamily={fontFamily}
       >
         {gainLabel > 0 ? `+${gainLabel}` : gainLabel}
       </text>

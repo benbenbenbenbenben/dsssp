@@ -1,19 +1,27 @@
-import { calcMultipliedCurve } from '../math'
-import { type MultipliedCurveProps } from '../types'
-import { useGraph } from './FrequencyGraphProvider'
+import { calcMultipliedCurve } from '../../math'
+import { type Magnitude } from '../../types'
+import { useGraph } from '../..'
+
+export type MultipliedCurveProps = {
+  magnitudes: Magnitude[][]
+  dotted?: boolean
+  width?: number
+  color?: string
+}
 
 export const MultipliedCurve = ({
   magnitudes,
   dotted = false,
-  width,
   color
 }: MultipliedCurveProps) => {
   const {
     scale,
+    width,
+    height,
     theme: { curve }
   } = useGraph()
   if (magnitudes?.length === 0) return null
-  const path = calcMultipliedCurve(magnitudes, scale)
+  const path = calcMultipliedCurve(magnitudes, scale, width, height)
   const strokeColor = color || curve.multiplied.color
   const strokeWidth = width || curve.multiplied.width
 

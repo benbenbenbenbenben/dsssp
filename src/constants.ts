@@ -17,20 +17,22 @@ export const filterTypes = {
   // COEFFICIENTS: 0x10
 }
 
-export const defaultScale: Partial<GraphScale> = {
-  minDB: -8,
-  maxDB: 8,
-  dbStep: 2,
-  width: 1000,
-  height: 500
+export const defaultScale: GraphScale = {
+  minFreq: 20,
+  maxFreq: 20000,
+  sampleRate: 44100,
+  minGain: -16,
+  maxGain: 16,
+  dbSteps: 4,
+  octaveTicks: 10,
+  octaveLabels: [10, 20, 40, 60, 100, 200, 500, 1000, 2000, 5000, 10000, 20000]
 }
 
 export const defaultTheme: GraphTheme = {
   background: {
     grid: {
-      tickColor: '#626F84',
       lineColor: '#3D4C5F',
-      lineWidth: { minor: 0.3, major: 0.6, center: 1.5 }
+      lineWidth: { minor: 0.3, major: 0.6, center: 1.5, border: 0.3 }
     },
     gradient: {
       start: '#1E2530',
@@ -40,6 +42,11 @@ export const defaultTheme: GraphTheme = {
       lineWidth: 0.6,
       lineColor: '#7B899D',
       backgroundColor: '#070C18'
+    },
+    label: {
+      fontSize: 10,
+      fontFamily: 'sans-serif',
+      color: '#626F84'
     }
   },
   curve: {
@@ -58,7 +65,7 @@ export const defaultTheme: GraphTheme = {
     },
 
     point: {
-      radius: 17,
+      radius: 16,
       lineWidth: 2,
       backgroundOpacity: {
         normal: 0.2,

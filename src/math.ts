@@ -307,7 +307,7 @@ export function calcMagnitudes(
 
 export const reducePoints = (points: GraphPoint[]) => {
   const uniquePoints = points.slice(0, -1).reduce((acc, point, idx: number) => {
-    if (fastRound(point.y * 4) !== fastRound(points[idx - 1]?.y * 4)) {
+    if (fastRound(point.y * 4) !== fastRound((points[idx - 1]?.y || 0) * 4)) {
       acc.push(point)
     }
     return acc
@@ -316,50 +316,64 @@ export const reducePoints = (points: GraphPoint[]) => {
   return [...uniquePoints, points.slice(-1)[0]]
 }
 
-export const getCenterLine = (minDB: number, maxDB: number, height: number) => {
-  const dbRange = maxDB - minDB
-  return (maxDB / dbRange) * height
+export const getCenterLine = (
+  minGain: number,
+  maxGain: number,
+  height: number
+) => {
+  const dbRange = maxGain - minGain
+  return (maxGain / dbRange) * height
 }
 
 export const scaleMagnitude = (
   magnitude: number,
-  minDB: number,
-  maxDB: number,
+  minGain: number,
+  maxGain: number,
   height: number
 ) => {
-  const dbScale = height / (maxDB - minDB)
-  const dbCenterLine = getCenterLine(minDB, maxDB, height)
+  const dbScale = height / (maxGain - minGain)
+  const dbCenterLine = getCenterLine(minGain, maxGain, height)
 
   return dbCenterLine - magnitude * dbScale
 }
 
 export const calcMagnitude = (
   y: number,
-  minDB: number,
-  maxDB: number,
+  minGain: number,
+  maxGain: number,
   height: number
 ) => {
-  const dbScale = height / (maxDB - minDB)
-  const dbCenterLine = getCenterLine(minDB, maxDB, height)
+  const dbScale = height / (maxGain - minGain)
+  const dbCenterLine = getCenterLine(minGain, maxGain, height)
 
   return (dbCenterLine - y) / dbScale
 }
 
-export const scaleViewport = (magnitudes: Magnitude[], scale: GraphScale) => {
-  const { width, height, minDB, maxDB } = scale
+export const scaleViewport = (
+  magnitudes: Magnitude[],
+  scale: GraphScale,
+  width: number,
+  height: number
+) => {
+  const { minGain, maxGain } = scale
   const length = magnitudes.length - 1 // may be needed here
 
   return magnitudes.map((mag, i) => {
     return {
-      x: stripTail((width / length) * i),
-      y: stripTail(scaleMagnitude(mag.magnitude, minDB, maxDB, height))
+      x: fastRound((width / length) * i),
+      y: stripTail(scaleMagnitude(mag.magnitude, minGain, maxGain, height))
     } as GraphPoint
   })
 }
 
-export const plotCurve = (points: GraphPoint[], scale: GraphScale) => {
-  const { width, height, minDB, maxDB } = scale
-  const centerY = getCenterLine(minDB, maxDB, height)
+export const plotCurve = (
+  points: GraphPoint[],
+  scale: GraphScale,
+  width: number,
+  height: number
+) => {
+  const { minGain, maxGain } = scale
+  const centerY = getCenterLine(minGain, maxGain, height)
   let path = `M -200 ${centerY}`
   points.map((point) => {
     path += ` L ${point.x} ${point.y > height + 2 ? height + 2 : point.y}`
@@ -368,10 +382,15 @@ export const plotCurve = (points: GraphPoint[], scale: GraphScale) => {
   return path
 }
 
-export const calcCurve = (filter: GraphFilter, scale: GraphScale) => {
+export const calcCurve = (
+  filter: GraphFilter,
+  scale: GraphScale,
+  width: number,
+  height: number
+) => {
   if (!filter) return false
 
-  const { minFreq, maxFreq, sampleRate, width } = scale
+  const { minFreq, maxFreq, sampleRate } = scale
   const { freq, q, gain, type } = filter
 
   const zeroGain = getZeroGain(type)
@@ -383,28 +402,47 @@ export const calcCurve = (filter: GraphFilter, scale: GraphScale) => {
   const steps = width / 2
   const vars = calcBiquadFunction(sampleRate, type, freq, q, gain)
   const magnitudes = calcMagnitudes(sampleRate, minFreq, maxFreq, steps, vars)
-  const points = scaleViewport(magnitudes, scale)
-  const path = plotCurve(points, scale)
+  const points = scaleViewport(magnitudes, scale, width, height)
+  const path = plotCurve(points, scale, width, height)
 
   return { path, vars, magnitudes }
 }
 
 export const calcMultipliedCurve = (
   magnitudes: Magnitude[][],
-  scale: GraphScale
+  scale: GraphScale,
+  width: number,
+  height: number
 ) => {
   const graph = []
+  const emptyPath = 'M 0 0'
+  // Magnitudes array is empty or undefined
+  if (!magnitudes?.length) return emptyPath
+  // First sub-array in magnitudes is empty or undefined
+  if (!magnitudes?.[0]?.length) return emptyPath
+
   for (let i = 0; i < magnitudes[0].length; i++) {
-    const totalGain = magnitudes.reduce((sum, { [i]: { magnitude } }) => {
+    const totalGain = magnitudes.reduce((sum, arr) => {
+      const { magnitude } = arr[i] || {}
+      if (!magnitude) return sum
       const filterGain = 10 ** (magnitude / 20)
       //let gain = filterGain / Math.sqrt(1 + magnitudes[0][i].frequency ** 2);
       return sum + 20 * Math.log10(filterGain)
     }, 0)
-    graph.push({ frequency: magnitudes[0][i].frequency, magnitude: totalGain })
+
+    const { frequency } = magnitudes[0][i] || {}
+    if (!frequency) continue
+
+    graph.push({
+      frequency,
+      magnitude: totalGain
+    })
   }
 
-  const points = scaleViewport(graph, scale)
-  const path = plotCurve(points, scale)
+  if (!graph.length) return emptyPath
+
+  const points = scaleViewport(graph, scale, width, height)
+  const path = plotCurve(points, scale, width, height)
 
   return path
 }

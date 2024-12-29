@@ -47,9 +47,14 @@ function generateMDX(component) {
     ? Object.entries(props)
         .map(([propName, prop]) => {
           const { type, required, defaultValue, description } = prop
-          return `| **${propName}** | \`${type.name}\` | ${
-            defaultValue ? `\`${defaultValue.value}\`` : '-'
-          } | ${description || '-'} | ${required ? 'Yes' : 'No'} |`
+          const formattedDefaults = defaultValue
+            ? defaultValue.value
+                .split(' || ')
+                .map((value) => `\`${value ? value : "''"}\``)
+                .join(' \\|\\| ')
+            : '-'
+
+          return `| **${propName}**${required ? ' *(required)*' : ''} | \`${type.name}\` | ${formattedDefaults} | ${description || '-'} |`
         })
         .join('\n')
     : '| No props available | - | - | - | - |'
@@ -64,8 +69,8 @@ ${description || 'No description available.'}
 
 ## Props
 
-| Name          | Type       | Default     | Description       | Required |
-|---------------|------------|-------------|-------------------|----------|
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
 ${propsTable}
 `
 }
@@ -75,7 +80,6 @@ components.forEach((component) => {
     const mdxContent = generateMDX(component)
     const mdxPath = path.join(docsPath, `${component.displayName}.mdx`)
 
-    // Проверьте, не является ли mdxPath директорией
     if (fs.existsSync(mdxPath) && fs.lstatSync(mdxPath).isDirectory()) {
       console.error(`The path ${mdxPath} is a directory, not a file.`)
       return

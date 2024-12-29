@@ -1,0 +1,29 @@
+import { addons } from '@storybook/manager-api'
+import theme from './theme'
+
+addons.setConfig({
+  theme,
+  navSize: 240,
+  bottomPanelHeight: 400,
+  rightPanelWidth: 240,
+  enableShortcuts: true,
+  showToolbar: false,
+  sidebar: {
+    showRoots: false
+    // collapsedRoots: ['other']
+  }
+  // panelPosition: 'bottom',
+  // selectedPanel: undefined,
+  // initialActive: 'sidebar',
+  // sidebar: {
+  //   showRoots: true,
+  //   collapsedRoots: ['other']
+  // },
+  // toolbar: {
+  //   zoom: { hidden: false },
+  //   copy: { hidden: false },
+  //   eject: { hidden: true },
+  //   title: { hidden: true },
+  //   fullscreen: { hidden: true }
+  // }
+})

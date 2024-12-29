@@ -1,23 +1,28 @@
 import React from 'react'
 
-import { getCenterLine } from '../math'
-import { useGraph } from './FrequencyGraphProvider'
+import { getCenterLine } from '../../math'
+import { useGraph } from '.'
 
-export const GainGrid = () => {
+export const GraphGainGrid = () => {
   const {
-    scale: { minDB, maxDB, dbStep, height },
+    height,
+    scale: { minGain, maxGain, dbSteps },
     theme: {
       background: {
-        grid: { tickColor, lineColor, lineWidth }
+        grid: { lineColor, lineWidth },
+        label: { color: labelColor, fontSize, fontFamily }
       }
     }
   } = useGraph()
 
-  const dBs = Array.from({ length: (maxDB - minDB) / dbStep + 1 }, (_, i) => {
-    return maxDB - i * dbStep
-  })
+  const dBs = Array.from(
+    { length: (maxGain - minGain) / dbSteps + 1 },
+    (_, i) => {
+      return maxGain - i * dbSteps
+    }
+  )
 
-  const centerY = getCenterLine(minDB, maxDB, height)
+  const centerY = getCenterLine(minGain, maxGain, height)
 
   return (
     <>
@@ -32,7 +37,7 @@ export const GainGrid = () => {
           strokeWidth={lineWidth.center}
         />
       </defs>
-      {dBs.map((tick, index) => {
+      {dBs.slice(0, -1).map((tick, index) => {
         if (index === 0) return null
         const tickY = `${(index / (dBs.length - 1)) * 100}%`
         const tickLabel = tick > 0 ? `+${tick}` : tick
@@ -50,20 +55,27 @@ export const GainGrid = () => {
               <text
                 x={3}
                 y={tickY}
-                fill={tickColor}
-                fontSize="10"
+                fill={labelColor}
+                fontSize={fontSize}
+                fontFamily={fontFamily}
                 textAnchor="start"
                 transform="translate(0 -3)"
               >
                 {tickLabel}
               </text>
             )}
-            <text y={12} x={5} fill={tickColor} fontSize="10">
-              dB
-            </text>
           </React.Fragment>
         )
       })}
+      <text
+        y={12}
+        x={5}
+        fill={labelColor}
+        fontSize={fontSize}
+        fontFamily={fontFamily}
+      >
+        dB
+      </text>
     </>
   )
 }

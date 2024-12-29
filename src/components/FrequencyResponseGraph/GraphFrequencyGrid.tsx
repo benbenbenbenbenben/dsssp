@@ -1,25 +1,24 @@
-import { useGraph } from './FrequencyGraphProvider'
+import { useGraph } from '.'
 
-export const FrequencyGrid = ({
-  octaves = [20, 40, 60, 100, 200, 500, 1000, 2000, 5000, 10000, 20000]
-}: {
-  octaves?: number[]
-}) => {
+export const GraphFrequencyGrid = () => {
   const {
-    scale: { height, logScale },
+    height,
+    logScale,
+    scale: { octaveLabels, octaveTicks },
     theme: {
       background: {
-        grid: { tickColor, lineColor, lineWidth }
+        grid: { lineColor, lineWidth },
+        label: { color: labelColor, fontSize, fontFamily }
       }
     }
   } = useGraph()
 
-  const ticks = logScale.ticks(10) // 10 ticks per octave
-  const lastOctave = octaves.at(-1)
+  const ticks = logScale.ticks(octaveTicks) // 10 ticks per octave
+  const lastOctave = octaveLabels.at(-1)
 
   return (
     <>
-      {ticks.map((tick) => {
+      {ticks.slice(1, -1).map((tick) => {
         const tickX = logScale.x(tick)
 
         const width = [100, 1000, 10000].includes(tick)
@@ -39,7 +38,7 @@ export const FrequencyGrid = ({
         )
       })}
 
-      {octaves.map((octave) => {
+      {octaveLabels.map((octave) => {
         const octaveX = logScale.x(octave)
         return (
           <text
@@ -47,8 +46,9 @@ export const FrequencyGrid = ({
             y={height - 5}
             x={octaveX + (octave === lastOctave ? -5 : 5)}
             textAnchor={octave === lastOctave ? 'end' : 'start'}
-            fill={tickColor}
-            fontSize="10"
+            fill={labelColor}
+            fontSize={fontSize}
+            fontFamily={fontFamily}
           >
             {(octave < 1000 ? octave : `${octave / 1000}k`) + 'Hz'}
           </text>

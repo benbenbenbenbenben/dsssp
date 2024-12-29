@@ -2,6 +2,8 @@ import { type CSSProperties } from 'react'
 
 import { type filterTypes } from './constants'
 
+export type FilterType = keyof typeof filterTypes
+
 export type Magnitude = {
   magnitude: number
   frequency: number
@@ -25,8 +27,6 @@ export type LogScaleFunction = {
   ticks: (count: number) => number[]
 }
 
-export type FilterType = keyof typeof filterTypes
-
 export type GraphFilter = {
   type: FilterType
   freq: number
@@ -35,16 +35,14 @@ export type GraphFilter = {
 }
 
 export type GraphScale = {
-  width: number
-  height: number
-  logScale: LogScaleFunction
-
   sampleRate: number
   minFreq: number
   maxFreq: number
-  minDB: number
-  maxDB: number
-  dbStep: number
+  minGain: number
+  maxGain: number
+  dbSteps: number
+  octaveTicks: number
+  octaveLabels: number[]
 }
 
 export type GraphCurve = {
@@ -66,22 +64,26 @@ export type GraphCurve = {
 
 export type GraphColor = {
   point: CSSProperties['color']
-  curve: CSSProperties['color']
+  drag: CSSProperties['color']
   active: CSSProperties['color']
+
+  curve: CSSProperties['color']
   gradient: CSSProperties['color']
-  dragging: CSSProperties['color']
+
   background: CSSProperties['color']
+  dragBackground: CSSProperties['color']
+  activeBackground: CSSProperties['color']
 }
 
 export type GraphTheme = {
   background: {
     grid: {
-      tickColor: CSSProperties['color']
       lineColor: CSSProperties['color']
       lineWidth: {
         minor: number
         major: number
         center: number
+        border: number
       }
     }
     gradient: {
@@ -92,6 +94,11 @@ export type GraphTheme = {
       lineWidth: number
       lineColor: CSSProperties['color']
       backgroundColor: CSSProperties['color']
+    }
+    label: {
+      fontSize: number
+      fontFamily: string
+      color: CSSProperties['color'] | 'inherit'
     }
   }
 
@@ -122,79 +129,4 @@ export type GraphTheme = {
     defaultColor: CSSProperties['color']
     colors: GraphColor[]
   }
-}
-
-export type FilterIconProps = {
-  type?: FilterType
-  gain?: number
-  filter?: GraphFilter
-  size?: number
-  color?: string
-  style?: CSSProperties
-  className?: string
-}
-
-export type FilterTypedIconProps = Omit<FilterIconProps, 'type'>
-
-export type FilterGradientProps = {
-  id: string
-  filter: GraphFilter
-  index?: number
-  color?: string
-  opacity?: number
-  staticGradient?: boolean
-}
-
-export type FilterPinProps = {
-  filter: GraphFilter
-  scale: GraphScale
-  vars: BiQuadFunction
-  width?: number
-  opacity?: CSSProperties['opacity']
-  color?: CSSProperties['color']
-}
-
-type FilterChangeEvent = Partial<GraphFilter> & {
-  index?: number
-  ended?: boolean
-}
-
-export type FilterPointProps = {
-  filter: GraphFilter
-  index: number
-  dragX?: boolean
-  dragY?: boolean
-  radius?: number
-  active?: boolean
-  lineWidth?: number
-  showIcon?: boolean
-  label?: string
-  labelFontFamily?: string
-  labelFontSize?: number
-  labelColor?: CSSProperties['color']
-  color?: CSSProperties['color']
-  background?: CSSProperties['color']
-  activeColor?: CSSProperties['color']
-  zeroColor?: CSSProperties['color']
-  zeroBackground: CSSProperties['color']
-  backgroundOpacity?: CSSProperties['opacity']
-  dragBackgroundOpacity?: CSSProperties['opacity']
-  activeBackgroundOpacity?: CSSProperties['opacity']
-  onChange?: (filterEvent: FilterChangeEvent) => void
-  onEnter?: (filterEvent: FilterChangeEvent) => void
-  onLeave?: () => void
-  onDrag?: (dragging: boolean) => void
-}
-
-export type MultipliedCurveProps = {
-  magnitudes: Magnitude[][]
-  dotted?: boolean
-  width?: number
-  color?: string
-}
-
-export type MouseTrackerProps = {
-  lineWidth?: number
-  lineColor?: CSSProperties['color']
-  backgroundColor?: CSSProperties['color']
 }

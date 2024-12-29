@@ -1,21 +1,30 @@
+import { type CSSProperties } from 'react'
+
 import {
   calcMagnitudeForFrequency,
   getCenterLine,
   scaleMagnitude
-} from '../math'
-import { type FilterPinProps } from '../types'
-import { getZeroGain } from '../utils'
-import { useGraph } from './FrequencyGraphProvider'
+} from '../../math'
+import { type GraphFilter, type BiQuadFunction } from '../../types'
+import { getZeroGain } from '../../utils'
+import { useGraph } from '../..'
 
+export type FilterPinProps = {
+  filter: GraphFilter
+  vars: BiQuadFunction
+  width?: number
+  opacity?: CSSProperties['opacity']
+  color?: CSSProperties['color']
+}
 export const FilterPin = ({
   filter,
-  scale,
   vars,
   opacity,
   width,
   color
 }: FilterPinProps) => {
-  const { minDB, maxDB, height, logScale, sampleRate } = scale
+  const { scale, height, logScale } = useGraph()
+  const { minGain, maxGain, sampleRate } = scale
   const { freq, type } = filter
   let { gain, q } = filter
   const zeroGain = getZeroGain(type)
@@ -44,13 +53,13 @@ export const FilterPin = ({
 
   let pointY = pointRadius
   if (pass1FilterType || pass2FilterType) {
-    pointY += getCenterLine(minDB, maxDB, height)
+    pointY += getCenterLine(minGain, maxGain, height)
   } else {
-    pointY += scaleMagnitude(gain, minDB, maxDB, height)
+    pointY += scaleMagnitude(gain, minGain, maxGain, height)
   }
 
   const centerMagnitude = calcMagnitudeForFrequency(sampleRate, freq, vars)
-  const magnitudeY = scaleMagnitude(centerMagnitude, minDB, maxDB, height)
+  const magnitudeY = scaleMagnitude(centerMagnitude, minGain, maxGain, height)
   const deltaX = pointY > magnitudeY
   const x = logScale.x(freq)
 
