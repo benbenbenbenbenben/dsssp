@@ -32,13 +32,12 @@ const preview: Preview = {
         order: [
           'Introduction',
           'Getting Started',
-          'Guides',
-          {
-            name: 'Foundations',
-            children: ['Foundations/Theme', 'Foundations/Icons']
-          },
+          'Demo',
+          'Foundations',
+          ['Theme', 'Icons'],
           'Container',
           'Components',
+          ['FilterPoint'],
           'Roadmap'
         ]
       }

@@ -9,8 +9,8 @@ addons.setConfig({
   enableShortcuts: true,
   showToolbar: false,
   sidebar: {
-    showRoots: false
-    // collapsedRoots: ['other']
+    // showRoots: false
+    collapsedRoots: ['Components']
   }
   // panelPosition: 'bottom',
   // selectedPanel: undefined,
