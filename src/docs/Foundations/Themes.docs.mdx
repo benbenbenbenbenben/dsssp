@@ -15,8 +15,9 @@ The `GraphTheme` object passed as a property of the `FrequencyResponseGraph` com
 Additionally, the graph container utilizes React's context/provider and a custom hook, `useGraph`, to provide access to the theme, scale, and configuration from any child component.
 <br/>
 #### Default Theme
+
 ```js
-{
+const defaultTheme = {
   background: {
     grid: { // background grid lines
       lineColor: '#3D4C5F',
@@ -64,14 +65,14 @@ Additionally, the graph container utilizes React's context/provider and a custom
       }
     },
     defaultColor: '#CC33FF', // default color for filters, points, and curves
-    colors: []
+    colors: [] // empty array of filter colors
   }
 }
 ```
 
 #### Filter Colors
 
-```tsx
+```ts
 type GraphColor = {
   point: CSSProperties['color']
   drag: CSSProperties['color']

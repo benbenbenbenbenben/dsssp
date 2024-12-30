@@ -1,5 +1,5 @@
 import { Meta, IconGallery, IconItem, Canvas } from '@storybook/blocks'
-import { FilterIcon } from '../../components'
+import { FilterIcon , HighShelfIcon, PeakIcon} from '../../components'
 import { filterKeys } from '../..'
 
 <Meta title="Foundations/Icons" parameters={{ viewMode: 'docs' }}/>
@@ -8,9 +8,9 @@ import { filterKeys } from '../..'
 <br/>
 ## Filter Icons
 
-The library provides an extensive SVG canvas to visualize audio filters in their natural habitat, but various UIs also require more schematic representations of the filters in addition to the graph. These icons can be used for buttons, menus, or any other UI elements.
+The library provides an extensive SVG canvas to visualize audio filters in their natural habitat, but various UIs also require more schematic representations of the filters besides the graph. These icons can be used for buttons, menus, or any other UI elements.
 
-
+<br/>
 <br/>
 <IconGallery>
 {filterKeys.map((key) => (
@@ -23,25 +23,29 @@ Icons created with 💖 by [Dmytro Dvornichenko](https://dvornichenko.design/). 
 <br/>
 ## Usage
 
-The `FilterIcon` component can be used in two ways: using the `type` property with the filter name or passing the filter object itself as the `filter` prop. Setting the right `gain` value (either as a separate prop or inside the filter object) can also change the icon appearance, flipping the direction of the curve if applicable.
+The `FilterIcon` component can be used in two ways: using the `type` property with the filter name or passing the filter object itself as the `filter` prop. Setting a positive or negative `gain` value (either as a separate prop or inside the filter object) can also change the icon's appearance, flipping the direction of the curve.
 
-<div style={{ padding: '8px', display: 'inline-block', background: '#000', border: '1px solid #444',  borderRadius: '4px', marginBottom: '-8px', }}>
-  <FilterIcon type="PEAK" gain={-6} size={38} color='#FF3399'/>
+<div style={{ padding: '12px', display: 'inline-block', background: '#000', border: '1px solid #444',  borderRadius: '4px', marginRight: '20px' }}>
+  <PeakIcon type="PEAK" gain={-6} size={38} color='#3399FF'/>
+</div>
+<div style={{ padding: '12px', display: 'inline-block', background: '#000', border: '1px solid #444',  borderRadius: '4px' }}>
+  <HighShelfIcon type="HIGHSHELF2" gain={6} size={38} color='#FF9933'/>
 </div>
 
+
 ```tsx
-<FilterIcon type="PEAK" gain={-6} size={38} color="#FF3399" />
-// is the same as
-<FilterIcon filter={{ type: 'PEAK', gain: -6, freq: 500, q: 1 }} size={38} color="#FF3399" />
+<FilterIcon color="#3399FF" size={38} type="PEAK" gain={-6} />
+<FilterIcon color="#FF9933" size={38} type="HIGHSHELF2" gain={6} />
+// are the same as
+<FilterIcon color="#3399FF" size={38} filter={{ type: 'PEAK', gain: -6, freq: 500, q: 1 }} />
+<FilterIcon color="#FF9933" size={38} filter={{ type: 'HIGHSHELF2', gain: 6, freq: 500, q: 1 }} />
 ```
-
 Among the unified icon component, there are also individual components for each filter type: `PeakIcon`, `NotchIcon`, `LowShelfIcon`, `HighShelfIcon`, `LowPassIcon`, `HighPassIcon`, `BandPassIcon`, `BypassIcon`, `GainIcon`.
-
 
 <br/>
 ## Icon Font
 
-Icon components are based on the pre-compiled icon font, so they can be imported and used for custom purposes, for example, in the native HTML select element.
+Icon components are based on the pre-compiled icon font, so it can be imported and used for custom purposes, like the native HTML select element, etc.
 
 ```jsx
 import 'dsssp/css'
