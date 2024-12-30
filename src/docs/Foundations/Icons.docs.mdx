@@ -1,6 +1,9 @@
 import { Meta, IconGallery, IconItem, Canvas } from '@storybook/blocks'
 import { FilterIcon , HighShelfIcon, PeakIcon} from '../../components'
 import { filterKeys } from '../..'
+import { getIconSymbol } from '../../utils'
+import '../../icons/font.css'
+import '@fontsource/monaspace-krypton'
 
 <Meta title="Foundations/Icons" parameters={{ viewMode: 'docs' }}/>
 
@@ -14,7 +17,7 @@ The library provides an extensive SVG canvas to visualize audio filters in their
 <br/>
 <IconGallery>
 {filterKeys.map((key) => (
-  <IconItem key={key} name={key}>
+  <IconItem key={key} name={<div>{key}<div style={{ paddingTop: '4px', fontSize: '85%', color: '#666' }}>{getIconSymbol(key)}</div></div>}>
     <FilterIcon type={key} />
   </IconItem>
 ))}
@@ -45,9 +48,36 @@ Among the unified icon component, there are also individual components for each 
 <br/>
 ## Icon Font
 
-Icon components are based on the pre-compiled icon font, so it can be imported and used for custom purposes, like the native HTML select element, etc.
+Icon components are based on the pre-compiled icon font, so it can be imported and used for custom purposes, like the native HTML &lt;select&gt; element.
 
-```jsx
+<select style={{
+  width: '140px',
+  color: '#FFFFFF',
+  background: '#000000',
+  padding: '4px 4px 8px',
+  font: '16px/1.5 dsssp, sans-serif',
+  border: '1px solid #444',
+  borderRadius: '4px',
+}}>
+  <option>&#xE908; Peak</option>
+  <option>&#xE907; Notch</option>
+  <option>&#xE904; Low Pass</option>
+  <option>&#xE906; High Pass</option>
+  <option>&#xE905; Low Shelf</option>
+  <option>&#xE903; High Shelf</option>
+  <option>&#xE901; Bypass</option>
+</select>
+
+```tsx
 import 'dsssp/css'
 
+<select style={{ font: '16px/1.5 dsssp, sans-serif' }}>
+  <option>&#xE908; Peak</option>
+  <option>&#xE907; Notch</option>
+  <option>&#xE904; Low Pass</option>
+  <option>&#xE906; High Pass</option>
+  <option>&#xE905; Low Shelf</option>
+  <option>&#xE903; High Shelf</option>
+  <option>&#xE901; Bypass</option>
+</select>
 ```
