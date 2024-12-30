@@ -1,0 +1,78 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Foundations/Filters" parameters={{ viewMode: 'docs' }} />
+
+# Foundations
+<br/>
+## Audio Filters
+
+Library provides a collection of audio filters that can be combined to create complex chains. Each filter type has unique characteristics and is designed for specific audio processing tasks. The most common use of filters (specifically Peak) is the standard equalizer found in every music player, where multiple filters work together to shape different frequency bands and customize the sound to our preferences.
+
+To ensure consistency across different biquad filters, set all four properties of each `GraphFilter` object, even if some are not applicable for a specific filter. For properties that are not used, assign a value of `0`. This approach allows the object to be utilized uniformly across all filters and dynamically change its type.
+
+```tsx
+type GraphFilter = {
+  type: FilterType
+  freq: number
+  gain: number
+  q: number
+}
+```
+
+## Filter Types and Characteristics
+<br/>
+#### `PEAK` ([Peaking](?path=/story/components-filtercurve--peak) EQ)
+* Boosts or attenuates frequencies within a specified band.
+* Controlled by gain, frequency, and Q-factor, making it versatile for shaping audio.
+
+#### `NOTCH` ([Notch](?path=/story/components-filtercurve--notch) Filter)
+* Removes a specific frequency while leaving other frequencies relatively unaffected.
+* Ideal for eliminating noise or hum at a certain frequency.
+
+#### `LOWSHELF1` ([Low Shelf](?path=/story/components-filtercurve--low-shelf-1) Filter, Variant 1)
+* Applies a boost or cut to frequencies below a specified threshold.
+* Simpler implementation with no second-order effects, resulting in a gentle transition.
+
+#### `LOWSHELF2` ([Low Shelf](?path=/story/components-filtercurve--low-shelf-2) Filter, Variant 2)
+* Similar to LOWSHELF1, but provides smoother transitions due to second-order effects.
+* More accurate for precise low-frequency control.
+
+#### `HIGHSHELF1` ([High Shelf](?path=/story/components-filtercurve--high-shelf-1) Filter, Variant 1)
+* Boosts or cuts frequencies above a specified threshold.
+* Similar to LOWSHELF1 but targets the high-frequency range.
+
+#### `HIGHSHELF2` ([High Shelf](?path=/story/components-filtercurve--high-shelf-2) Filter, Variant 2)
+* Like HIGHSHELF1, but with smoother transitions and greater precision due to second-order effects.
+
+#### `LOWPASS1` ([Low-Pass](?path=/story/components-filtercurve--low-pass-1) Filter, Variant 1)
+* Attenuates frequencies above the cutoff frequency.
+* Simpler implementation with a gentler roll-off.
+
+#### `LOWPASS2` ([Low-Pass](?path=/story/components-filtercurve--low-pass-2) Filter, Variant 2)
+* Offers sharper roll-off compared to LOWPASS1.
+* Suitable for isolating low frequencies more effectively.
+
+#### `HIGHPASS1` ([High-Pass](?path=/story/components-filtercurve--high-pass-1) Filter, Variant 1)
+* Removes frequencies below the cutoff frequency.
+* Basic design with a gentler roll-off.
+
+#### `HIGHPASS2` ([High-Pass](?path=/story/components-filtercurve--high-pass-1) Filter, Variant 2)
+* Similar to HIGHPASS1 but with a steeper roll-off.
+* Better suited for isolating high frequencies.
+
+#### `BANDPASS` ([Band-Pass](?path=/story/components-filtercurve--band-pass) Filter)
+* Allows frequencies within a specific range to pass through while attenuating others.
+* Useful for focusing on certain frequency bands.
+
+#### `GAIN` ([Gain](?path=/story/components-filtercurve--gain) Adjustment)
+* Adjusts the overall signal level without applying any filtering.
+* Simplest type, used for volume control.
+
+{/* #### `BYPASS` (Bypass Mode)
+* Empty filter, allowing the original signal to pass through unaltered. */}
+
+<br/>
+### Differences Between Variants
+
+* `LOWSHELF1` and `HIGHSHELF1` are simpler implementations with fewer calculations, resulting in a smooth transitions.
+* `LOWSHELF2` and `HIGHSHELF2` utilize second-order effects, offering more precise  transitions, particularly useful for professional-grade audio editing.

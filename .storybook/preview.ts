@@ -34,7 +34,7 @@ const preview: Preview = {
           'Getting Started',
           'Demo',
           'Foundations',
-          ['Theme', 'Icons'],
+          ['Themes', 'Filters', 'Icons'],
           'Container',
           'Components',
           ['FilterPoint'],

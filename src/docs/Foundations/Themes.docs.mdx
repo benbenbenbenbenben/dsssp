@@ -1,0 +1,15 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Foundations/Themes" parameters={{ viewMode: 'docs' }} />
+
+# Foundations
+<br/>
+## Themes
+
+DSSSP offers two levels of customization: **themes** and **configuration props** for individual components.
+
+Theme JSON object is a unified way to manage the look and feel of the Frequency Response Graph, Filters, and Curves. Consider it as **one ring to rule them all**. Filter Components also have a bunch of their own properties to control colors, sizes, and other visual aspects, but they should be mostly used for fine-tuning and overrides.
+
+The `GraphTheme` object passed as a property of the `FrequencyResponseGraph` component will be applied on top of the default theme. This way, you can easily change only some colors or sizes without the need to redefine the whole theme. The same goes for the `GraphScale` property.
+
+Additionally, the graph container utilizes React's context/provider and a custom hook, `useGraph`, to provide access to the theme, scale, and configuration from any child component.
