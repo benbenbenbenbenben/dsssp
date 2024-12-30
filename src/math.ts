@@ -401,7 +401,7 @@ export const calcCurve = (
 
   const zeroGain = getZeroGain(type)
 
-  if ((gain === 0 && !zeroGain) || type === 'BYPASS') {
+  if (gain === 0 && !zeroGain) {
     return false
   }
 

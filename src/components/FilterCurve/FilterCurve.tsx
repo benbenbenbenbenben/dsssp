@@ -14,7 +14,7 @@ export type FilterCurveProps = Omit<
   'magnitudes' | 'dotted'
 > & {
   /**
-   * Filter to render
+   * Audio filter to render
    */
   filter: GraphFilter
   /**
@@ -22,14 +22,13 @@ export type FilterCurveProps = Omit<
    */
   index?: number
   /**
-   * Show vertical pin to connect the curve to the FilterPoint
+   * Show vertical pin to connect the curve to its FilterPoint
    */
   showPin?: boolean
   /**
-   * Active state (trigger it manually to highlight the curve along with hovered FilterPoint)
+   * Active state (trigger it to highlight the curve along with hovered FilterPoint)
    */
   active?: boolean
-
   /**
    * Curve color
    * @default theme.colors[index].curve || theme.filters.defaultColor || '#00FF00'
@@ -66,7 +65,7 @@ export type FilterCurveProps = Omit<
  * This component renders the frequency response curve of a given filter on the graph.
  * It displays the filter's shape and can optionally show a vertical pin to connect it with specific types of `FilterPoint`'s, such as `NOTCH`, `LOWPASS`, `HIGHPASS`.
  *
- * Uses `defaultColor` from the theme as a fallback when filter colors are not specified.
+ * Uses `defaultColor` from the theme as a fallback when filter colors are not specified. `BYPASS` filter fallbacks to `zeroPoint.color` from the theme.
  */
 export const FilterCurve = ({
   filter,
@@ -87,17 +86,21 @@ export const FilterCurve = ({
     scale,
     width,
     theme: {
-      filters: { curve, defaultColor, colors }
+      filters: { zeroPoint, curve, defaultColor, colors }
     }
   } = useGraph()
 
   const { vars, magnitudes } = calcCurve(filter, scale, width, 1) || {}
   if (!vars || !magnitudes?.length) return null
 
+  const zeroValue = filter.type === 'BYPASS'
+
   const normalColor = color || colors[index]?.curve || defaultColor
-  const curveColor = active
-    ? activeColor || colors[index]?.active || normalColor
-    : normalColor
+  const curveColor = zeroValue
+    ? zeroPoint.color
+    : active
+      ? activeColor || colors[index]?.active || normalColor
+      : normalColor
 
   const curveOpacity = active
     ? activeOpacity || curve.opacity.active

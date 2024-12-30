@@ -134,12 +134,12 @@ export const Gain: Story = {
   }
 }
 
-// export const Bypass: Story = {
-//   args: {
-//     ...defaultProps,
-//     filter: { freq: 500, gain: 8, q: 0.7, type: 'BYPASS' }
-//   }
-// }
+export const Bypass: Story = {
+  args: {
+    ...defaultProps,
+    filter: { freq: 500, gain: 8, q: 0.7, type: 'BYPASS' }
+  }
+}
 
 export const CustomColorAndWidth: Story = {
   args: {

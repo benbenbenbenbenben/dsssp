@@ -48,7 +48,7 @@ export const defaultTheme: GraphTheme = {
         active: 0.6,
         drag: 0.8
       },
-      // filter labels
+      // label inside the point
       // size and color applicable to filter icons as well
       label: {
         fontSize: 24,
@@ -57,7 +57,7 @@ export const defaultTheme: GraphTheme = {
       }
     },
 
-    // styles of the filter with zero gain
+    // styles of the empty / zero gain filters
     zeroPoint: {
       color: '#626F84',
       background: '#97A3B4'
