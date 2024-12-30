@@ -1,7 +1,7 @@
 'use client'
 
 import type React from 'react'
-import { createContext, useContext } from 'react'
+import { createContext } from 'react'
 
 import {
   type GraphScale,
@@ -9,7 +9,7 @@ import {
   type LogScaleFunction
 } from '../../types'
 
-type FrequencyGraph = {
+type GraphContextProps = {
   width: number
   height: number
   theme: GraphTheme
@@ -18,11 +18,11 @@ type FrequencyGraph = {
   svgRef: React.RefObject<SVGSVGElement>
 }
 
-const FrequencyResponseGraphContext = createContext<FrequencyGraph | undefined>(
+export const GraphContext = createContext<GraphContextProps | undefined>(
   undefined
 )
 
-export const FrequencyResponseGraphProvider = ({
+export const GraphProvider = ({
   children,
   svgRef,
   scale,
@@ -49,18 +49,8 @@ export const FrequencyResponseGraphProvider = ({
   }
 
   return (
-    <FrequencyResponseGraphContext.Provider value={contextValue}>
+    <GraphContext.Provider value={contextValue}>
       {children}
-    </FrequencyResponseGraphContext.Provider>
+    </GraphContext.Provider>
   )
-}
-
-export const useGraph = () => {
-  const context = useContext(FrequencyResponseGraphContext)
-  if (context === undefined) {
-    throw new Error(
-      'useGraph must be used within an FrequencyResponseGraphProvider'
-    )
-  }
-  return context
 }

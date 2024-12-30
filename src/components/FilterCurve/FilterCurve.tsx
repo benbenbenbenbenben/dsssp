@@ -1,9 +1,18 @@
-import { FilterPin } from '.'
+import { type CSSProperties } from 'react'
+
 import { calcCurve } from '../../math'
 import { type GraphFilter } from '../../types'
-import { useGraph } from '../..'
+import {
+  type FrequencyResponseCurveProps,
+  FrequencyResponseCurve,
+  useGraph
+} from '../..'
+import { FilterPin } from '.'
 
-export type FilterCurveProps = {
+export type FilterCurveProps = Omit<
+  FrequencyResponseCurveProps,
+  'magnitudes' | 'dotted'
+> & {
   /**
    * Filter to render
    */
@@ -13,17 +22,14 @@ export type FilterCurveProps = {
    */
   index?: number
   /**
-   * Active state (same as hovered)
-   */
-  active?: boolean
-  /**
    * Show vertical pin to connect the curve to the FilterPoint
    */
   showPin?: boolean
   /**
-   * Gradient ID to fill the curve with a gradient
+   * Active state (trigger it manually to highlight the curve along with hovered FilterPoint)
    */
-  gradientId?: string
+  active?: boolean
+
   /**
    * Curve color
    * @default theme.colors[index].curve || theme.filters.defaultColor || '#00FF00'
@@ -38,12 +44,12 @@ export type FilterCurveProps = {
    * Curve opacity
    * @default theme.curve.opacity.normal || 0.5
    */
-  opacity?: number
+  opacity?: CSSProperties['opacity']
   /**
    * Active curve opacity
    * @default theme.curve.opacity.active || 0.7
    */
-  activeOpacity?: number
+  activeOpacity?: CSSProperties['opacity']
   /**
    * Curve line width
    * @default theme.curve.width.normal || 1.5
@@ -57,8 +63,10 @@ export type FilterCurveProps = {
 }
 
 /**
- * The `FilterCurve` component renders the frequency response curve of a given filter on the graph.
- * It displays the filter's shape and can optionally show a vertical pin to connect to the specific types of `FilterPoint`'s, such as `NOTCH`, `LOWPASS`, `HIGHPASS`.
+ * This component renders the frequency response curve of a given filter on the graph.
+ * It displays the filter's shape and can optionally show a vertical pin to connect it with specific types of `FilterPoint`'s, such as `NOTCH`, `LOWPASS`, `HIGHPASS`.
+ *
+ * Uses `defaultColor` from the theme as a fallback when filter colors are not specified.
  */
 export const FilterCurve = ({
   filter,
@@ -67,7 +75,7 @@ export const FilterCurve = ({
   lineWidth,
   opacity,
 
-  gradientId = '',
+  gradientId,
   showPin = true,
   active = false,
 
@@ -78,15 +86,13 @@ export const FilterCurve = ({
   const {
     scale,
     width,
-    height,
     theme: {
-      curve,
-      filters: { defaultColor, colors }
+      filters: { curve, defaultColor, colors }
     }
   } = useGraph()
 
-  const { path, vars } = calcCurve(filter, scale, width, height) || {}
-  if (!path || !vars) return null
+  const { vars, magnitudes } = calcCurve(filter, scale, width, 1) || {}
+  if (!vars || !magnitudes?.length) return null
 
   const normalColor = color || colors[index]?.curve || defaultColor
   const curveColor = active
@@ -108,16 +114,16 @@ export const FilterCurve = ({
           vars={vars}
           filter={filter}
           color={curveColor}
-          width={curveWidth}
           opacity={curveOpacity}
+          width={curveWidth}
         />
       )}
-      <path
-        d={path}
-        stroke={curveColor}
-        strokeWidth={curveWidth}
-        strokeOpacity={curveOpacity}
-        fill={gradientId ? `url(#${gradientId})` : 'none'}
+      <FrequencyResponseCurve
+        magnitudes={magnitudes}
+        color={curveColor}
+        opacity={curveOpacity}
+        lineWidth={curveWidth}
+        gradientId={gradientId}
       />
     </>
   )

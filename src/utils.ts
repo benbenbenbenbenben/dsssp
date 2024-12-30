@@ -1,4 +1,3 @@
-import { filterTypes } from './constants'
 import { type FilterType } from './types'
 
 export const getMousePosition = (e: MouseEvent) => {
@@ -9,13 +8,6 @@ export const getMousePosition = (e: MouseEvent) => {
     y: (e.clientY - CTM.f) / CTM.d
   }
 }
-
-export const getFilterType = (index: number) =>
-  Object.entries(filterTypes as Record<FilterType, number>).reduce(
-    (acc: FilterType | null, [key, value]: [string, number]) =>
-      value === Number(index) ? (key as FilterType) : acc,
-    null as FilterType | null
-  )
 
 export const getZeroGain = (type: FilterType) =>
   [

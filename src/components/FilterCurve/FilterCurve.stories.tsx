@@ -36,7 +36,7 @@ const meta: Meta<typeof FilterCurve> = {
 }
 export default meta
 
-type Story = StoryObj<typeof meta>
+export type Story = StoryObj<typeof meta>
 
 const defaultProps = {
   filter: { freq: 500, gain: 6, q: 0.7, type: 'PEAK' as FilterType }
@@ -123,18 +123,23 @@ export const HighPass2: Story = {
 export const BandPass: Story = {
   args: {
     ...defaultProps,
-    filter: { freq: 500, gain: 0, q: 0.7, type: 'BANDPASS' },
-    showPin: false
+    filter: { freq: 500, gain: 0, q: 0.7, type: 'BANDPASS' }
   }
 }
 
 export const Gain: Story = {
   args: {
     ...defaultProps,
-    filter: { freq: 500, gain: 8, q: 0, type: 'GAIN' },
-    showPin: false
+    filter: { freq: 500, gain: 8, q: 0, type: 'GAIN' }
   }
 }
+
+// export const Bypass: Story = {
+//   args: {
+//     ...defaultProps,
+//     filter: { freq: 500, gain: 8, q: 0.7, type: 'BYPASS' }
+//   }
+// }
 
 export const CustomColorAndWidth: Story = {
   args: {

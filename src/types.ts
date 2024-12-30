@@ -1,6 +1,21 @@
 import { type CSSProperties } from 'react'
 
-import { filterTypes } from './constants'
+export const filterTypes = {
+  BYPASS: 0x00,
+  PEAK: 0x06,
+  HIGHSHELF1: 0x01,
+  HIGHSHELF2: 0x02,
+  LOWSHELF1: 0x03,
+  LOWSHELF2: 0x04,
+  HIGHPASS1: 0x07,
+  HIGHPASS2: 0x08,
+  LOWPASS1: 0x09,
+  LOWPASS2: 0x0a,
+  BANDPASS: 0x0b,
+  NOTCH: 0x05,
+  GAIN: 0x0c
+  // COEFFICIENTS: 0x10
+}
 
 export type FilterType = keyof typeof filterTypes
 export const filterKeys = Object.keys(filterTypes) as FilterType[]
@@ -46,24 +61,7 @@ export type GraphScale = {
   octaveLabels: number[]
 }
 
-export type GraphCurve = {
-  width: {
-    normal: number
-    active: number
-  }
-
-  opacity: {
-    normal: CSSProperties['opacity']
-    active: CSSProperties['opacity']
-  }
-
-  multiplied: {
-    width: number
-    color: CSSProperties['color']
-  }
-}
-
-export type GraphColor = {
+export type FilterThemeColors = {
   point: CSSProperties['color']
   drag: CSSProperties['color']
   active: CSSProperties['color']
@@ -103,15 +101,25 @@ export type GraphTheme = {
     }
   }
 
-  curve: GraphCurve
-  filters: {
-    staticGradient?: boolean
-    gradientOpacity: CSSProperties['opacity']
+  curve: {
+    width: number
+    color: CSSProperties['color']
+    opacity: CSSProperties['opacity']
+  }
 
-    zeroPoint: {
-      color: CSSProperties['color']
-      background: CSSProperties['color']
+  filters: {
+    curve: {
+      width: {
+        normal: number
+        active: number
+      }
+
+      opacity: {
+        normal: CSSProperties['opacity']
+        active: CSSProperties['opacity']
+      }
     }
+
     point: {
       radius: number
       lineWidth: number
@@ -127,7 +135,15 @@ export type GraphTheme = {
       }
     }
 
+    zeroPoint: {
+      color: CSSProperties['color']
+      background: CSSProperties['color']
+    }
+
+    staticGradient?: boolean
+    gradientOpacity: CSSProperties['opacity']
+
     defaultColor: CSSProperties['color']
-    colors: GraphColor[]
+    colors: FilterThemeColors[]
   }
 }

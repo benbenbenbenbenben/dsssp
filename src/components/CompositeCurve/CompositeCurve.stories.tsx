@@ -1,0 +1,72 @@
+import React from 'react'
+import { type Meta, type StoryObj } from '@storybook/react'
+import '@fontsource/monaspace-krypton'
+
+import { CompositeCurve } from '.'
+import { FrequencyResponseGraph, type GraphFilter } from '../..'
+
+const meta: Meta<typeof CompositeCurve> = {
+  title: 'Components/CompositeCurve',
+  component: CompositeCurve,
+  decorators: [
+    (Story) => (
+      <FrequencyResponseGraph
+        width={800}
+        height={400}
+      >
+        <Story />
+      </FrequencyResponseGraph>
+    )
+  ],
+  parameters: {
+    layout: 'centered'
+  },
+  tags: ['autodocs'],
+  argTypes: {
+    filters: { control: { type: 'object' } },
+    dotted: { control: { type: 'boolean' } },
+    color: { control: { type: 'color' } },
+    opacity: { control: { type: 'range', min: 0, max: 1, step: 0.1 } },
+    lineWidth: { control: { type: 'range', min: 0.1, max: 4, step: 0.1 } },
+    resolutionFactor: { control: { type: 'range', min: 1, max: 50, step: 0.5 } }
+  }
+}
+export default meta
+
+type Story = StoryObj<typeof meta>
+
+const filters: GraphFilter[] = [
+  { freq: 50, gain: 0, q: 0.7, type: 'HIGHPASS1' },
+  { freq: 80, gain: 2, q: 4, type: 'PEAK' },
+  { freq: 160, gain: -4, q: 0.7, type: 'PEAK' },
+  { freq: 300, gain: 4, q: 1, type: 'PEAK' },
+  { freq: 600, gain: -8, q: 4, type: 'PEAK' },
+  { freq: 1400, gain: 5, q: 1.5, type: 'PEAK' },
+  { freq: 3000, gain: -2, q: 0.7, type: 'PEAK' },
+  { freq: 7000, gain: 6, q: 1, type: 'HIGHSHELF2' }
+]
+
+const defaultProps = { filters }
+
+export const Default: Story = {
+  args: {
+    ...defaultProps
+  }
+}
+
+export const CustomStyleAndColor: Story = {
+  args: {
+    ...defaultProps,
+    dotted: true,
+    opacity: 0.5,
+    lineWidth: 1,
+    color: '#FF9933'
+  }
+}
+
+export const SimplifiedResolution: Story = {
+  args: {
+    ...defaultProps,
+    resolutionFactor: 20
+  }
+}

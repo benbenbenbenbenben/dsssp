@@ -1,4 +1,5 @@
 import { type CSSProperties } from 'react'
+
 import { type FilterType, type GraphFilter } from '../../types'
 import { getIconStyles, getIconSymbol } from '../../utils'
 import '../../icons/font.css'

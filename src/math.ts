@@ -10,8 +10,8 @@ import {
 } from './types'
 import { getZeroGain } from './utils'
 
-export const fastRound = (x: number) => (x + (x > 0 ? 0.5 : -0.5)) >> 0
 export const fastFloor = (x: number) => x >> 0
+export const fastRound = (x: number) => (x + (x > 0 ? 0.5 : -0.5)) >> 0
 export const stripTail = (x: number) => fastRound(x * 10) / 10
 
 export const getLogScaleFn = (
@@ -216,6 +216,13 @@ export function calcBiquadFunction(
       B1 = 0
       B2 = 0
       break
+    case 'BYPASS':
+      A0 = 1
+      A1 = 0
+      A2 = 0
+      B1 = 0
+      B2 = 0
+      break
     // case "one-pole lp":
     // 	B1 = Math.exp(-2.0 * Math.PI * (frequency / sampleRate));
     // 	A0 = 1.0 - B1;
@@ -292,7 +299,7 @@ export function calcMagnitudes(
   maxFreq: number,
   steps: number,
   vars: BiQuadFunction
-) {
+): Magnitude[] {
   const magPlot = []
 
   for (let index = 0; index < steps; index++) {
@@ -312,7 +319,6 @@ export const reducePoints = (points: GraphPoint[]) => {
     }
     return acc
   }, [] as GraphPoint[])
-  // console.log(`${points.length} reduced to ${uniquePoints.length}`)
   return [...uniquePoints, points.slice(-1)[0]]
 }
 
@@ -349,7 +355,7 @@ export const calcMagnitude = (
   return (dbCenterLine - y) / dbScale
 }
 
-export const scaleViewport = (
+export const scaleMagnitudes = (
   magnitudes: Magnitude[],
   scale: GraphScale,
   width: number,
@@ -386,7 +392,7 @@ export const calcCurve = (
   filter: GraphFilter,
   scale: GraphScale,
   width: number,
-  height: number
+  precisionDivider = 2
 ) => {
   if (!filter) return false
 
@@ -399,27 +405,19 @@ export const calcCurve = (
     return false
   }
 
-  const steps = width / 2
+  const steps = width / precisionDivider
   const vars = calcBiquadFunction(sampleRate, type, freq, q, gain)
   const magnitudes = calcMagnitudes(sampleRate, minFreq, maxFreq, steps, vars)
-  const points = scaleViewport(magnitudes, scale, width, height)
-  const path = plotCurve(points, scale, width, height)
 
-  return { path, vars, magnitudes }
+  return { vars, magnitudes }
 }
 
-export const calcMultipliedCurve = (
-  magnitudes: Magnitude[][],
-  scale: GraphScale,
-  width: number,
-  height: number
-) => {
-  const graph = []
-  const emptyPath = 'M 0 0'
+export const calcCompositeMagnitudes = (magnitudes: Magnitude[][]) => {
+  const compositeMags: Magnitude[] = []
   // Magnitudes array is empty or undefined
-  if (!magnitudes?.length) return emptyPath
-  // First sub-array in magnitudes is empty or undefined
-  if (!magnitudes?.[0]?.length) return emptyPath
+  if (!magnitudes?.length) return []
+  // First sub-array of magnitudes is empty or undefined
+  if (!magnitudes?.[0]?.length) return []
 
   for (let i = 0; i < magnitudes[0].length; i++) {
     const totalGain = magnitudes.reduce((sum, arr) => {
@@ -433,18 +431,13 @@ export const calcMultipliedCurve = (
     const { frequency } = magnitudes[0][i] || {}
     if (!frequency) continue
 
-    graph.push({
+    compositeMags.push({
       frequency,
       magnitude: totalGain
     })
   }
 
-  if (!graph.length) return emptyPath
-
-  const points = scaleViewport(graph, scale, width, height)
-  const path = plotCurve(points, scale, width, height)
-
-  return path
+  return compositeMags
 }
 
 export const limitRange = (value: number, min: number, max: number) => {

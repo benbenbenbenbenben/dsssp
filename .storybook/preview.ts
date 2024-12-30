@@ -37,7 +37,15 @@ const preview: Preview = {
           ['Themes', 'Filters', 'Icons'],
           'Container',
           'Components',
-          ['FilterPoint'],
+          [
+            'FrequencyResponseCurve',
+            'CompositeCurve',
+            'FilterCurve',
+            'FilterPoint',
+            'FilterGradient',
+            'FilterIcon',
+            'MouseTracker'
+          ],
           'Roadmap'
         ]
       }

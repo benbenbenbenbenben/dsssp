@@ -10,14 +10,16 @@ import {
   scaleMagnitude,
   stripTail
 } from '../../math'
+import { type GraphFilter } from '../../types'
 import {
   getIconStyles,
   getIconSymbol,
   getMousePosition,
   getZeroGain
 } from '../../utils'
+import { useGraph } from '../..'
+
 import '../../icons/font.css'
-import { type GraphFilter, useGraph } from '../..'
 
 type FilterChangeEvent = Partial<GraphFilter> & {
   index?: number
@@ -60,6 +62,9 @@ export type FilterPointProps = {
   onDrag?: (dragging: boolean) => void
 }
 
+/**
+ * Uses `defaultColor` from the theme as a fallback when filter colors are not specified.
+ */
 export const FilterPoint = ({
   filter,
   index = 0,

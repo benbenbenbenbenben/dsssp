@@ -1,4 +1,6 @@
-import { Meta } from '@storybook/blocks'
+import { Meta, Source } from '@storybook/blocks'
+
+import ThemeSourceCode from '../../theme.ts?raw'
 
 <Meta title="Foundations/Themes" parameters={{ viewMode: 'docs' }} />
 
@@ -6,9 +8,9 @@ import { Meta } from '@storybook/blocks'
 <br/>
 ## Themes
 
-DSSSP offers two levels of customization: **themes** and **configuration props** for individual components.
+The library offers two levels of customization: **themes** and **configuration props** for individual components.
 
-Theme JSON object is a unified way to manage the look and feel of the Frequency Response Graph, Filters, and Curves. Consider it as **one ring to rule them all**. Filter Components also have a bunch of their own properties to control colors, sizes, and other visual aspects, but they should be mostly used for fine-tuning and overrides.
+Theme object is a unified way to manage the look and feel of the Frequency Response Graph, Filters, Curves and Gradients. Consider it as **one ring to rule them all**. Filter Components also have their own properties to control colors, sizes, and other visual aspects, but they should be mostly used for fine-tuning and overrides.
 
 The `GraphTheme` object passed as a property of the `FrequencyResponseGraph` component will be applied on top of the default theme. This way, you can easily change only some colors or sizes without the need to redefine the whole theme. The same goes for the `GraphScale` property.
 
@@ -16,64 +18,12 @@ Additionally, the graph container utilizes React's context/provider and a custom
 <br/>
 #### Default Theme
 
-```js
-const defaultTheme = {
-  background: {
-    grid: { // background grid lines
-      lineColor: '#3D4C5F',
-      lineWidth: { minor: 0.3, major: 0.6, center: 1.5, border: 0.3 }
-    },
-    gradient: { // background gradient
-      start: '#1E2530',
-      end: '#000000'
-    },
-    tracker: { // mouse tracker
-      lineWidth: 0.6,
-      lineColor: '#7B899D',
-      backgroundColor: '#070C18'
-    },
-    label: { // frequency and gain labels
-      fontSize: 10,
-      fontFamily: 'sans-serif',
-      color: '#626F84'
-    }
-  },
-  curve: { // filter curves
-    width: { normal: 1.5, active: 1.5 },
-    opacity: { normal: 0.5, active: 0.7 },
-    multiplied: { width: 1.5, color: '#FFFFFF' }
-  },
-  filters: {
-    staticGradient: false,
-    gradientOpacity: 0.7,
-    zeroPoint: { // styles of the filter with zero gain
-      color: '#626F84',
-      background: '#97A3B4'
-    },
-    point: { // filter points
-      radius: 16,
-      lineWidth: 2,
-      backgroundOpacity: {
-        normal: 0.2,
-        active: 0.6,
-        drag: 0.8
-      },
-      label: { // filter labels, size and color applicable to icons as well
-        fontSize: 24,
-        fontFamily: 'monospace',
-        color: 'inherit'
-      }
-    },
-    defaultColor: '#CC33FF', // default color for filters, points, and curves
-    colors: [] // empty array of filter colors
-  }
-}
-```
+<Source dark code={'{\n' + ThemeSourceCode.split("\n").slice(3).join("\n")} language="javascript" />
 
 #### Filter Colors
 
 ```ts
-type GraphColor = {
+type FilterThemeColors = {
   point: CSSProperties['color']
   drag: CSSProperties['color']
   active: CSSProperties['color']

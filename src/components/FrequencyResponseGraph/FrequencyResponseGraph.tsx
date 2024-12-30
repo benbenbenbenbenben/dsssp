@@ -1,15 +1,16 @@
-import merge from 'deepmerge'
 import type React from 'react'
 import { forwardRef, useImperativeHandle, useRef } from 'react'
+import merge from 'deepmerge'
 
+import { defaultScale, defaultTheme } from '../../defaults'
 import { getLogScaleFn } from '../../math'
-import { defaultScale, defaultTheme } from '../../constants'
 import { type GraphScale, type GraphTheme } from '../../types'
+
 import {
   GraphGainGrid,
   GraphFrequencyGrid,
   GraphGradient,
-  FrequencyResponseGraphProvider
+  GraphProvider
 } from '.'
 
 export const FrequencyResponseGraph = forwardRef<
@@ -48,7 +49,7 @@ export const FrequencyResponseGraph = forwardRef<
       }}
       viewBox={`0 0 ${width} ${height}`}
     >
-      <FrequencyResponseGraphProvider
+      <GraphProvider
         svgRef={ref}
         width={width}
         height={height}
@@ -60,7 +61,7 @@ export const FrequencyResponseGraph = forwardRef<
         <GraphGainGrid />
         <GraphFrequencyGrid />
         {children}
-      </FrequencyResponseGraphProvider>
+      </GraphProvider>
     </svg>
   )
 })
