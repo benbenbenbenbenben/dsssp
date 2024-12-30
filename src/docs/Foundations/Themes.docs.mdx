@@ -14,25 +14,6 @@ Theme object is a unified way to manage the look and feel of the Frequency Respo
 
 The `GraphTheme` object passed as a property of the `FrequencyResponseGraph` component will be applied on top of the default theme. This way, you can easily change only some colors or sizes without the need to redefine the whole theme. The same goes for the `GraphScale` property.
 
-Additionally, the graph container utilizes React's context/provider and a custom hook, `useGraph`, to provide access to the theme, scale, and configuration from any child component.
-<br/>
-#### Default Theme
+#### Structure of the Default Theme
 
 <Source dark code={ThemeSourceCode.split("\n").slice(2).join("\n")} language="javascript" />
-
-#### Filter Colors
-
-```ts
-type FilterThemeColors = {
-  point: CSSProperties['color']
-  drag: CSSProperties['color']
-  active: CSSProperties['color']
-
-  curve: CSSProperties['color']
-  gradient: CSSProperties['color']
-
-  background: CSSProperties['color']
-  dragBackground: CSSProperties['color']
-  activeBackground: CSSProperties['color']
-}
-```

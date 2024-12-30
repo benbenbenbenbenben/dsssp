@@ -1,0 +1,25 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Container/Custom Hook" parameters={{ viewMode: 'docs' }} />
+
+# Container
+<br/>
+## Context Provider and Custom Hook
+
+Frequency Response Graph container also contains a built-in React Context/Provider and exports a custom `useGraph` hook. This hook enables any child component to access configuration data. Filter components use it to access their visual properties and scale values used for rendering.
+
+#### Usage
+
+The `useGraph` hook provides access to essential properties:
+
+```jsx
+import { useGraph } from 'dsssp'
+
+const CustomFilterComponent = () => {
+  const { theme, scale, logScale, width, height, svgRef } = useGraph()
+
+  return (
+    // ...
+  )
+}
+```

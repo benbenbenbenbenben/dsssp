@@ -3,9 +3,9 @@ import theme from './theme'
 
 addons.setConfig({
   theme,
-  navSize: 240,
+  navSize: 260,
   bottomPanelHeight: 400,
-  rightPanelWidth: 240,
+  rightPanelWidth: 300,
   enableShortcuts: true,
   showToolbar: false,
   sidebar: {

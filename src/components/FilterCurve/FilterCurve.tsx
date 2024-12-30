@@ -65,7 +65,7 @@ export type FilterCurveProps = Omit<
  * This component renders the frequency response curve of a given filter on the graph.
  * It displays the filter's shape and can optionally show a vertical pin to connect it with specific types of `FilterPoint`'s, such as `NOTCH`, `LOWPASS`, `HIGHPASS`.
  *
- * Uses `defaultColor` from the theme as a fallback when filter colors are not specified. `BYPASS` filter fallbacks to `zeroPoint.color` from the theme.
+ * Uses `defaultColor` from the theme as a fallback when filter colors are not specified. `BYPASS` curve automatically fallbacks to `zeroPoint.color` from the theme.
  */
 export const FilterCurve = ({
   filter,

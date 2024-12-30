@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/blocks'
 
-<Meta title="Foundations/Filters" parameters={{ viewMode: 'docs' }} />
+<Meta title="Foundations/Audio Filters" parameters={{ viewMode: 'docs' }} />
 
 # Foundations
 <br/>
@@ -8,7 +8,7 @@ import { Meta } from '@storybook/blocks'
 
 The library provides a collection of audio filters that can be combined to create complex chains. Each filter type has unique characteristics and is designed for specific audio processing tasks. The most common use of filters (specifically Peak) is the standard equalizer found in every music player, where multiple filters work together to shape different frequency bands and customize the sound to our preferences.
 
-To ensure consistency across different biquad filters, set all four properties of each `GraphFilter` object, even if some are not applicable for a specific filter. For properties that are not used, assign a value of `0`. This approach allows the object to be utilized uniformly across all filters and dynamically change its type.
+To ensure consistency across different biquad filters, set all four properties of each `GraphFilter` object, even if some are not applicable for a specific calculations. For properties that are not used, assign a value of `0`. This approach allows the object to be utilized uniformly across all filters and dynamically change its type.
 
 ```tsx
 type GraphFilter = {

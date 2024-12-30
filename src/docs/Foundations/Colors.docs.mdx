@@ -1,0 +1,31 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Foundations/Colors" parameters={{ viewMode: 'docs' }} />
+
+# Foundations
+<br/>
+## Colors
+
+When indexes are assigned to filters on the graph, they use colors from the `theme.filters.colors` array. If specific colors are not defined, the filters default to `theme.filters.defaultColor`, provided that the components do not have individual color props set.
+
+In the built-in theme, the `theme.filters.colors` array is empty. You need to populate it manually, as the number of filters required for your application is not known in advance.
+
+#### Structure of the Colors Object
+
+```ts
+type FilterThemeColors = {
+  // point colors for each state
+  point?: CSSProperties['color']
+  drag?: CSSProperties['color']
+  active?: CSSProperties['color']
+  // point background colors for each state
+  background?: CSSProperties['color']
+  dragBackground?: CSSProperties['color']
+  activeBackground?: CSSProperties['color']
+  // curve color
+  curve?: CSSProperties['color']
+  // gradient stop color
+  // start color is always transparent, unless `staticGradient` prop is set to true
+  gradient?: CSSProperties['color']
+}
+```

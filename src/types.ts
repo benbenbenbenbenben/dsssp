@@ -61,17 +61,20 @@ export type GraphScale = {
   octaveLabels: number[]
 }
 
-export type FilterThemeColors = {
-  point: CSSProperties['color']
-  drag: CSSProperties['color']
-  active: CSSProperties['color']
-
-  curve: CSSProperties['color']
-  gradient: CSSProperties['color']
-
-  background: CSSProperties['color']
-  dragBackground: CSSProperties['color']
-  activeBackground: CSSProperties['color']
+type FilterThemeColors = {
+  // point colors for each state
+  point?: CSSProperties['color']
+  drag?: CSSProperties['color']
+  active?: CSSProperties['color']
+  // point background colors for each state
+  background?: CSSProperties['color']
+  dragBackground?: CSSProperties['color']
+  activeBackground?: CSSProperties['color']
+  // curve color
+  curve?: CSSProperties['color']
+  // gradient stop color
+  // start color is always transparent, unless `staticGradient` prop is set to true
+  gradient?: CSSProperties['color']
 }
 
 export type GraphTheme = {
