@@ -1,8 +1,9 @@
 import { type CSSProperties } from 'react'
 
-import { type filterTypes } from './constants'
+import { filterTypes } from './constants'
 
 export type FilterType = keyof typeof filterTypes
+export const filterKeys = Object.keys(filterTypes) as FilterType[]
 
 export type Magnitude = {
   magnitude: number

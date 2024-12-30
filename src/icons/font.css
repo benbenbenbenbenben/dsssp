@@ -28,7 +28,7 @@
 .icon-bandpass:before {
   content: '\e900';
 }
-.icon-empty:before {
+.icon-bypass:before {
   content: '\e901';
 }
 .icon-gain:before {

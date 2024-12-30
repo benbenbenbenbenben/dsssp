@@ -79,7 +79,7 @@ export const defaultTheme: GraphTheme = {
       }
     },
 
-    defaultColor: '#FF3399',
+    defaultColor: '#CC33FF',
     colors: []
   }
 }

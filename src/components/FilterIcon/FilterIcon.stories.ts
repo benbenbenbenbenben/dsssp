@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { FilterIcon } from '.'
 import { filterTypes } from '../..'
 
-const meta = {
+const meta: Meta<typeof FilterIcon> = {
   title: 'Components/FilterIcon',
   component: FilterIcon,
   parameters: {
@@ -27,7 +27,7 @@ const meta = {
       control: { type: 'range', min: 10, max: 100, step: 1 }
     }
   }
-} satisfies Meta<typeof FilterIcon>
+}
 
 export default meta
 
@@ -42,6 +42,13 @@ export const Peak: Story = {
   args: {
     ...defaultProps,
     type: 'PEAK'
+  },
+  parameters: {
+    docs: {
+      source: {
+        state: 'open'
+      }
+    }
   }
 }
 

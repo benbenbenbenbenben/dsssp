@@ -54,55 +54,55 @@ export const FilterIcon = ({
   )
 }
 
-export const FilterIconBypass = (props: FilterTypedIconProps) => (
+export const BypassIcon = (props: FilterTypedIconProps) => (
   <FilterIcon
     {...props}
     type="BYPASS"
   />
 )
-export const FilterIconLowPass = (props: FilterTypedIconProps) => (
+export const LowPassIcon = (props: FilterTypedIconProps) => (
   <FilterIcon
     {...props}
-    type="LOWPASS1"
+    type="LOWPASS2"
   />
 )
-export const FilterIconHighPass = (props: FilterTypedIconProps) => (
+export const HighPassIcon = (props: FilterTypedIconProps) => (
   <FilterIcon
     {...props}
-    type="HIGHPASS1"
+    type="HIGHPASS2"
   />
 )
-export const FilterIconLowShelf = (props: FilterTypedIconProps) => (
+export const LowShelfIcon = (props: FilterTypedIconProps) => (
   <FilterIcon
     {...props}
-    type="LOWSHELF1"
+    type="LOWSHELF2"
   />
 )
-export const FilterIconHighShelf = (props: FilterTypedIconProps) => (
+export const HighShelfIcon = (props: FilterTypedIconProps) => (
   <FilterIcon
     {...props}
-    type="HIGHSHELF1"
+    type="HIGHSHELF2"
   />
 )
-export const FilterIconBandPass = (props: FilterTypedIconProps) => (
+export const BandPassIcon = (props: FilterTypedIconProps) => (
   <FilterIcon
     {...props}
     type="BANDPASS"
   />
 )
-export const FilterIconNotch = (props: FilterTypedIconProps) => (
+export const NotchIcon = (props: FilterTypedIconProps) => (
   <FilterIcon
     {...props}
     type="NOTCH"
   />
 )
-export const FilterIconPeak = (props: FilterTypedIconProps) => (
+export const PeakIcon = (props: FilterTypedIconProps) => (
   <FilterIcon
     {...props}
     type="PEAK"
   />
 )
-export const FilterIconGain = (props: FilterTypedIconProps) => (
+export const GainIcon = (props: FilterTypedIconProps) => (
   <FilterIcon
     {...props}
     type="GAIN"

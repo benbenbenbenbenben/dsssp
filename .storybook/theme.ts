@@ -38,8 +38,8 @@ export default create({
     brandTarget?: string;
     gridCellSize?: number;
 */
-  appBg: '#333333',
-  appContentBg: '#222222',
+  // appBg: '#333333',
+  // appContentBg: '#222222',
   // appBg: '#343e4b',
   // appContentBg: '#1e2530',
   // appBorderColor: '#343e4b',

@@ -1,9 +1,49 @@
-import { Meta } from '@storybook/blocks'
+import { Meta, IconGallery, IconItem, Canvas } from '@storybook/blocks'
+import { FilterIcon } from '../../components'
+import { filterKeys } from '../..'
 
 <Meta title="Foundations/Icons" parameters={{ viewMode: 'docs' }}/>
 
 # Foundations
 <br/>
-## Icons
+## Filter Icons
 
-Icons are used to visually communicate core parts of the user interface. They are used to represent actions, objects, and states. Icons are used to enhance the user experience by providing visual cues and information.
+The library provides an extensive SVG canvas to visualize audio filters in their natural habitat, but various UIs also require more schematic representations of the filters in addition to the graph. These icons can be used for buttons, menus, or any other UI elements.
+
+
+<br/>
+<IconGallery>
+{filterKeys.map((key) => (
+  <IconItem key={key} name={key}>
+    <FilterIcon type={key} />
+  </IconItem>
+))}
+</IconGallery>
+Icons created with 💖 by [Dmytro Dvornichenko](https://dvornichenko.design/). All credit goes to him.
+<br/>
+## Usage
+
+The `FilterIcon` component can be used in two ways: using the `type` property with the filter name or passing the filter object itself as the `filter` prop. Setting the right `gain` value (either as a separate prop or inside the filter object) can also change the icon appearance, flipping the direction of the curve if applicable.
+
+<div style={{ padding: '8px', display: 'inline-block', background: '#000', border: '1px solid #444',  borderRadius: '4px', marginBottom: '-8px', }}>
+  <FilterIcon type="PEAK" gain={-6} size={38} color='#FF3399'/>
+</div>
+
+```tsx
+<FilterIcon type="PEAK" gain={-6} size={38} color="#FF3399" />
+// is the same as
+<FilterIcon filter={{ type: 'PEAK', gain: -6, freq: 500, q: 1 }} size={38} color="#FF3399" />
+```
+
+Among the unified icon component, there are also individual components for each filter type: `PeakIcon`, `NotchIcon`, `LowShelfIcon`, `HighShelfIcon`, `LowPassIcon`, `HighPassIcon`, `BandPassIcon`, `BypassIcon`, `GainIcon`.
+
+
+<br/>
+## Icon Font
+
+Icon components are based on the pre-compiled icon font, so they can be imported and used for custom purposes, for example, in the native HTML select element.
+
+```jsx
+import 'dsssp/css'
+
+```
