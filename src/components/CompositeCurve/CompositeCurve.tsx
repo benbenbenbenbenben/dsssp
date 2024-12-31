@@ -36,7 +36,7 @@ type CompositeCurveProps = {
    * Adjusts the resolution of the curve by reducing the number of points based on the graph's width.
    *
    * Calculations of the composite curve are expensive, so use this prop to optimize performance if more than 10 filters applied.
-   * @default 1
+   * @default 2
    */
   resolutionFactor?: number
 }
@@ -47,7 +47,7 @@ export const CompositeCurve = ({
   color,
   opacity,
   lineWidth,
-  resolutionFactor = 1
+  resolutionFactor = 2
 }: CompositeCurveProps) => {
   const { scale, width } = useGraph()
   const { minFreq, maxFreq, sampleRate } = scale

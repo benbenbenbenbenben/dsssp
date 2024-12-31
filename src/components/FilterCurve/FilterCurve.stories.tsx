@@ -51,72 +51,63 @@ export const Peak: Story = {
 export const Notch: Story = {
   args: {
     ...defaultProps,
-    filter: { freq: 500, gain: 0, q: 1, type: 'NOTCH' },
-    showPin: false
+    filter: { freq: 500, gain: 0, q: 1, type: 'NOTCH' }
   }
 }
 
 export const LowShelf1: Story = {
   args: {
     ...defaultProps,
-    filter: { freq: 500, gain: 8, q: 0, type: 'LOWSHELF1' },
-    showPin: false
+    filter: { freq: 500, gain: 8, q: 0, type: 'LOWSHELF1' }
   }
 }
 
 export const LowShelf2: Story = {
   args: {
     ...defaultProps,
-    filter: { freq: 500, gain: 8, q: 0.7, type: 'LOWSHELF2' },
-    showPin: false
+    filter: { freq: 500, gain: 8, q: 0.7, type: 'LOWSHELF2' }
   }
 }
 
 export const HighShelf1: Story = {
   args: {
     ...defaultProps,
-    filter: { freq: 500, gain: 8, q: 0, type: 'HIGHSHELF1' },
-    showPin: false
+    filter: { freq: 500, gain: 8, q: 0, type: 'HIGHSHELF1' }
   }
 }
 
 export const HighShelf2: Story = {
   args: {
     ...defaultProps,
-    filter: { freq: 500, gain: 8, q: 0.7, type: 'HIGHSHELF2' },
-    showPin: false
+    filter: { freq: 500, gain: 8, q: 0.7, type: 'HIGHSHELF2' }
   }
 }
 
 export const LowPass1: Story = {
   args: {
     ...defaultProps,
-    filter: { freq: 500, gain: 0, q: 0, type: 'LOWPASS1' },
-    showPin: false
+    filter: { freq: 500, gain: 0, q: 0, type: 'LOWPASS1' }
   }
 }
 
 export const LowPass2: Story = {
   args: {
     ...defaultProps,
-    filter: { freq: 500, gain: 0, q: 0.7, type: 'LOWPASS2' },
-    showPin: false
+    filter: { freq: 500, gain: 0, q: 0.7, type: 'LOWPASS2' }
   }
 }
 
 export const HighPass1: Story = {
   args: {
     ...defaultProps,
-    filter: { freq: 500, gain: 0, q: 0, type: 'HIGHPASS1' },
-    showPin: false
+    filter: { freq: 500, gain: 0, q: 0, type: 'HIGHPASS1' }
   }
 }
 
 export const HighPass2: Story = {
   args: {
     ...defaultProps,
-    filter: { freq: 500, gain: 0, q: 0.7, type: 'HIGHPASS2' },
-    showPin: false
+    filter: { freq: 500, gain: 0, q: 0.7, type: 'HIGHPASS2' }
   }
 }
 

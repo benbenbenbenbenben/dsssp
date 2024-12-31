@@ -61,7 +61,7 @@ export type FilterCurveProps = Omit<
   activeLineWidth?: number
   /**
    * Adjusts the resolution of the curve by reducing the number of points based on the graph's width.
-   * @default 1
+   * @default 2
    */
   resolutionFactor?: number
 }
@@ -79,10 +79,10 @@ export const FilterCurve = ({
   lineWidth,
   opacity,
 
-  resolutionFactor = 1,
+  resolutionFactor = 2,
 
   gradientId,
-  showPin = true,
+  showPin = false,
   active = false,
 
   activeColor,

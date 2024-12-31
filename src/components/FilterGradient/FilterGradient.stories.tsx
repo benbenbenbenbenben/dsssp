@@ -72,7 +72,6 @@ export const Notch: Story = {
         <Story />
         <FilterCurve
           filter={filter2}
-          showPin={false}
           gradientId="gradient2"
         />
       </>
@@ -92,7 +91,6 @@ export const HighPass: Story = {
         <Story />
         <FilterCurve
           filter={filter3}
-          showPin={false}
           gradientId="gradient3"
         />
       </>
@@ -112,7 +110,6 @@ export const LowShelf: Story = {
         <Story />
         <FilterCurve
           filter={filter4}
-          showPin={false}
           gradientId="gradient4"
         />
       </>
@@ -134,7 +131,6 @@ export const CustomColorAndOpacity: Story = {
         <FilterCurve
           filter={filter1}
           color="#FFFF00"
-          showPin={false}
           gradientId="gradient5"
         />
       </>
@@ -157,7 +153,6 @@ export const StaticBackground: Story = {
         <FilterCurve
           filter={filter1}
           color="#00FFFF"
-          showPin={false}
           gradientId="gradient6"
         />
       </>
