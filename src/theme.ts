@@ -5,7 +5,7 @@ export const defaultTheme: GraphTheme = {
     // background grid lines
     grid: {
       lineColor: '#3D4C5F',
-      lineWidth: { minor: 0.3, major: 0.6, center: 1, border: 0.3 }
+      lineWidth: { minor: 0.25, major: 0.5, center: 1, border: 0.25 }
     },
     // background gradient
     gradient: {
@@ -20,7 +20,7 @@ export const defaultTheme: GraphTheme = {
     },
     // mouse tracker
     tracker: {
-      lineWidth: 0.6,
+      lineWidth: 0.5,
       lineColor: '#7B899D',
       backgroundColor: '#070C18'
     }

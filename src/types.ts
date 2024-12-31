@@ -92,15 +92,16 @@ export type GraphTheme = {
       start: CSSProperties['color']
       end: CSSProperties['color']
     }
-    tracker: {
-      lineWidth: number
-      lineColor: CSSProperties['color']
-      backgroundColor: CSSProperties['color']
-    }
+
     label: {
       fontSize: number
       fontFamily: string
       color: CSSProperties['color'] | 'inherit'
+    }
+    tracker: {
+      lineWidth: number
+      lineColor: CSSProperties['color']
+      backgroundColor: CSSProperties['color']
     }
   }
 
