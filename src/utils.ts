@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { type FilterType } from './types'
 
 export const getMousePosition = (e: MouseEvent) => {
@@ -33,11 +34,15 @@ export const getZeroQ = (type: FilterType) =>
 export const getIconStyles = (
   type: FilterType | undefined | null,
   gain: number = 0
-) =>
+): CSSProperties =>
   (String(type).includes('SHELF') && gain > 0) ||
   (type === 'PEAK' && gain < 0) ||
   (type === 'GAIN' && gain < 0)
-    ? { transform: 'scale(1, -1)' }
+    ? {
+        transform: 'scale(1, -1)',
+        transformBox: 'fill-box', // not a CSS style, but we forced return type
+        transformOrigin: 'center'
+      }
     : {}
 
 export const getIconSymbol = (type: FilterType) => {

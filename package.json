@@ -26,7 +26,16 @@
         "default": "./dist/index.cjs"
       }
     },
-    "./css": "./dist/style.css"
+    "./font": {
+      "import": {
+        "types": "./dist/font.d.ts",
+        "default": "./dist/style.css"
+      },
+      "require": {
+        "types": "./dist/font.d.ts",
+        "default": "./dist/style.css"
+      }
+    }
   },
   "scripts": {
     "dev": "storybook dev -p 6006",
@@ -44,9 +53,9 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.3",
+    "@fontsource-variable/dm-sans": "^5.1.1",
     "@fontsource/iosevka-etoile": "^5.1.0",
     "@fontsource/monaspace-krypton": "^5.1.0",
-    "@fontsource-variable/dm-sans": "^5.1.1",
     "@storybook/addon-actions": "^8.4.7",
     "@storybook/addon-docs": "^8.4.7",
     "@storybook/addon-essentials": "^8.4.7",
@@ -67,7 +76,6 @@
     "@vitejs/plugin-react-swc": "^3.5.0",
     "@vitest/coverage-v8": "^1.0.4",
     "@vitest/ui": "^1.0.4",
-    "@whitespace/storybook-addon-html": "^6.1.1",
     "autoprefixer": "^10.4.16",
     "clsx": "^2.0.0",
     "deepmerge": "^4.3.1",
@@ -92,11 +100,11 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vite-plugin-dts": "^3.6.4",
+    "vite-plugin-static-copy": "^2.2.0",
     "vitest": "^1.0.4"
   },
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
-  },
-  "dependencies": {}
+  }
 }

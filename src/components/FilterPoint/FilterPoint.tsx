@@ -301,9 +301,8 @@ export const FilterPoint = ({
           fill={labelColor}
           fontSize={labelFontSize}
           fontFamily={labelFontFamily}
-          style={{ pointerEvents: 'none' }}
+          style={{ pointerEvents: 'none', ...labelStyle }}
           dangerouslySetInnerHTML={{ __html: label }}
-          {...labelStyle}
         />
       )}
     </>

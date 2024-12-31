@@ -35,7 +35,7 @@ export const defaultTheme: GraphTheme = {
   filters: {
     // filter curves
     curve: {
-      width: { normal: 1.5, active: 1.5 },
+      width: { normal: 1, active: 1 },
       opacity: { normal: 0.5, active: 0.7 }
     },
 

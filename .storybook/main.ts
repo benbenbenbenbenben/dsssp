@@ -19,9 +19,7 @@ const config: StorybookConfig = {
           }
         }
       }
-    },
-    '@whitespace/storybook-addon-html'
-    // '@chromatic-com/storybook'
+    }
   ],
 
   framework: {

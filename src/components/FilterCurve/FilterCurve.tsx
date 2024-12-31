@@ -59,6 +59,11 @@ export type FilterCurveProps = Omit<
    * @default theme.curve.width.active || 1.5
    */
   activeLineWidth?: number
+  /**
+   * Adjusts the resolution of the curve by reducing the number of points based on the graph's width.
+   * @default 1
+   */
+  resolutionFactor?: number
 }
 
 /**
@@ -73,6 +78,8 @@ export const FilterCurve = ({
   index = 0,
   lineWidth,
   opacity,
+
+  resolutionFactor = 1,
 
   gradientId,
   showPin = true,
@@ -90,7 +97,8 @@ export const FilterCurve = ({
     }
   } = useGraph()
 
-  const { vars, magnitudes } = calcCurve(filter, scale, width, 1) || {}
+  const { vars, magnitudes } =
+    calcCurve(filter, scale, width, resolutionFactor) || {}
   if (!vars || !magnitudes?.length) return null
 
   const zeroValue = filter.type === 'BYPASS'

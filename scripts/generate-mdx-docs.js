@@ -6,20 +6,17 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// Определяем корень проекта
 const projectRoot = path.resolve(__dirname, '..')
 
-// Настройки react-docgen-typescript
+// react-docgen-typescript settings
 const options = {
   savePropValueAsString: true,
   shouldExtractLiteralValuesFromEnum: true,
   shouldRemoveUndefinedFromOptional: true
 }
 
-// Путь к файлу с компонентами
 const componentPath = path.join(projectRoot, 'src/components/index.ts')
 
-// Парсим компоненты
 let components
 try {
   components = docgen

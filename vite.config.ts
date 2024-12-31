@@ -3,15 +3,22 @@ import { join, resolve } from 'node:path'
 import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 import { peerDependencies } from './package.json'
 
 export default defineConfig({
   plugins: [
-    react({
-      jsxImportSource: 'react'
-    }),
-    dts({ rollupTypes: true }) // Output .d.ts files
+    react(),
+    dts({ rollupTypes: true }), // Output .d.ts files
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'src/icons/font.d.ts',
+          dest: ''
+        }
+      ]
+    })
   ],
   build: {
     target: 'esnext',
