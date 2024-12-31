@@ -26,17 +26,6 @@ export const GraphGainGrid = () => {
 
   return (
     <>
-      <defs>
-        <line
-          id="centerLine"
-          x1="0"
-          x2="100%"
-          y1={centerY}
-          y2={centerY}
-          stroke={lineColor}
-          strokeWidth={lineWidth.center}
-        />
-      </defs>
       {dBs.slice(0, -1).map((tick, index) => {
         if (index === 0) return null
         const tickY = `${(index / (dBs.length - 1)) * 100}%`
@@ -67,6 +56,14 @@ export const GraphGainGrid = () => {
           </React.Fragment>
         )
       })}
+      <line
+        x1="0"
+        x2="100%"
+        y1={centerY}
+        y2={centerY}
+        stroke={lineColor}
+        strokeWidth={lineWidth.center}
+      />
       <text
         y={12}
         x={5}

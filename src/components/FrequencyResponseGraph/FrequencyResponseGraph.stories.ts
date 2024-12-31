@@ -59,7 +59,7 @@ export const CustomTheme: Story = {
       background: {
         grid: {
           lineColor: '#2885AE',
-          lineWidth: { minor: 0.5, major: 1.5, center: 2, border: 0 }
+          lineWidth: { minor: 0.5, major: 1.5, center: 1.5, border: 0 }
         },
         gradient: {
           start: '#141D22',

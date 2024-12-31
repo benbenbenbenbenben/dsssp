@@ -5,7 +5,7 @@ export const defaultTheme: GraphTheme = {
     // background grid lines
     grid: {
       lineColor: '#3D4C5F',
-      lineWidth: { minor: 0.25, major: 0.5, center: 1, border: 0.25 }
+      lineWidth: { minor: 0.25, major: 0.5, center: 0.5, border: 0.25 }
     },
     // background gradient
     gradient: {
