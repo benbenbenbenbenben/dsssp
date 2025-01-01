@@ -43,7 +43,8 @@ export const FilterPin = ({
   if (pass1FilterType) q = 0.7
 
   // circle radius used in the FilterPoint component
-  let pointRadius = gain >= 0 || zeroGain ? point.radius : -(point?.radius || 0)
+  let pointRadius =
+    gain >= 0 || zeroGain ? point?.radius : -(point?.radius || 0)
 
   let pass2UpFlag = false
   if (pass2FilterType && q > 1.1) {

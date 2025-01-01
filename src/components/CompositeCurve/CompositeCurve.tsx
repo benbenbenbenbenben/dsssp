@@ -1,10 +1,10 @@
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import {
   calcBiquadFunction,
   calcCompositeMagnitudes,
   calcMagnitudes
 } from '../../math'
 import { type GraphFilter, type Magnitude } from '../../types'
-import { getZeroGain } from '../../utils'
 import { useGraph, FrequencyResponseCurve } from '..'
 
 type CompositeCurveProps = {
@@ -41,34 +41,63 @@ type CompositeCurveProps = {
   resolutionFactor?: number
 }
 
+const getFilterKey = (filter: GraphFilter) =>
+  `${filter.type}_${filter.freq}_${filter.q}_${filter.gain}`
+
 export const CompositeCurve = ({
   filters,
-  dotted,
-  color,
-  opacity,
-  lineWidth,
+  dotted = false,
+  color = '#FFFFFF',
+  opacity = 1,
+  lineWidth = 1.5,
   resolutionFactor = 2
 }: CompositeCurveProps) => {
   const { scale, width } = useGraph()
   const { minFreq, maxFreq, sampleRate } = scale
 
-  const filterMagnitudesArray: Magnitude[][] = []
+  const [magnitudesCache, setMagnitudesCache] = useState<
+    Record<string, Magnitude[]>
+  >({})
 
-  filters.forEach((filter) => {
-    const { freq, q, gain, type } = filter
-    const zeroGain = getZeroGain(type)
+  const memoizedGetFilterKey = useCallback((filter: GraphFilter) => {
+    return getFilterKey(filter)
+  }, [])
 
-    if ((gain === 0 && !zeroGain) || type === 'BYPASS') {
-      return
-    }
-    const steps = width / resolutionFactor
-    const vars = calcBiquadFunction(sampleRate, type, freq, q, gain)
-    const mags = calcMagnitudes(sampleRate, minFreq, maxFreq, steps, vars)
+  const activeKeys = useMemo(() => {
+    return new Set<string>(filters.map((f) => memoizedGetFilterKey(f)))
+  }, [filters, memoizedGetFilterKey])
 
-    if (mags?.length) filterMagnitudesArray.push(mags)
-  })
+  const updateCache = useCallback(() => {
+    const newCache: Record<string, Magnitude[]> = { ...magnitudesCache }
 
-  const compositeMagnitudes = calcCompositeMagnitudes(filterMagnitudesArray)
+    Object.keys(newCache).forEach((cachedKey) => {
+      if (!activeKeys.has(cachedKey)) {
+        delete newCache[cachedKey]
+      }
+    })
+
+    filters.forEach((filter) => {
+      const key = memoizedGetFilterKey(filter)
+      if (!newCache[key]) {
+        const { freq, q, gain, type } = filter
+        const steps = width / resolutionFactor
+        const vars = calcBiquadFunction(sampleRate, type, freq, q, gain)
+        newCache[key] =
+          calcMagnitudes(sampleRate, minFreq, maxFreq, steps, vars) || []
+      }
+    })
+
+    setMagnitudesCache(newCache)
+  }, [filters])
+
+  useEffect(() => {
+    updateCache()
+  }, [updateCache])
+
+  const compositeMagnitudes = useMemo(() => {
+    const allMags = Object.values(magnitudesCache).filter((m) => m.length)
+    return calcCompositeMagnitudes(allMags)
+  }, [magnitudesCache])
 
   return (
     <>

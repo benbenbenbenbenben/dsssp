@@ -12,7 +12,7 @@ import { getZeroGain } from './utils'
 
 export const fastFloor = (x: number) => x >> 0
 export const fastRound = (x: number) => (x + (x > 0 ? 0.5 : -0.5)) >> 0
-export const stripTail = (x: number) => fastRound(x * 10) / 10
+export const stripTail = (x: number) => fastRound(x * 100) / 100
 
 export const getLogScaleFn = (
   minFreq: number,

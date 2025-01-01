@@ -124,7 +124,7 @@ export type GraphTheme = {
       }
     }
 
-    point: {
+    point?: {
       radius?: number
       lineWidth?: number
       backgroundOpacity?: {

@@ -146,10 +146,8 @@ export const FilterPoint = ({
       cx = limitRange(x - offset.x, 0, width)
       circleRef.current.setAttributeNS(null, 'cx', String(cx))
       labelRef.current?.setAttributeNS(null, 'x', String(cx))
-      moveFreq.current = limitRange(
-        calcFrequency(cx, width, minFreq, maxFreq),
-        minFreq,
-        maxFreq
+      moveFreq.current = stripTail(
+        limitRange(calcFrequency(cx, width, minFreq, maxFreq), minFreq, maxFreq)
       )
     }
 
@@ -161,7 +159,7 @@ export const FilterPoint = ({
       }
       circleRef.current.setAttributeNS(null, 'cy', String(cy))
       labelRef.current?.setAttributeNS(null, 'y', String(cy))
-      const gain = calcMagnitude(cy, minGain, maxGain, height)
+      const gain = stripTail(calcMagnitude(cy, minGain, maxGain, height))
       // TODO: move this rounding to props
       moveGain.current = gain < 0.05 && gain > -0.05 ? 0 : gain
     }
@@ -179,6 +177,7 @@ export const FilterPoint = ({
     const circleEl = circleRef.current
 
     if (!svg || !circleEl) return
+
     circleEl.setAttribute(
       'fill-opacity',
       String(activeBackgroundOpacity || point?.backgroundOpacity?.active)
@@ -199,11 +198,11 @@ export const FilterPoint = ({
 
   const dragStart = (e: React.MouseEvent<SVGCircleElement, MouseEvent>) => {
     const svg = svgRef.current
-    if (!svg) return
-    // selectedElement = e.currentTarget
-    setDragging(true)
     const circleEl = circleRef.current
-    // console.log('selectedElement', selectedElement, 'ref', circleRef.current)
+
+    if (!svg || !circleEl) return
+
+    setDragging(true)
     offset = getMousePosition(e as unknown as MouseEvent)
     offset.x -= parseFloat(circleEl?.getAttributeNS(null, 'cx') || '0')
     offset.y -= parseFloat(circleEl?.getAttributeNS(null, 'cy') || '0')
@@ -231,7 +230,7 @@ export const FilterPoint = ({
     e.preventDefault()
     let newQ = filterQ
     newQ += e.deltaY > 0 ? 0.1 : -0.1
-    newQ = stripTail(limitRange(newQ, 0.1, 10))
+    newQ = stripTail(limitRange(newQ, 0.1, 20))
     onChange?.({ index, ...filter, q: newQ, ended: true })
   }
 
@@ -239,7 +238,7 @@ export const FilterPoint = ({
 
   if (type === 'BYPASS') return null
 
-  const strokeWidth = lineWidth || point.lineWidth
+  const strokeWidth = lineWidth || point?.lineWidth
 
   const pointColor = color || colors?.[index]?.point || defaultColor
   const bgColor = background || colors?.[index]?.background || pointColor
@@ -285,7 +284,7 @@ export const FilterPoint = ({
         ref={circleRef}
         cx={x}
         cy={y}
-        r={radius || point.radius}
+        r={radius || point?.radius}
         fill={fillColor}
         fillOpacity={fillOpacity}
         stroke={strokeColor}
