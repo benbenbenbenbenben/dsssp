@@ -66,7 +66,7 @@ export const defaultTheme: GraphTheme = {
     gradientOpacity: 0.7,
     fill: false,
     // default color for filters, points, and curves
-    defaultColor: '#CC66FF',
+    defaultColor: '#66FF66',
     // empty placeholder of filter colors
     colors: []
   }

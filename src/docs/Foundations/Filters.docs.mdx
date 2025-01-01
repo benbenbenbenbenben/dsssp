@@ -12,7 +12,7 @@ To ensure consistency across different biquad filters, set all four properties o
 
 ```tsx
 type GraphFilter = {
-  type: FilterType
+  type: FilterType // "PEAK" | "NOTCH" | "HIGHSHELF1" | "HIGHSHELF2" | "LOWSHELF1" | "LOWSHELF2" | "HIGHPASS1" | "HIGHPASS2" | "LOWPASS1" | "LOWPASS2" | "BANDPASS" | "GAIN" | "BYPASS"
   freq: number
   gain: number
   q: number

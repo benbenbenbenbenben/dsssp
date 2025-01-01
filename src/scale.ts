@@ -8,5 +8,5 @@ export const defaultScale: GraphScale = {
   maxGain: 16,
   dbSteps: 4,
   octaveTicks: 10,
-  octaveLabels: [10, 20, 40, 60, 100, 200, 500, 1000, 2000, 5000, 10000, 20000]
+  octaveLabels: [20, 40, 60, 100, 200, 500, 1000, 2000, 5000, 10000, 20000]
 }

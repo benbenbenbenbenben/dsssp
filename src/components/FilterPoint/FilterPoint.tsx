@@ -21,7 +21,7 @@ import { useGraph } from '../..'
 
 import '../../icons/font.css'
 
-type FilterChangeEvent = Partial<GraphFilter> & {
+export type FilterChangeEvent = GraphFilter & {
   index?: number
   ended?: boolean
 }
@@ -58,8 +58,8 @@ export type FilterPointProps = {
 
   onChange?: (filterEvent: FilterChangeEvent) => void
   onEnter?: (filterEvent: FilterChangeEvent) => void
-  onLeave?: () => void
-  onDrag?: (dragging: boolean) => void
+  onLeave?: (filterEvent: FilterChangeEvent) => void
+  onDrag?: (dragState: boolean) => void
 }
 
 /**
@@ -165,6 +165,7 @@ export const FilterPoint = ({
     }
     onChange?.({
       index,
+      ...filter,
       freq: moveFreq.current,
       ...(!passFilter ? { gain: moveGain.current } : {})
     })
@@ -178,7 +179,7 @@ export const FilterPoint = ({
     if (!svg || !circleEl) return
     circleEl.setAttribute(
       'fill-opacity',
-      String(activeBackgroundOpacity || point.backgroundOpacity.active)
+      String(activeBackgroundOpacity || point?.backgroundOpacity?.active)
     )
     svg.removeEventListener('mousemove', dragMove)
     svg.removeEventListener('mouseup', dragEnd)
@@ -186,6 +187,7 @@ export const FilterPoint = ({
     setDragging(false)
     onChange?.({
       index,
+      ...filter,
       freq: moveFreq.current,
       gain: moveGain.current,
       ended: true
@@ -205,7 +207,7 @@ export const FilterPoint = ({
     offset.y -= parseFloat(circleEl?.getAttributeNS(null, 'cy') || '0')
     circleEl?.setAttribute(
       'fill-opacity',
-      String(dragBackgroundOpacity || point.backgroundOpacity.drag)
+      String(dragBackgroundOpacity || point?.backgroundOpacity?.drag)
     )
     svg.addEventListener('mousemove', dragMove)
     svg.addEventListener('mouseup', dragEnd)
@@ -220,7 +222,7 @@ export const FilterPoint = ({
 
   const handleMouseLeave = () => {
     setHovered(false)
-    onLeave?.()
+    onLeave?.({ ...filter, index })
   }
 
   const scrollQ = (e: WheelEvent) => {
@@ -228,7 +230,7 @@ export const FilterPoint = ({
     let newQ = filterQ
     newQ += e.deltaY > 0 ? 0.1 : -0.1
     newQ = stripTail(limitRange(newQ, 0.1, 10))
-    onChange?.({ index, q: newQ, ended: true })
+    onChange?.({ index, ...filter, q: newQ, ended: true })
   }
 
   if (['BYPASS', 'UNKNOWN'].includes(type)) return null
@@ -241,7 +243,7 @@ export const FilterPoint = ({
   const bgColor = background || colors?.[index]?.background || pointColor
 
   const strokeColor = zeroValue
-    ? zeroColor || zeroPoint.color
+    ? zeroColor || zeroPoint?.color
     : dragging
       ? dragColor || colors?.[index]?.drag || pointColor
       : active || hovered
@@ -249,7 +251,7 @@ export const FilterPoint = ({
         : pointColor
 
   const fillColor = zeroValue
-    ? zeroBackground || zeroPoint.background
+    ? zeroBackground || zeroPoint?.background
     : dragging
       ? dragBackground || colors?.[index]?.drag || bgColor
       : active || hovered
@@ -258,13 +260,13 @@ export const FilterPoint = ({
 
   const fillOpacity =
     active || hovered
-      ? (activeBackgroundOpacity ?? point.backgroundOpacity.active)
-      : (backgroundOpacity ?? point.backgroundOpacity.normal)
+      ? (activeBackgroundOpacity ?? point?.backgroundOpacity?.active)
+      : (backgroundOpacity ?? point?.backgroundOpacity?.normal)
 
   if (label || showIcon) {
-    labelColor ||= point.label.color
-    labelFontSize ||= point.label.fontSize
-    labelFontFamily ||= point.label.fontFamily
+    labelColor ||= point?.label?.color
+    labelFontSize ||= point?.label?.fontSize
+    labelFontFamily ||= point?.label?.fontFamily
     if (labelColor === 'inherit') labelColor = strokeColor
   }
 

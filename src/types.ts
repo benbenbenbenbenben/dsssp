@@ -106,48 +106,48 @@ export type GraphTheme = {
   }
 
   curve: {
-    width: number
-    color: CSSProperties['color']
-    opacity: CSSProperties['opacity']
+    width?: number
+    color?: CSSProperties['color']
+    opacity?: CSSProperties['opacity']
   }
 
   filters: {
-    curve: {
-      width: {
-        normal: number
-        active: number
+    curve?: {
+      width?: {
+        normal?: number
+        active?: number
       }
 
-      opacity: {
-        normal: CSSProperties['opacity']
-        active: CSSProperties['opacity']
+      opacity?: {
+        normal?: CSSProperties['opacity']
+        active?: CSSProperties['opacity']
       }
     }
 
     point: {
-      radius: number
-      lineWidth: number
-      backgroundOpacity: {
-        drag: CSSProperties['opacity']
-        active: CSSProperties['opacity']
-        normal: CSSProperties['opacity']
+      radius?: number
+      lineWidth?: number
+      backgroundOpacity?: {
+        drag?: CSSProperties['opacity']
+        active?: CSSProperties['opacity']
+        normal?: CSSProperties['opacity']
       }
-      label: {
-        fontSize: number
-        fontFamily: string
-        color: CSSProperties['color'] | 'inherit'
+      label?: {
+        fontSize?: number
+        fontFamily?: string
+        color?: CSSProperties['color'] | 'inherit'
       }
     }
 
-    zeroPoint: {
-      color: CSSProperties['color']
-      background: CSSProperties['color']
+    zeroPoint?: {
+      color?: CSSProperties['color']
+      background?: CSSProperties['color']
     }
 
     fill?: boolean
-    gradientOpacity: CSSProperties['opacity']
+    gradientOpacity?: CSSProperties['opacity']
 
-    defaultColor: CSSProperties['color']
-    colors: FilterThemeColors[]
+    defaultColor?: CSSProperties['color']
+    colors?: FilterThemeColors[]
   }
 }

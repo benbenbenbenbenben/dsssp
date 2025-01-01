@@ -43,15 +43,15 @@ export const FilterPin = ({
   if (pass1FilterType) q = 0.7
 
   // circle radius used in the FilterPoint component
-  let pointRadius = gain >= 0 || zeroGain ? point.radius : -point.radius
+  let pointRadius = gain >= 0 || zeroGain ? point.radius : -(point?.radius || 0)
 
   let pass2UpFlag = false
   if (pass2FilterType && q > 1.1) {
-    pointRadius = -point.radius
+    pointRadius = -(point?.radius || 0)
     pass2UpFlag = true
   }
 
-  let pointY = pointRadius
+  let pointY = pointRadius || 0
   if (pass1FilterType || pass2FilterType) {
     pointY += getCenterLine(minGain, maxGain, height)
   } else {
