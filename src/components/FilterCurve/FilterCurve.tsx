@@ -26,7 +26,9 @@ export type FilterCurveProps = Omit<
    */
   showPin?: boolean
   /**
-   * Show BYPASS curve. For most use cases showing zero curve is not necessary.
+   * Show Bypass curve
+   *
+   * For most use cases showing zero curve is not necessary
    * @default false
    */
   showBypass?: boolean

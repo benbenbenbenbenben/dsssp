@@ -22,7 +22,7 @@ import { useGraph } from '../..'
 import '../../icons/font.css'
 
 export type FilterChangeEvent = GraphFilter & {
-  index?: number
+  index: number
   ended?: boolean
 }
 
@@ -68,7 +68,7 @@ export type FilterPointProps = {
  */
 export const FilterPoint = ({
   filter,
-  index = 0,
+  index = -1,
   dragX = true,
   dragY = true,
   wheelQ = true,

@@ -128,7 +128,8 @@ export const Gain: Story = {
 export const Bypass: Story = {
   args: {
     ...defaultProps,
-    filter: { freq: 500, gain: 8, q: 0.7, type: 'BYPASS' }
+    filter: { freq: 500, gain: 8, q: 0.7, type: 'BYPASS' },
+    showBypass: true
   }
 }
 

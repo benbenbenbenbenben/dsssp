@@ -36,14 +36,9 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const filters: GraphFilter[] = [
-  { freq: 50, gain: 0, q: 0.7, type: 'HIGHPASS1' },
-  { freq: 80, gain: 2, q: 4, type: 'PEAK' },
-  { freq: 160, gain: -4, q: 0.7, type: 'PEAK' },
-  { freq: 300, gain: 4, q: 1, type: 'PEAK' },
-  { freq: 600, gain: -8, q: 4, type: 'PEAK' },
-  { freq: 1400, gain: 5, q: 1.5, type: 'PEAK' },
-  { freq: 3000, gain: -2, q: 0.7, type: 'PEAK' },
-  { freq: 7000, gain: 6, q: 1, type: 'HIGHSHELF2' }
+  { freq: 400, gain: 6, q: 1, type: 'PEAK' },
+  { freq: 600, gain: -8, q: 3, type: 'PEAK' },
+  { freq: 1200, gain: 2, q: 0.7, type: 'HIGHSHELF2' }
 ]
 
 const defaultProps = { filters }

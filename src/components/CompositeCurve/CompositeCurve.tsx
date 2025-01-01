@@ -71,12 +71,15 @@ export const CompositeCurve = ({
   const compositeMagnitudes = calcCompositeMagnitudes(filterMagnitudesArray)
 
   return (
-    <FrequencyResponseCurve
-      magnitudes={compositeMagnitudes}
-      dotted={dotted}
-      color={color}
-      opacity={opacity}
-      lineWidth={lineWidth}
-    />
+    <>
+      <use href="#center-line" />
+      <FrequencyResponseCurve
+        magnitudes={compositeMagnitudes}
+        dotted={dotted}
+        color={color}
+        opacity={opacity}
+        lineWidth={lineWidth}
+      />
+    </>
   )
 }
