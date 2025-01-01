@@ -72,7 +72,7 @@ export const CompositeCurve = ({
 
   return (
     <>
-      <use href="#center-line" />
+      <use href="#centerLine" />
       <FrequencyResponseCurve
         magnitudes={compositeMagnitudes}
         dotted={dotted}

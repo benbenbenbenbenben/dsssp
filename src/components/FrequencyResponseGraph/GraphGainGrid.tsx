@@ -57,7 +57,7 @@ export const GraphGainGrid = () => {
         )
       })}
       <line
-        id="center-line"
+        id="centerLine"
         x1="0"
         x2="100%"
         y1={centerY}

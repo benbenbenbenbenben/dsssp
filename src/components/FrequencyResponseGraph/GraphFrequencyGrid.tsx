@@ -43,8 +43,8 @@ export const GraphFrequencyGrid = () => {
         return (
           <text
             key={octave}
-            y={height - 5}
-            x={octaveX + (octave === lastOctave ? -5 : 5)}
+            y={height - 4}
+            x={octaveX + (octave === lastOctave ? -4 : 4)}
             textAnchor={octave === lastOctave ? 'end' : 'start'}
             fill={labelColor}
             fontSize={fontSize}

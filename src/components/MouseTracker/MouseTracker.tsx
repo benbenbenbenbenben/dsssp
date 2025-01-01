@@ -93,20 +93,22 @@ export const MouseTracker = ({
 
   if (!trackMouse) return null
 
+  const fontSizePadding = fontSize + 3
+
   return (
     <React.Fragment>
       <rect
         width={freqWidth + 6}
-        height="14"
+        height={fontSizePadding}
         fill={backgroundColor}
         stroke={color}
         x={mouse.x - freqWidth / 2 - 3}
-        y={height - 15}
+        y={height - fontSizePadding - 1}
       ></rect>
       <text
         ref={freqLabelRef}
         x={mouse.x - freqWidth / 2}
-        y={height - 5}
+        y={height - 4}
         fill={color}
         fontSize={fontSize}
         fontFamily={fontFamily}
@@ -115,11 +117,11 @@ export const MouseTracker = ({
       </text>
 
       <rect
-        width={gainWidth + 7}
-        height="14"
+        width={gainWidth + 6}
+        height={fontSizePadding}
         fill={fillColor}
         stroke={color}
-        x={0}
+        x={1}
         y={mouse.y - 7}
       ></rect>
       <text
@@ -148,7 +150,7 @@ export const MouseTracker = ({
         x1={mouse.x}
         x2={mouse.x}
         y1={0}
-        y2={height - 16}
+        y2={height - 14}
         stroke={color}
         strokeWidth={strokeWidth}
         strokeDasharray={strokeDasharray}
