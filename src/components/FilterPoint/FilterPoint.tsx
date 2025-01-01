@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import type React from 'react'
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import { useMemo, useRef, useState, type CSSProperties } from 'react'
 
 import {
   calcFrequency,
@@ -235,11 +235,7 @@ export const FilterPoint = ({
     onChange?.({ index, ...filter, q: newQ, ended: true })
   }
 
-  useEffect(() => {
-    const circleEl = circleRef.current
-    if (wheelQ) circleEl?.addEventListener('wheel', scrollQ)
-    return () => circleEl?.removeEventListener('wheel', scrollQ)
-  }, [wheelQ])
+  if (wheelQ) circleRef.current?.addEventListener('wheel', scrollQ)
 
   if (type === 'BYPASS') return null
 
