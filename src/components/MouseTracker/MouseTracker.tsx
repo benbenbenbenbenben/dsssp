@@ -121,7 +121,7 @@ export const MouseTracker = ({
         height={fontSizePadding}
         fill={fillColor}
         stroke={color}
-        x={1}
+        x={0.5}
         y={mouse.y - 7}
       ></rect>
       <text
