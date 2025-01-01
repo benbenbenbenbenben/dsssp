@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import type React from 'react'
-import { useMemo, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 
 import {
   calcFrequency,
@@ -31,6 +31,7 @@ export type FilterPointProps = {
   index?: number
   dragX?: boolean
   dragY?: boolean
+  wheelQ?: boolean
   radius?: number
   active?: boolean
   lineWidth?: number
@@ -70,6 +71,7 @@ export const FilterPoint = ({
   index = 0,
   dragX = true,
   dragY = true,
+  wheelQ = true,
   active = false, // manual `hovered` state
   showIcon = false,
   label = '',
@@ -233,9 +235,13 @@ export const FilterPoint = ({
     onChange?.({ index, ...filter, q: newQ, ended: true })
   }
 
-  if (['BYPASS', 'UNKNOWN'].includes(type)) return null
+  useEffect(() => {
+    const circleEl = circleRef.current
+    if (wheelQ) circleEl?.addEventListener('wheel', scrollQ)
+    return () => circleEl?.removeEventListener('wheel', scrollQ)
+  }, [wheelQ])
 
-  circleRef.current?.addEventListener('wheel', scrollQ, { passive: false })
+  if (type === 'BYPASS') return null
 
   const strokeWidth = lineWidth || point.lineWidth
 

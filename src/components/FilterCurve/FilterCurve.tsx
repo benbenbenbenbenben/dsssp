@@ -26,6 +26,11 @@ export type FilterCurveProps = Omit<
    */
   showPin?: boolean
   /**
+   * Show BYPASS curve. For most use cases showing zero curve is not necessary.
+   * @default false
+   */
+  showBypass?: boolean
+  /**
    * Active state (trigger it to highlight the curve along with hovered FilterPoint)
    */
   active?: boolean
@@ -83,6 +88,7 @@ export const FilterCurve = ({
 
   gradientId,
   showPin = false,
+  showBypass = false,
   active = false,
 
   activeColor,
@@ -102,6 +108,7 @@ export const FilterCurve = ({
   if (!vars || !magnitudes?.length) return null
 
   const zeroValue = filter.type === 'BYPASS'
+  if (zeroValue && !showBypass) return null
 
   const normalColor = color || colors?.[index]?.curve || defaultColor
   const curveColor = zeroValue
