@@ -1,4 +1,10 @@
 import { Meta, Description } from '@storybook/blocks'
+import {
+  CompositeCurve,
+  FilterCurve,
+  FrequencyResponseGraph
+} from '../..'
+
 
 <Meta
   title="Getting Started"
@@ -15,10 +21,75 @@ Start by installing the DSSSP npm package and add it to your dependencies.
 npm install dsssp
 ```
 
-## Usage
+## Imports
 
-Then, import the components you need and start using them in your project.
+Then, import the components you need:
+```tsx
+import {
+  FrequencyResponseGraph,
+  CompositeCurve,
+  FilterCurve,
+  FilterPoint,
+  FilterGraidient,
+  FilterIcon
+} from 'dsssp'
+```
+
+Import the icon font for FilterIcons, FilterPoints, and custom UI elements:
 
 ```tsx
-import { FrequencyResponseGraph, FilterCurve, FilterPoint } from 'dsssp';
+import 'dsssp/font'
 ```
+
+For TypeScript, also import the relevant types:
+```tsx
+import {
+  type GraphTheme,
+  type GraphScale,
+  type GraphFilter
+} from 'dsssp'
+```
+
+Declare [some filters](?path=/docs/foundations-audio-filters--docs) to use in your first app.
+
+```tsx
+const filters: GraphFilter[] = [
+  { freq: 400, gain: 6, q: 1, type: 'PEAK' },
+  { freq: 600, gain: -8, q: 3, type: 'PEAK' },
+  { freq: 1200, gain: 2, q: 0.7, type: 'HIGHSHELF2' }
+]
+```
+
+## First application
+
+Finally, create a React app that includes a FrequencyResponseGraph and a few FilterCurves.
+
+```tsx
+const App = () => {
+  return (
+    <FrequencyResponseGraph width={800} height={480}>
+      <FilterCurve filter={filters[0]} color="#FF9966" />
+      <FilterCurve filter={filters[1]} color="#6699FF" />
+      <FilterCurve filter={filters[2]} color="#66FF66" />
+      <CompositeCurve filters={filters} />
+    </FrequencyResponseGraph>
+  )
+}
+
+export default App
+```
+
+### Result
+
+<FrequencyResponseGraph width={800} height={480}>
+  <FilterCurve filter={{ freq: 400, gain: 6, q: 1, type: 'PEAK' }} color="#FF9966" />
+  <FilterCurve filter={{ freq: 600, gain: -8, q: 3, type: 'PEAK' }} color="#6699FF" />
+  <FilterCurve filter={{ freq: 1200, gain: 2, q: 0.7, type: 'HIGHSHELF2' }} color="#66FF66" />
+  <CompositeCurve filters={[{ freq: 400, gain: 6, q: 1, type: 'PEAK' }, { freq: 600, gain: -8, q: 3, type: 'PEAK' }, { freq: 1200, gain: 2, q: 0.7, type: 'HIGHSHELF2' }]} />
+</FrequencyResponseGraph>
+
+<br/>
+<br/>
+## Next steps
+
+Take an in-depth look at the [Demo Project](?path=/docs/demo-project--docs), which demonstrates every component in a variety of use cases.
