@@ -70,11 +70,11 @@ type FilterThemeColors = {
   background?: CSSProperties['color']
   dragBackground?: CSSProperties['color']
   activeBackground?: CSSProperties['color']
+  // gradient stop color
+  // gradient's start color is always transparent, unless `fill` prop is set to true
+  gradient?: CSSProperties['color']
   // curve color
   curve?: CSSProperties['color']
-  // gradient stop color
-  // start color is always transparent, unless `staticGradient` prop is set to true
-  gradient?: CSSProperties['color']
 }
 
 export type GraphTheme = {
