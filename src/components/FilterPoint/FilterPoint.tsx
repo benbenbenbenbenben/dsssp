@@ -290,7 +290,7 @@ export const FilterPoint = ({
         fillOpacity={fillOpacity}
         stroke={strokeColor}
         strokeWidth={strokeWidth}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', pointerEvents: 'auto' }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onMouseDown={dragStart}
@@ -305,7 +305,7 @@ export const FilterPoint = ({
           fill={labelColor}
           fontSize={labelFontSize}
           fontFamily={labelFontFamily}
-          style={{ pointerEvents: 'none', ...labelStyle }}
+          style={{ ...labelStyle }}
           dangerouslySetInnerHTML={{ __html: label }}
         />
       )}

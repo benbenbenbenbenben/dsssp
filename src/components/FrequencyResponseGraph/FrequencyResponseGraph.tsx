@@ -37,8 +37,15 @@ export const FrequencyResponseGraph = forwardRef<
 
   FrequencyResponseGraph.displayName = 'FrequencyResponseGraph'
 
+  const graphId = `frequency-response-graph-${String(Math.random()).slice(2, 9)}`
+  const resetStyles = `
+  #${graphId} * {
+    pointer-events: none;
+  }`
+
   return (
     <svg
+      id={graphId}
       ref={ref}
       style={{
         width,
@@ -49,6 +56,7 @@ export const FrequencyResponseGraph = forwardRef<
       }}
       viewBox={`0 0 ${width} ${height}`}
     >
+      <style>{resetStyles}</style>
       <GraphProvider
         svgRef={ref}
         width={width}
