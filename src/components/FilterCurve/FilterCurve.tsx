@@ -14,7 +14,7 @@ export type FilterCurveProps = Omit<
   'magnitudes' | 'dotted'
 > & {
   /**
-   * Audio filter to render
+   * Filter to render
    */
   filter: GraphFilter
   /**

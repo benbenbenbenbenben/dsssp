@@ -6,7 +6,7 @@ import { useGraph } from '../..'
 
 export type FilterGradientProps = {
   /**
-   * Gradient ID
+   * Gradient Id. It is required to connect the gradient to the filter curve.
    */
   id: string
   /**
@@ -18,12 +18,16 @@ export type FilterGradientProps = {
    */
   index?: number
   /**
-   * Stop color of the gradient
+   * Stop color of the gradient.
+   *
+   * (Start color is always transparent.)
    * @default theme.filters.colors[index].gradient || theme.filters.defaultColor || '#00FF00'
    */
   color?: string
   /**
-   * Stop opacity of the gradient
+   * Stop opacity of the gradient.
+   *
+   * (Start opacity is always 0, unless `fill` flag was used.)
    * @default theme.filters.gradientOpacity || 0.7
    */
   opacity?: number
@@ -31,7 +35,7 @@ export type FilterGradientProps = {
    * Use static fill color for the gradient
    * @default theme.filters.staticGradient || false
    */
-  staticGradient?: boolean
+  fill?: boolean
 }
 
 export const FilterGradient = ({
@@ -40,7 +44,7 @@ export const FilterGradient = ({
   index = 0,
   opacity,
   color,
-  staticGradient
+  fill = false
 }: FilterGradientProps) => {
   const {
     theme: { filters }
@@ -54,8 +58,7 @@ export const FilterGradient = ({
 
   const zeroGain = useMemo(() => getZeroGain(filter.type), [filter.type])
 
-  const startColor =
-    staticGradient || filters.staticGradient ? stopColor : false
+  const startColor = fill || filters.fill ? stopColor : false
 
   if (zeroGain) {
     gradientDirection = { y1: '140%', y2: '0%' }
@@ -79,7 +82,7 @@ export const FilterGradient = ({
       />
       <stop
         offset="100%"
-        stopColor={startColor || 'black'}
+        stopColor={startColor || 'transparent'}
         stopOpacity={startColor ? stopOpacity : 0}
       />
     </linearGradient>

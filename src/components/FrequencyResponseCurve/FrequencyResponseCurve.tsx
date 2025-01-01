@@ -11,7 +11,7 @@ export type FrequencyResponseCurveProps = {
   lineWidth?: number
   dotted?: boolean
   /**
-   * Gradient ID to fill the curve with a gradient
+   * Gradient Id to fill the curve with a gradient
    */
   gradientId?: string
 }

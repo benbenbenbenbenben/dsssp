@@ -66,9 +66,7 @@ export type Story = StoryObj<typeof meta>
 const filter: GraphFilter = { freq: 500, gain: 2, q: 0.7, type: 'PEAK' }
 
 const defaultProps = {
-  filter,
-  radius: 16,
-  lineWidth: 2
+  filter
 }
 
 export const Default: Story = {

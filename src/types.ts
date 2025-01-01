@@ -144,7 +144,7 @@ export type GraphTheme = {
       background: CSSProperties['color']
     }
 
-    staticGradient?: boolean
+    fill?: boolean
     gradientOpacity: CSSProperties['opacity']
 
     defaultColor: CSSProperties['color']

@@ -138,13 +138,13 @@ export const CustomColorAndOpacity: Story = {
   ]
 }
 
-export const StaticBackground: Story = {
+export const FillBackground: Story = {
   args: {
     ...defaultProps,
     color: '#00FFFF',
     opacity: 0.2,
     id: 'gradient6',
-    staticGradient: true
+    fill: true
   },
   decorators: [
     (Story) => (
