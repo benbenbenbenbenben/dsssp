@@ -6,7 +6,7 @@ import { Meta } from '@storybook/blocks'
 <br/>
 ## Colors
 
-When indexes are assigned to filters on the graph, they use colors from the `theme.filters.colors` array. If specific colors are not defined, the filters default to `theme.filters.defaultColor`, provided that the components do not have individual color props set.
+When indexes are assigned to filters on the graph, they use colors from the `theme.filters.colors` array. If specific colors are not defined, the filters fallback to `theme.filters.defaultColor`, provided that the components do not have individual color props set.
 
 ```tsx
 theme.filters.colors = [
@@ -19,8 +19,6 @@ theme.filters.colors = [
 <FilterPoint index={0} filter={...} />
 <FilterPoint index={1} filter={...} />
 ```
-
-In the built-in theme, the `theme.filters.colors` array is empty. You need to populate it manually, as the number of filters required for your application is not known in advance.
 
 #### Structure of the Colors Object
 
