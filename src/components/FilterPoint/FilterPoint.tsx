@@ -180,7 +180,7 @@ export const FilterPoint = ({
 
     circleEl.setAttribute(
       'fill-opacity',
-      String(activeBackgroundOpacity || point?.backgroundOpacity?.active)
+      String(activeBackgroundOpacity || point.backgroundOpacity.active)
     )
     svg.removeEventListener('mousemove', dragMove)
     svg.removeEventListener('mouseup', dragEnd)
@@ -208,7 +208,7 @@ export const FilterPoint = ({
     offset.y -= parseFloat(circleEl?.getAttributeNS(null, 'cy') || '0')
     circleEl?.setAttribute(
       'fill-opacity',
-      String(dragBackgroundOpacity || point?.backgroundOpacity?.drag)
+      String(dragBackgroundOpacity || point.backgroundOpacity.drag)
     )
     svg.addEventListener('mousemove', dragMove)
     svg.addEventListener('mouseup', dragEnd)
@@ -238,13 +238,13 @@ export const FilterPoint = ({
 
   if (type === 'BYPASS') return null
 
-  const strokeWidth = lineWidth || point?.lineWidth
+  const strokeWidth = lineWidth || point.lineWidth
 
   const pointColor = color || colors?.[index]?.point || defaultColor
   const bgColor = background || colors?.[index]?.background || pointColor
 
   const strokeColor = zeroValue
-    ? zeroColor || zeroPoint?.color
+    ? zeroColor || zeroPoint.color
     : dragging
       ? dragColor || colors?.[index]?.drag || pointColor
       : active || hovered
@@ -252,7 +252,7 @@ export const FilterPoint = ({
         : pointColor
 
   const fillColor = zeroValue
-    ? zeroBackground || zeroPoint?.background
+    ? zeroBackground || zeroPoint.background
     : dragging
       ? dragBackground || colors?.[index]?.drag || bgColor
       : active || hovered
@@ -261,13 +261,13 @@ export const FilterPoint = ({
 
   const fillOpacity =
     active || hovered
-      ? (activeBackgroundOpacity ?? point?.backgroundOpacity?.active)
-      : (backgroundOpacity ?? point?.backgroundOpacity?.normal)
+      ? (activeBackgroundOpacity ?? point.backgroundOpacity?.active)
+      : (backgroundOpacity ?? point.backgroundOpacity?.normal)
 
   if (label || showIcon) {
-    labelColor ||= point?.label?.color
-    labelFontSize ||= point?.label?.fontSize
-    labelFontFamily ||= point?.label?.fontFamily
+    labelColor ||= point.label.color
+    labelFontSize ||= point.label.fontSize
+    labelFontFamily ||= point.label.fontFamily
     if (labelColor === 'inherit') labelColor = strokeColor
   }
 
@@ -284,7 +284,7 @@ export const FilterPoint = ({
         ref={circleRef}
         cx={x}
         cy={y}
-        r={radius || point?.radius}
+        r={radius || point.radius}
         fill={fillColor}
         fillOpacity={fillOpacity}
         stroke={strokeColor}

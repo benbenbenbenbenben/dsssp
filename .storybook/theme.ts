@@ -1,11 +1,12 @@
 import { create } from '@storybook/theming'
 import '@fontsource-variable/dm-sans'
+import '@fontsource-variable/reddit-mono'
 
 export default create({
   base: 'dark',
 
   fontBase: "'DM Sans Variable', sans-serif",
-  fontCode: 'monospace',
+  fontCode: "'Reddit Mono Variable', monospace",
 
   /*
     colorPrimary: string;

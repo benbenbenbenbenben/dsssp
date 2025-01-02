@@ -13,22 +13,35 @@ import {
   GraphProvider
 } from '.'
 
+// Recursive type DeepPartial
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P]
+}
+
+// Helper type Exact to ensure the absence of additional keys
+type Exact<P, I extends P> = P & Record<Exclude<keyof I, keyof P>, never>
+
+export type GraphThemeOverride = Exact<
+  DeepPartial<GraphTheme>,
+  DeepPartial<GraphTheme>
+>
+
 export const FrequencyResponseGraph = forwardRef<
   SVGSVGElement,
   {
     width: number
     height: number
     scale?: Partial<GraphScale>
-    theme?: Partial<GraphTheme>
+    theme?: GraphThemeOverride
     children?: React.ReactNode
   }
 >((props, forwardedRef): React.ReactElement => {
   const ref = useRef<SVGSVGElement>(null)
   useImperativeHandle(forwardedRef, () => ref.current!)
 
-  const { width, height, scale, theme, children } = props
-  const mergedTheme: GraphTheme = merge(defaultTheme, theme ?? {})
-  const mergedScale: GraphScale = merge(defaultScale, scale ?? {}, {
+  const { width, height, scale = {}, theme = {}, children } = props
+  const mergedTheme: GraphTheme = merge(defaultTheme, theme as GraphTheme)
+  const mergedScale: GraphScale = merge(defaultScale, scale, {
     arrayMerge: (_, source) => source // overwrite arrays
   })
 

@@ -63,7 +63,7 @@ export const CustomTheme: Story = {
         },
         gradient: {
           start: '#141D22',
-          end: '#141D22'
+          stop: '#141D22'
         },
         label: {
           fontSize: 10,

@@ -18,10 +18,10 @@ export const MouseTracker = ({
   gainPrecision = 1
 }: MouseTrackerProps) => {
   const {
+    svgRef,
     width,
     height,
-    scale,
-    svgRef,
+    scale: { minGain, maxGain, minFreq, maxFreq },
     theme: {
       background: {
         tracker,
@@ -30,12 +30,12 @@ export const MouseTracker = ({
     }
   } = useGraph()
 
-  const { minGain, maxGain, minFreq, maxFreq } = scale
-
   const strokeDasharray = '1,3'
   const color = lineColor || tracker.lineColor
   const strokeWidth = lineWidth || tracker.lineWidth
   const fillColor = backgroundColor || tracker.backgroundColor
+
+  const fontSizePadding = (fontSize || 0) + 3
 
   const [freqWidth, setFreqWidth] = useState(0)
   const [gainWidth, setGainWidth] = useState(0)
@@ -92,8 +92,6 @@ export const MouseTracker = ({
   }, [])
 
   if (!trackMouse) return null
-
-  const fontSizePadding = fontSize + 3
 
   return (
     <React.Fragment>

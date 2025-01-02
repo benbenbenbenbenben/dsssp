@@ -90,7 +90,7 @@ export type GraphTheme = {
     }
     gradient: {
       start: CSSProperties['color']
-      end: CSSProperties['color']
+      stop: CSSProperties['color']
     }
 
     label: {
@@ -106,48 +106,48 @@ export type GraphTheme = {
   }
 
   curve: {
-    width?: number
-    color?: CSSProperties['color']
-    opacity?: CSSProperties['opacity']
+    width: number
+    color: CSSProperties['color']
+    opacity: CSSProperties['opacity']
   }
 
   filters: {
-    curve?: {
-      width?: {
-        normal?: number
-        active?: number
+    curve: {
+      width: {
+        normal: number
+        active: number
       }
 
-      opacity?: {
-        normal?: CSSProperties['opacity']
-        active?: CSSProperties['opacity']
-      }
-    }
-
-    point?: {
-      radius?: number
-      lineWidth?: number
-      backgroundOpacity?: {
-        drag?: CSSProperties['opacity']
-        active?: CSSProperties['opacity']
-        normal?: CSSProperties['opacity']
-      }
-      label?: {
-        fontSize?: number
-        fontFamily?: string
-        color?: CSSProperties['color'] | 'inherit'
+      opacity: {
+        normal: CSSProperties['opacity']
+        active: CSSProperties['opacity']
       }
     }
 
-    zeroPoint?: {
-      color?: CSSProperties['color']
-      background?: CSSProperties['color']
+    point: {
+      radius: number
+      lineWidth: number
+      backgroundOpacity: {
+        drag: CSSProperties['opacity']
+        active: CSSProperties['opacity']
+        normal: CSSProperties['opacity']
+      }
+      label: {
+        fontSize: number
+        fontFamily: string
+        color: CSSProperties['color'] | 'inherit'
+      }
     }
 
-    fill?: boolean
-    gradientOpacity?: CSSProperties['opacity']
+    zeroPoint: {
+      color: CSSProperties['color']
+      background: CSSProperties['color']
+    }
 
-    defaultColor?: CSSProperties['color']
-    colors?: FilterThemeColors[]
+    fill: boolean
+    gradientOpacity: CSSProperties['opacity']
+
+    defaultColor: CSSProperties['color']
+    colors: FilterThemeColors[]
   }
 }

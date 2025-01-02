@@ -20,9 +20,6 @@ theme.filters.colors = [
 <FilterPoint index={1} filter={...} />
 ```
 
-`drag` and `active` colors for both points and backgrounds may not be assigned. In this case, the component will fallback to the `point` color for all states. [FilterCurve](?path=/docs/components-filtercurve--docs) also uses the `active` color value to highlight itself when the active flag is set.
-
-
 #### Structure of the Colors Object
 
 ```ts
@@ -42,3 +39,4 @@ type FilterThemeColors = {
   curve?: CSSProperties['color']
 }
 ```
+`drag` and `active` colors for both points and backgrounds may not be assigned. In this case, the component will fallback to the `point` color for all states. [FilterCurve](?path=/docs/components-filtercurve--docs) also uses the `active` color value to highlight itself when the active flag is set.

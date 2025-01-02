@@ -10,7 +10,7 @@ export const defaultTheme: GraphTheme = {
     // background gradient
     gradient: {
       start: '#1E2530',
-      end: '#000000'
+      stop: '#000000'
     },
     // frequency and gain labels
     label: {

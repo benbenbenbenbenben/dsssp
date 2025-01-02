@@ -4,7 +4,7 @@ export const GraphGradient = () => {
   const {
     theme: {
       background: {
-        gradient: { start, end },
+        gradient: { start, stop },
         grid: {
           lineColor,
           lineWidth: { border: borderWidth }
@@ -29,7 +29,7 @@ export const GraphGradient = () => {
         />
         <stop
           offset="100%"
-          stopColor={end}
+          stopColor={stop}
         />
       </linearGradient>
       <rect

@@ -53,6 +53,7 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.3",
     "@fontsource-variable/dm-sans": "^5.1.1",
+    "@fontsource-variable/reddit-mono": "^5.1.1",
     "@fontsource/iosevka-etoile": "^5.1.0",
     "@fontsource/monaspace-krypton": "^5.1.0",
     "@storybook/addon-actions": "^8.4.7",

@@ -10,12 +10,30 @@ import ThemeSourceCode from '../../theme.ts?raw'
 
 The library offers two levels of customization: **themes** and **configuration props** for individual components.
 
-Theme object is a unified way to manage the look and feel of the Frequency Response Graph, Filters, Curves and Gradients. Consider it as **one ring to rule them all**. Filter Components also have their own properties to control colors, sizes, and other visual aspects, but they should be mostly used for fine-tuning and overrides.
+Theme object provides a centralized way to manage the look and feel of all components: Frequency Response Graph, Filters, Curves and Gradients. <br/>
+Think of it as **the one ring to rule them all** in your theming hierarchy. While individual Filter Components have their own properties for colors, sizes, and other visual aspects, these should be primarily used for fine-tuning and overrides.
 
-The `GraphTheme` object passed as a property of the `FrequencyResponseGraph` component will be applied on top of the default theme. This way, you can easily change only some colors or sizes without the need to redefine the whole theme. The same goes for the `GraphScale` property.
+The `GraphTheme` object, when passed as a property to the `FrequencyResponseGraph` component, merges with the default theme. This allows you to modify specific visual elements without redefining the entire theme structure. The same behavior applies to the `GraphScale` property, which controls the graph's [scaling](?path=/docs/container-frequencyresponsegraph--docs) parameters.
 
 #### Structure of the Default Theme
 
 <Source dark code={'{\n' + ThemeSourceCode.split("\n").slice(3).join("\n")} language="javascript" />
 
-In the built-in theme, the `filters.colors` array is empty by design. You need to populate it manually, as the number of filters required for your application is not known in advance. Read the [next section](?path=/docs/foundations-colors--docs) to learn how to setup the colors.
+Since each application may require a different number of filters, the `filters.colors` array in the built-in theme is empty by design. You'll need to populate it with your color values - check out the [next section](?path=/docs/foundations-colors--docs) to learn more.
+
+TypeScript developers can use the `GraphThemeOverride` type when customizing theme parameters. This type ensures that only valid predefined keys and values can be used,  safeguarding against typos.
+
+```tsx
+import { type GraphThemeOverride } from 'dsssp'
+
+const customTheme: GraphThemeOverride = {
+  background: {
+    gradient: {
+      start: '#333333',
+      stop: '#000000',
+      extraKey: 'value' // TypeScript Error: Object literal may only specify known properties
+    }
+  }
+  // ...
+}
+```

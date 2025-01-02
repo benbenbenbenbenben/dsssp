@@ -114,18 +114,18 @@ export const FilterCurve = ({
 
   const normalColor = color || colors?.[index]?.curve || defaultColor
   const curveColor = zeroValue
-    ? zeroPoint?.color
+    ? zeroPoint.color
     : active
       ? activeColor || colors?.[index]?.active || normalColor
       : normalColor
 
   const curveOpacity = active
-    ? activeOpacity || curve?.opacity?.active
-    : opacity || curve?.opacity?.normal
+    ? activeOpacity || curve.opacity.active
+    : opacity || curve.opacity.normal
 
   const curveWidth = active
-    ? activeLineWidth || curve?.width?.active
-    : lineWidth || curve?.width?.normal
+    ? activeLineWidth || curve.width.active
+    : lineWidth || curve.width.normal
 
   return (
     <>
