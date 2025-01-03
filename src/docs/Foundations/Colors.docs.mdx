@@ -8,11 +8,15 @@ import { Meta } from '@storybook/blocks'
 
 When indexes are assigned to filters on the graph, they use colors from the `theme.filters.colors` array. If specific colors are not defined, filters fallback to `theme.filters.defaultColor`, provided that the components do not have individual color props set.
 
-```tsx
-theme.filters.colors = [
-  { point: 'red', drag: 'orange', active: 'blue' },
-  { point: 'green', drag: 'yellow', active: 'purple' }
-]
+```jsx
+const customTheme: GraphThemeOverride = {
+  filters: {
+    colors: [
+      { point: 'red', drag: 'orange', active: 'blue' },
+      { point: 'green', drag: 'yellow', active: 'purple' }
+    ]
+  }
+}
 
 // ...
 
