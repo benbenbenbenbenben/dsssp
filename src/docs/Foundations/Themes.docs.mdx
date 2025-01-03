@@ -17,13 +17,13 @@ The `GraphTheme` object, when passed as a property to the `FrequencyResponseGrap
 
 #### Structure of the Default Theme
 
-<Source dark code={'{\n' + ThemeSourceCode.split("\n").slice(3).join("\n")} language="javascript" />
+<Source dark code={ThemeSourceCode.split("\n").slice(2).join("\n")} language="javascript" />
 
 Since each application may require a different number of filters, the `filters.colors` array in the built-in theme is empty by design. You'll need to populate it with your color values - check out the [next section](?path=/docs/foundations-colors--docs) to learn more.
 
 TypeScript developers can use the `GraphThemeOverride` type when customizing theme parameters. This type ensures that only valid predefined keys and values can be used,  safeguarding against typos.
 
-```tsx
+```jsx
 import { type GraphThemeOverride } from 'dsssp'
 
 const customTheme: GraphThemeOverride = {
@@ -34,6 +34,9 @@ const customTheme: GraphThemeOverride = {
       extraKey: 'value' // TypeScript Error: Object literal may only specify known properties
     }
   }
-  // ...
 }
+
+// ...
+
+<FrequencyResponseGraph theme={customTheme} />
 ```
