@@ -21,7 +21,7 @@ import { useGraph } from '../..'
 
 import '../../icons/font.css'
 
-export type FilterChangeEvent = GraphFilter & {
+export type FilterChangeEvent = Partial<GraphFilter> & {
   index: number
   ended?: boolean
 }
@@ -300,7 +300,7 @@ export const FilterPoint = ({
           x={x}
           y={y}
           textAnchor="middle"
-          alignmentBaseline="central"
+          dominantBaseline="central"
           fill={labelColor}
           fontSize={labelFontSize}
           fontFamily={labelFontFamily}

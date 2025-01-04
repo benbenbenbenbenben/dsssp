@@ -7,6 +7,7 @@ import { useGraph } from '../..'
 export type MouseTrackerProps = {
   lineWidth?: number
   lineColor?: CSSProperties['color']
+  labelColor?: CSSProperties['color']
   backgroundColor?: CSSProperties['color']
   gainPrecision?: number
 }
@@ -14,6 +15,7 @@ export type MouseTrackerProps = {
 export const MouseTracker = ({
   lineWidth,
   lineColor,
+  labelColor,
   backgroundColor,
   gainPrecision = 1
 }: MouseTrackerProps) => {
@@ -31,9 +33,10 @@ export const MouseTracker = ({
   } = useGraph()
 
   const strokeDasharray = '1,3'
-  const color = lineColor || tracker.lineColor
+  const strokeColor = lineColor || tracker.lineColor
   const strokeWidth = lineWidth || tracker.lineWidth
   const fillColor = backgroundColor || tracker.backgroundColor
+  const color = labelColor || tracker.labelColor
 
   const fontSizePadding = (fontSize || 0) + 3
 
@@ -99,7 +102,7 @@ export const MouseTracker = ({
         width={freqWidth + 6}
         height={fontSizePadding}
         fill={backgroundColor}
-        stroke={color}
+        stroke={strokeColor}
         x={mouse.x - freqWidth / 2 - 3}
         y={height - fontSizePadding - 1}
       ></rect>
@@ -118,7 +121,7 @@ export const MouseTracker = ({
         width={gainWidth + 6}
         height={fontSizePadding}
         fill={fillColor}
-        stroke={color}
+        stroke={strokeColor}
         x={0.5}
         y={mouse.y - 7}
       ></rect>
@@ -138,7 +141,7 @@ export const MouseTracker = ({
         x2={width}
         y1={mouse.y}
         y2={mouse.y}
-        stroke={color}
+        stroke={strokeColor}
         strokeWidth={strokeWidth}
         strokeDasharray={strokeDasharray}
         strokeLinecap="round"
@@ -149,7 +152,7 @@ export const MouseTracker = ({
         x2={mouse.x}
         y1={0}
         y2={height - 14}
-        stroke={color}
+        stroke={strokeColor}
         strokeWidth={strokeWidth}
         strokeDasharray={strokeDasharray}
         strokeLinecap="round"

@@ -101,6 +101,7 @@ export type GraphTheme = {
     tracker: {
       lineWidth: number
       lineColor: CSSProperties['color']
+      labelColor: CSSProperties['color']
       backgroundColor: CSSProperties['color']
     }
   }

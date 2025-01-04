@@ -22,6 +22,7 @@ export const defaultTheme: GraphTheme = {
     tracker: {
       lineWidth: 0.5,
       lineColor: '#7B899D',
+      labelColor: '#626F84',
       backgroundColor: '#070C18'
     }
   },
