@@ -22,15 +22,9 @@ Visit [link-to-your-docs](link-to-your-docs) to view the full documentation.
 
 Our documentation includes a full-scale [demo project](link-to-your-demo) that showcases each library component across various use cases and provides a starting point for your own projects.
 
-## Contact
-
-For questions or commercial licensing, email [alex.strelets@gmail.com](mailto:alex.strelets@gmail.com).
-
 ## Licensing
 
 This project is licensed under the [GNU AGPL-3.0 License](LICENSE), which ensures that any modifications or use of this library in networked services must be shared under the same license.
-
-This project includes code from `pure-knob`, developed by Andre Plötze, and licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). See the `NOTICE` file for details.
 
 ### Commercial License
 
