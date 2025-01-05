@@ -1,6 +1,6 @@
 import { Meta, IconGallery, IconItem, Canvas } from '@storybook/blocks'
 import { FilterIcon , HighShelfIcon, PeakIcon} from '../../components'
-import { filterKeys } from '../..'
+import { filterTypeKeys } from '../..'
 import { getIconSymbol } from '../../utils'
 import '../../icons/font.css'
 import '@fontsource/monaspace-krypton'
@@ -16,7 +16,7 @@ The library provides an extensive SVG canvas to visualize audio filters in their
 <br/>
 <br/>
 <IconGallery>
-{filterKeys.map((key) => (
+{filterTypeKeys.map((key) => (
   <IconItem key={key} name={<div>{key}<div style={{ paddingTop: '4px', fontSize: '85%', color: '#666' }}>{getIconSymbol(key)}</div></div>}>
     <FilterIcon type={key} />
   </IconItem>
