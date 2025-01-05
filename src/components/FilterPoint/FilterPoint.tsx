@@ -136,8 +136,6 @@ export const FilterPoint = ({
   const moveFreq = useRef(filterFreq)
   const moveGain = useRef(filterGain)
 
-  const zeroValue = moveGain.current === 0 && !zeroGain
-
   const dragMove = (e: MouseEvent) => {
     if (!circleRef.current) return
     const { x, y } = getMousePosition(e)
@@ -239,9 +237,10 @@ export const FilterPoint = ({
   if (type === 'BYPASS') return null
 
   const strokeWidth = lineWidth || point.lineWidth
-
   const pointColor = color || colors?.[index]?.point || defaultColor
   const bgColor = background || colors?.[index]?.background || pointColor
+
+  const zeroValue = filterGain === 0 && !zeroGain
 
   const strokeColor = zeroValue
     ? zeroColor || zeroPoint.color
