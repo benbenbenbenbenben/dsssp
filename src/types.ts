@@ -18,7 +18,7 @@ export const filterTypes = {
 }
 
 export type FilterType = keyof typeof filterTypes
-export const filterKeys = Object.keys(filterTypes) as FilterType[]
+export const filterTypeKeys = Object.keys(filterTypes) as FilterType[]
 
 export type Magnitude = {
   magnitude: number
