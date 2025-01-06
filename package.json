@@ -1,6 +1,6 @@
 {
   "name": "dsssp",
-  "private": true,
+  "private": false,
   "version": "0.1.1",
   "description": "Library of React DSP Charts and Filters.",
   "author": "Oleksiy Strelets",
