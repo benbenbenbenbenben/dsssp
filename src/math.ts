@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-bitwise */
 import {
   type BiQuadFunction,
@@ -63,6 +64,12 @@ export function calcBiquadFunction(
   let B1 = 0
   let B2 = 0
   let norm
+
+  // Clamping input values to valid ranges
+  sampleRate = Math.max(1, sampleRate) // Minimum sample rate of 1 Hz
+  frequency = Math.max(0, Math.min(frequency, sampleRate / 2)) // Nyquist limit
+  Q = Math.max(0.0001, Q) // Avoid division by zero
+  peakGain = Math.max(-120, Math.min(peakGain, 120)) // Limit gain range
 
   const V = 10 ** (Math.abs(peakGain) / 20)
   const K = Math.tan((Math.PI * frequency) / sampleRate)
@@ -223,19 +230,19 @@ export function calcBiquadFunction(
       B1 = 0
       B2 = 0
       break
-    // case "one-pole lp":
-    // 	B1 = Math.exp(-2.0 * Math.PI * (frequency / sampleRate));
-    // 	A0 = 1.0 - B1;
-    // 	B1 = -B1;
-    // 	A1 = A2 = B2 = 0;
-    // 	break;
+    case 'ONEPOLE_LP':
+      B1 = Math.exp(-2.0 * Math.PI * (frequency / sampleRate))
+      A0 = 1.0 - B1
+      B1 = -B1
+      A1 = A2 = B2 = 0
+      break
 
-    // case "one-pole hp":
-    // 	B1 = -Math.exp(-2.0 * Math.PI * (0.5 - frequency / sampleRate));
-    // 	A0 = 1.0 + B1;
-    // 	B1 = -B1;
-    // 	A1 = A2 = B2 = 0;
-    // 	break;
+    case 'ONEPOLE_HP':
+      B1 = -Math.exp(-2.0 * Math.PI * (0.5 - frequency / sampleRate))
+      A0 = 1.0 + B1
+      B1 = -B1
+      A1 = A2 = B2 = 0
+      break
     default:
       console.error('calcBiquadFunction: unknown filter type')
   }

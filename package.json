@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.1.0",
   "description": "Library of React DSP Charts and Filters.",
-  "author": "Alex Strelets",
-  "license": "MIT",
+  "author": "Oleksiy Strelets",
+  "license": "AGPL-3.0-only",
   "type": "module",
   "files": [
     "dist"
