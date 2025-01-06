@@ -70,7 +70,9 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives",
     "lint:fix": "eslint . --ext ts,tsx --fix",
     "format": "prettier . --write --ignore-unknown",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "version-patch": "npm version patch",
+    "publish:alpha": "npm publish --tag alpha"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.3",
