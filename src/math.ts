@@ -230,19 +230,19 @@ export function calcBiquadFunction(
       B1 = 0
       B2 = 0
       break
-    case 'ONEPOLE_LP':
-      B1 = Math.exp(-2.0 * Math.PI * (frequency / sampleRate))
-      A0 = 1.0 - B1
-      B1 = -B1
-      A1 = A2 = B2 = 0
-      break
+    // case 'ONEPOLE_LP':
+    //   B1 = Math.exp(-2.0 * Math.PI * (frequency / sampleRate))
+    //   A0 = 1.0 - B1
+    //   B1 = -B1
+    //   A1 = A2 = B2 = 0
+    //   break
 
-    case 'ONEPOLE_HP':
-      B1 = -Math.exp(-2.0 * Math.PI * (0.5 - frequency / sampleRate))
-      A0 = 1.0 + B1
-      B1 = -B1
-      A1 = A2 = B2 = 0
-      break
+    // case 'ONEPOLE_HP':
+    //   B1 = -Math.exp(-2.0 * Math.PI * (0.5 - frequency / sampleRate))
+    //   A0 = 1.0 + B1
+    //   B1 = -B1
+    //   A1 = A2 = B2 = 0
+    //   break
     default:
       console.error('calcBiquadFunction: unknown filter type')
   }

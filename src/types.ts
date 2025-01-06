@@ -13,9 +13,9 @@ export const filterTypes = {
   LOWPASS2: 0x0a,
   BANDPASS: 0x0b,
   NOTCH: 0x05,
-  GAIN: 0x0c,
-  ONEPOLE_HP: 0x0d,
-  ONEPOLE_LP: 0x0e
+  GAIN: 0x0c
+  // ONEPOLE_HP: 0x0d,
+  // ONEPOLE_LP: 0x0e
   // COEFFICIENTS: 0x10
 }
 
