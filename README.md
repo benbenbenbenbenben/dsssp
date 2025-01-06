@@ -1,6 +1,6 @@
 # DSSSP
 
-## React Library for Audio Processing
+## React Library for Audio Processing and Visualization
 
 This is a React component library for visualizing and managing audio filters. These components are designed to serve as the core UI elements of audio editing tools and interfaces, enabling users to interactively configure all filter parameters. Essentially, it is a conversion of proprietary audio processing and visualization tools from professional desktop software to a web-based environment.
 
