@@ -20,12 +20,12 @@ Visit [link-to-your-docs](link-to-your-docs) to view the full documentation.
 
 ## Examples
 
-Our documentation includes a full-scale [demo project](link-to-your-demo) that showcases each library component across various use cases and provides a starting point for your own projects.
+Our documentation includes a full-scale [demo project](https://numberonebot.github.io/dsssp-demo/) that showcases each library component across various use cases and provides a starting point for your own projects.
 
 ## Licensing
 
 This project is licensed under the [GNU AGPL-3.0 License](LICENSE), which ensures that any modifications or use of this library in networked services must be shared under the same license.
 
-### Commercial License
+### Contact
 
-If you wish to use this software in a **closed-source commercial project** without disclosing your source code, please contact the author at [alex.strelets@gmail.com](mailto:alex.strelets@gmail.com) to obtain a **commercial license**.
+If you have any questions, feedback, or would like to discuss commercial licensing, please reach out to the author at [alex.strelets@gmail.com](mailto:alex.strelets@gmail.com).
