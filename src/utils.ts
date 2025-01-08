@@ -1,12 +1,18 @@
 import type { CSSProperties } from 'react'
 import { type FilterType } from './types'
 
-export const getMousePosition = (e: MouseEvent) => {
+export const getPointerPosition = (e: MouseEvent | TouchEvent) => {
   const CTM = (e.target as SVGGraphicsElement).getScreenCTM()
-  if (!CTM) return { x: e.clientX, y: e.clientY }
+  const clientX = 'touches' in e ? e.touches[0]!.clientX : e.clientX
+  const clientY = 'touches' in e ? e.touches[0]!.clientY : e.clientY
+
+  if (!CTM) {
+    return { x: clientX, y: clientY }
+  }
+
   return {
-    x: (e.clientX - CTM.e) / CTM.a,
-    y: (e.clientY - CTM.f) / CTM.d
+    x: (clientX - CTM.e) / CTM.a,
+    y: (clientY - CTM.f) / CTM.d
   }
 }
 

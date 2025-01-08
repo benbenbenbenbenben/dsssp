@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState, type CSSProperties } from 'react'
 
 import { calcFrequency, calcMagnitude, fastFloor } from '../../math'
-import { getMousePosition } from '../../utils'
+import { getPointerPosition } from '../../utils'
 import { useGraph } from '../..'
 
-export type MouseTrackerProps = {
+export type PointerTrackerProps = {
   lineWidth?: number
   lineColor?: CSSProperties['color']
   labelColor?: CSSProperties['color']
@@ -12,13 +12,13 @@ export type MouseTrackerProps = {
   gainPrecision?: number
 }
 
-export const MouseTracker = ({
+export const PointerTracker = ({
   lineWidth,
   lineColor,
   labelColor,
   backgroundColor,
   gainPrecision = 1
-}: MouseTrackerProps) => {
+}: PointerTrackerProps) => {
   const {
     svgRef,
     width,
@@ -50,8 +50,9 @@ export const MouseTracker = ({
   const freqLabelRef = useRef<SVGTextElement | null>(null)
   const gainLabelRef = useRef<SVGTextElement | null>(null)
 
-  const mouseMove = (e: MouseEvent) => {
-    const { x, y } = getMousePosition(e)
+  const mouseMove = (e: MouseEvent | TouchEvent) => {
+    e.preventDefault() // Prevent scrolling on touch
+    const { x, y } = getPointerPosition(e)
     setMouse({ x, y })
 
     const newGain = calcMagnitude(y, minGain, maxGain, height).toFixed(
@@ -83,12 +84,33 @@ export const MouseTracker = ({
     }
   }, [gainLabel])
 
+  const handleMouseEnter = () => setTrackMouse(true)
+  const handleMouseLeave = () => setTrackMouse(false)
+  const handleTouchStart = () => setTrackMouse(true)
+  const handleTouchEnd = () => setTrackMouse(false)
+  const handleTouchCancel = () => setTrackMouse(false)
+
   useEffect(() => {
-    if (!svgRef.current) return
-    svgRef.current.addEventListener('mouseenter', () => setTrackMouse(true))
-    svgRef.current.addEventListener('mouseleave', () => setTrackMouse(false))
-    svgRef.current?.addEventListener('mousemove', mouseMove)
-  }, [svgRef])
+    const svg = svgRef.current
+    if (!svg) return
+    svg.addEventListener('mouseenter', handleMouseEnter)
+    svg.addEventListener('mouseleave', handleMouseLeave)
+    svg.addEventListener('mousemove', mouseMove)
+    svg.addEventListener('touchstart', handleTouchStart)
+    svg.addEventListener('touchmove', mouseMove)
+    svg.addEventListener('touchend', handleTouchEnd)
+    svg.addEventListener('touchcancel', handleTouchCancel)
+
+    return () => {
+      svg.removeEventListener('mouseenter', handleMouseEnter)
+      svg.removeEventListener('mouseleave', handleMouseLeave)
+      svg.removeEventListener('mousemove', mouseMove)
+      svg.removeEventListener('touchstart', handleTouchStart)
+      svg.removeEventListener('touchmove', mouseMove)
+      svg.removeEventListener('touchend', handleTouchEnd)
+      svg.removeEventListener('touchcancel', handleTouchCancel)
+    }
+  }, [svgRef.current])
 
   useEffect(() => {
     setTrackMouse(true)

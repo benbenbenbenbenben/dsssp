@@ -1,12 +1,12 @@
 import React from 'react'
 import { type Meta, type StoryObj } from '@storybook/react'
 
-import { MouseTracker } from '.'
+import { PointerTracker } from '.'
 import { FrequencyResponseGraph } from '../..'
 
 const meta = {
-  title: 'Components/MouseTracker',
-  component: MouseTracker,
+  title: 'Components/PointerTracker',
+  component: PointerTracker,
   decorators: [
     (Story) => (
       <FrequencyResponseGraph
@@ -27,7 +27,7 @@ const meta = {
     backgroundColor: { control: { type: 'color' } },
     gainPrecision: { control: { type: 'number' } }
   }
-} satisfies Meta<typeof MouseTracker>
+} satisfies Meta<typeof PointerTracker>
 
 export default meta
 

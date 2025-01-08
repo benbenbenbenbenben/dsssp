@@ -14,7 +14,7 @@ import { type GraphFilter } from '../../types'
 import {
   getIconStyles,
   getIconSymbol,
-  getMousePosition,
+  getPointerPosition,
   getZeroGain
 } from '../../utils'
 import { useGraph } from '../..'
@@ -136,31 +136,36 @@ export const FilterPoint = ({
   const moveFreq = useRef(filterFreq)
   const moveGain = useRef(filterGain)
 
-  const dragMove = (e: MouseEvent) => {
+  const dragMove = (e: MouseEvent | TouchEvent) => {
+    e.preventDefault() // Prevent scrolling on touch
     if (!circleRef.current) return
-    const { x, y } = getMousePosition(e)
+    const svgBounds = svgRef.current?.getBoundingClientRect()
+    if (!svgBounds) return
+
+    const { x, y } = getPointerPosition(e)
+    const offsetX = x - (svgBounds.left ?? 0)
+    const offsetY = y - (svgBounds.top ?? 0)
 
     if (dragX) {
-      cx = limitRange(x - offset.x, 0, width)
+      cx = limitRange(offsetX - offset.x, 0, width)
       circleRef.current.setAttributeNS(null, 'cx', String(cx))
       labelRef.current?.setAttributeNS(null, 'x', String(cx))
       moveFreq.current = stripTail(
         limitRange(calcFrequency(cx, width, minFreq, maxFreq), minFreq, maxFreq)
       )
     }
-
     if (dragY) {
       if (zeroGain) {
         cy = centerY
       } else {
-        cy = limitRange(y - offset.y, 0, height)
+        cy = limitRange(offsetY - offset.y, 0, height)
       }
       circleRef.current.setAttributeNS(null, 'cy', String(cy))
       labelRef.current?.setAttributeNS(null, 'y', String(cy))
       const gain = stripTail(calcMagnitude(cy, minGain, maxGain, height))
-      // TODO: move this rounding to props
       moveGain.current = gain < 0.05 && gain > -0.05 ? 0 : gain
     }
+
     onChange?.({
       index,
       ...filter,
@@ -169,20 +174,30 @@ export const FilterPoint = ({
     })
   }
 
-  const dragEnd = (e: MouseEvent) => {
-    dragMove(e)
+  const dragEnd = (e: MouseEvent | TouchEvent) => {
     const svg = svgRef.current
     const circleEl = circleRef.current
-
     if (!svg || !circleEl) return
+
+    const touchEvent = 'touches' in e
 
     circleEl.setAttribute(
       'fill-opacity',
-      String(activeBackgroundOpacity || point.backgroundOpacity.active)
+      String(
+        touchEvent
+          ? (backgroundOpacity ?? point.backgroundOpacity.normal)
+          : (activeBackgroundOpacity ?? point.backgroundOpacity.active)
+      )
     )
+
     svg.removeEventListener('mousemove', dragMove)
     svg.removeEventListener('mouseup', dragEnd)
     svg.removeEventListener('mouseleave', dragEnd)
+    // Remove touch listeners as well
+    circleEl.removeEventListener('touchmove', dragMove)
+    circleEl.removeEventListener('touchend', dragEnd)
+    circleEl.removeEventListener('touchcancel', dragEnd)
+
     setDragging(false)
     onChange?.({
       index,
@@ -194,23 +209,34 @@ export const FilterPoint = ({
     onDrag?.(false)
   }
 
-  const dragStart = (e: React.MouseEvent<SVGCircleElement, MouseEvent>) => {
+  const dragStart = (e: MouseEvent | TouchEvent) => {
+    e.preventDefault()
     const svg = svgRef.current
     const circleEl = circleRef.current
-
     if (!svg || !circleEl) return
 
     setDragging(true)
-    offset = getMousePosition(e as unknown as MouseEvent)
-    offset.x -= parseFloat(circleEl?.getAttributeNS(null, 'cx') || '0')
-    offset.y -= parseFloat(circleEl?.getAttributeNS(null, 'cy') || '0')
-    circleEl?.setAttribute(
+    const svgBounds = svg.getBoundingClientRect()
+    const { x, y } = getPointerPosition(e)
+    const { left, top } = svgBounds
+
+    offset = {
+      x: x - left - parseFloat(circleEl.getAttributeNS(null, 'cx') || '0'),
+      y: y - top - parseFloat(circleEl.getAttributeNS(null, 'cy') || '0')
+    }
+
+    circleEl.setAttribute(
       'fill-opacity',
       String(dragBackgroundOpacity || point.backgroundOpacity.drag)
     )
+
     svg.addEventListener('mousemove', dragMove)
     svg.addEventListener('mouseup', dragEnd)
     svg.addEventListener('mouseleave', dragEnd)
+    circleEl.addEventListener('touchmove', dragMove, { passive: false })
+    circleEl.addEventListener('touchend', dragEnd)
+    circleEl.addEventListener('touchcancel', dragEnd)
+
     onDrag?.(true)
   }
 
@@ -291,7 +317,8 @@ export const FilterPoint = ({
         style={{ cursor: 'pointer', pointerEvents: 'auto' }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onMouseDown={dragStart}
+        onMouseDown={(e) => dragStart(e as unknown as MouseEvent)}
+        onTouchStart={(e) => dragStart(e as unknown as TouchEvent)}
       />
       {Boolean(label) && (
         <text
