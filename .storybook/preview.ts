@@ -44,7 +44,7 @@ const preview: Preview = {
             'FilterPoint',
             'FilterGradient',
             'FilterIcon',
-            'MouseTracker'
+            'PointerTracker'
           ],
           'Roadmap'
         ]
