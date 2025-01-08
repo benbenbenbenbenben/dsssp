@@ -138,6 +138,7 @@ export const FilterPoint = ({
 
   const dragMove = (e: MouseEvent | TouchEvent) => {
     e.preventDefault() // Prevent scrolling on touch
+    e.stopPropagation()
     if (!circleRef.current) return
     const svgBounds = svgRef.current?.getBoundingClientRect()
     if (!svgBounds) return
@@ -175,6 +176,8 @@ export const FilterPoint = ({
   }
 
   const dragEnd = (e: MouseEvent | TouchEvent) => {
+    e.preventDefault() // Prevent scrolling on touch
+    e.stopPropagation()
     const svg = svgRef.current
     const circleEl = circleRef.current
     if (!svg || !circleEl) return
@@ -210,7 +213,8 @@ export const FilterPoint = ({
   }
 
   const dragStart = (e: MouseEvent | TouchEvent) => {
-    e.preventDefault()
+    e.preventDefault() // Prevent scrolling on touch
+    e.stopPropagation()
     const svg = svgRef.current
     const circleEl = circleRef.current
     if (!svg || !circleEl) return
@@ -233,7 +237,7 @@ export const FilterPoint = ({
     svg.addEventListener('mousemove', dragMove)
     svg.addEventListener('mouseup', dragEnd)
     svg.addEventListener('mouseleave', dragEnd)
-    circleEl.addEventListener('touchmove', dragMove, { passive: false })
+    circleEl.addEventListener('touchmove', dragMove)
     circleEl.addEventListener('touchend', dragEnd)
     circleEl.addEventListener('touchcancel', dragEnd)
 
