@@ -3,6 +3,7 @@ import type React from 'react'
 import { useMemo, useRef, useState, type CSSProperties } from 'react'
 
 import {
+  calcFilterFunction,
   calcFrequency,
   calcMagnitude,
   getCenterLine,
@@ -10,7 +11,7 @@ import {
   scaleMagnitude,
   stripTail
 } from '../../math'
-import { type GraphFilter } from '../../types'
+import { type BiQuadFunction, type GraphFilter } from '../../types'
 import {
   getIconStyles,
   getIconSymbol,
@@ -24,6 +25,8 @@ import '../../icons/font.css'
 export type FilterChangeEvent = Partial<GraphFilter> & {
   index: number
   ended?: boolean
+  // precalculated BiQuad coefficients for the filter, generated only for the last event
+  vars?: BiQuadFunction
 }
 
 export type FilterPointProps = {
@@ -202,12 +205,20 @@ export const FilterPoint = ({
     circleEl.removeEventListener('touchcancel', dragEnd)
 
     setDragging(false)
+    const newFilter = {
+      ...filter,
+      freq: moveFreq.current,
+      gain: moveGain.current
+    }
+    const vars = calcFilterFunction(newFilter, scale)
+
     onChange?.({
       index,
       ...filter,
       freq: moveFreq.current,
       gain: moveGain.current,
-      ended: true
+      ended: true,
+      vars
     })
     onDrag?.(false)
   }

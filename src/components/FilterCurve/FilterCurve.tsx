@@ -1,7 +1,7 @@
-import { type CSSProperties } from 'react'
+import { useEffect, useRef, type CSSProperties } from 'react'
 
-import { calcCurve } from '../../math'
-import { type GraphFilter } from '../../types'
+import { calcFilterFunction, calcFilterMagnitudes } from '../../math'
+import { type BiQuadFunction, type GraphFilter } from '../../types'
 import {
   type FrequencyResponseCurveProps,
   FrequencyResponseCurve,
@@ -71,6 +71,13 @@ export type FilterCurveProps = Omit<
    * @default 2
    */
   resolutionFactor?: number
+  /**
+   * Callback invoked when the BiQuad parameters for the specified filter index change.
+   *
+   * @param index The index of the filter whose parameters changed.
+   * @param vars The newly calculated BiQuad function parameters for the filter.
+   */
+  onVarsChange?: (index: number, vars: BiQuadFunction) => void
 }
 
 /**
@@ -82,7 +89,7 @@ export type FilterCurveProps = Omit<
 export const FilterCurve = ({
   filter,
   color,
-  index = 0,
+  index = -1,
   lineWidth,
   opacity,
 
@@ -95,7 +102,9 @@ export const FilterCurve = ({
 
   activeColor,
   activeLineWidth,
-  activeOpacity
+  activeOpacity,
+
+  onVarsChange
 }: FilterCurveProps) => {
   const {
     scale,
@@ -105,8 +114,19 @@ export const FilterCurve = ({
     }
   } = useGraph()
 
-  const { vars, magnitudes } =
-    calcCurve(filter, scale, width, resolutionFactor) || {}
+  const prevFilterRef = useRef('')
+
+  const vars = calcFilterFunction(filter, scale)
+  const magnitudes = calcFilterMagnitudes(vars, scale, width, resolutionFactor)
+
+  useEffect(() => {
+    const filterHash = JSON.stringify(filter)
+    if (vars && prevFilterRef.current !== filterHash) {
+      onVarsChange?.(index, vars)
+      prevFilterRef.current = filterHash
+    }
+  }, [filter, vars, onVarsChange])
+
   if (!vars || !magnitudes?.length) return null
 
   const zeroValue = filter.type === 'BYPASS'

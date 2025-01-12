@@ -395,28 +395,22 @@ export const plotCurve = (
   return path
 }
 
-export const calcCurve = (
-  filter: GraphFilter,
+export const calcFilterFunction = (filter: GraphFilter, scale: GraphScale) => {
+  const { freq, q, gain, type } = filter
+  const { sampleRate } = scale
+  return calcBiquadFunction(sampleRate, type, freq, q, gain)
+}
+
+export const calcFilterMagnitudes = (
+  vars: BiQuadFunction,
   scale: GraphScale,
   width: number,
   precisionDivider = 2
 ) => {
-  if (!filter) return false
-
   const { minFreq, maxFreq, sampleRate } = scale
-  const { freq, q, gain, type } = filter
-
-  const zeroGain = getZeroGain(type)
-
-  if (gain === 0 && !zeroGain) {
-    return false
-  }
-
   const steps = width / precisionDivider
-  const vars = calcBiquadFunction(sampleRate, type, freq, q, gain)
   const magnitudes = calcMagnitudes(sampleRate, minFreq, maxFreq, steps, vars)
-
-  return { vars, magnitudes }
+  return magnitudes
 }
 
 export const calcCompositeMagnitudes = (magnitudes: Magnitude[][]) => {
