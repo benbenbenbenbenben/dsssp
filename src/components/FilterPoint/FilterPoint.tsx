@@ -20,7 +20,7 @@ import { useGraph } from '../..'
 
 import '../../icons/font.css'
 
-export type FilterChangeEvent = Partial<GraphFilter> & {
+export type FilterChangeEvent = GraphFilter & {
   index: number
   ended?: boolean
 }
