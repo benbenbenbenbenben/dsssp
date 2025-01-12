@@ -9,7 +9,6 @@ import {
   type LogScaleFunction,
   type Magnitude
 } from './types'
-import { getZeroGain } from './utils'
 
 export const fastFloor = (x: number) => x >> 0
 export const fastRound = (x: number) => (x + (x > 0 ? 0.5 : -0.5)) >> 0

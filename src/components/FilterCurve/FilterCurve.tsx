@@ -5,6 +5,7 @@ import { type BiQuadFunction, type GraphFilter } from '../../types'
 import {
   type FrequencyResponseCurveProps,
   FrequencyResponseCurve,
+  getZeroGain,
   useGraph
 } from '../..'
 import { FilterPin } from '.'
@@ -114,20 +115,21 @@ export const FilterCurve = ({
     }
   } = useGraph()
 
-  const prevFilterRef = useRef('')
+  const prevFilterHashRef = useRef('')
 
   const vars = calcFilterFunction(filter, scale)
   const magnitudes = calcFilterMagnitudes(vars, scale, width, resolutionFactor)
 
   useEffect(() => {
     const filterHash = JSON.stringify(filter)
-    if (vars && prevFilterRef.current !== filterHash) {
+    if (vars && prevFilterHashRef.current !== filterHash) {
       onVarsChange?.(index, vars)
-      prevFilterRef.current = filterHash
+      prevFilterHashRef.current = filterHash
     }
   }, [filter, vars, onVarsChange])
 
   if (!vars || !magnitudes?.length) return null
+  if (filter.gain === 0 && !getZeroGain(filter.type)) return null
 
   const zeroValue = filter.type === 'BYPASS'
   if (zeroValue && !showBypass) return null
