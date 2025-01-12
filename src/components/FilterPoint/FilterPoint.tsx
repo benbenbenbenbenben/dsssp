@@ -26,7 +26,7 @@ export type FilterChangeEvent = Partial<GraphFilter> & {
   index: number
   ended?: boolean
   // precalculated BiQuad coefficients for the filter, generated only for the last event
-  vars?: BiQuadCoefficients
+  coefficients?: BiQuadCoefficients
 }
 
 export type FilterPointProps = {
@@ -210,15 +210,13 @@ export const FilterPoint = ({
       freq: moveFreq.current,
       gain: moveGain.current
     }
-    const vars = calcFilterCoefficients(newFilter, scale)
-
     onChange?.({
       index,
       ...filter,
       freq: moveFreq.current,
       gain: moveGain.current,
-      ended: true,
-      vars
+      coefficients: calcFilterCoefficients(newFilter, scale),
+      ended: true
     })
     onDrag?.(false)
   }
