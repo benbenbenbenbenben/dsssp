@@ -54,8 +54,8 @@ export function calcBiQuadCoefficients(
   sampleRate: number,
   type: FilterType,
   frequency: number,
-  Q: number,
-  peakGain: number
+  peakGain: number,
+  Q: number
 ): BiQuadCoefficients {
   let A0 = 0
   let A1 = 0
@@ -398,9 +398,9 @@ export const calcFilterCoefficients = (
   filter: GraphFilter,
   scale: GraphScale
 ) => {
-  const { type, freq, q, gain } = filter
+  const { type, freq, gain, q } = filter
   const { sampleRate } = scale
-  return calcBiQuadCoefficients(sampleRate, type, freq, q, gain)
+  return calcBiQuadCoefficients(sampleRate, type, freq, gain, q)
 }
 
 export const calcFilterMagnitudes = (
