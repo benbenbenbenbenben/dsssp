@@ -1,9 +1,7 @@
 /* eslint-disable no-param-reassign */
-import type React from 'react'
 import { useMemo, useRef, useState, type CSSProperties } from 'react'
 
 import {
-  calcFilterCoefficients,
   calcFrequency,
   calcMagnitude,
   getCenterLine,
@@ -11,7 +9,7 @@ import {
   scaleMagnitude,
   stripTail
 } from '../../math'
-import { type BiQuadCoefficients, type GraphFilter } from '../../types'
+import { type GraphFilter } from '../../types'
 import {
   getIconStyles,
   getIconSymbol,
@@ -25,8 +23,6 @@ import '../../icons/font.css'
 export type FilterChangeEvent = Partial<GraphFilter> & {
   index: number
   ended?: boolean
-  // precalculated BiQuad coefficients for the filter, generated only for the last event
-  coefficients?: BiQuadCoefficients
 }
 
 export type FilterPointProps = {
@@ -205,17 +201,11 @@ export const FilterPoint = ({
     circleEl.removeEventListener('touchcancel', dragEnd)
 
     setDragging(false)
-    const newFilter = {
-      ...filter,
-      freq: moveFreq.current,
-      gain: moveGain.current
-    }
     onChange?.({
       index,
       ...filter,
       freq: moveFreq.current,
       gain: moveGain.current,
-      coefficients: calcFilterCoefficients(newFilter, scale),
       ended: true
     })
     onDrag?.(false)
