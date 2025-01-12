@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-bitwise */
 import {
-  type BiQuadFunction,
+  type BiQuadCoefficients,
   type FilterType,
   type GraphFilter,
   type GraphPoint,
@@ -50,13 +50,13 @@ export const getLogScaleFn = (
   return { x, ticks }
 }
 
-export function calcBiquadFunction(
+export function calcBiQuadCoefficients(
   sampleRate: number,
   type: FilterType,
   frequency: number,
   Q: number,
   peakGain: number
-): BiQuadFunction {
+): BiQuadCoefficients {
   let A0 = 0
   let A1 = 0
   let A2 = 0
@@ -243,7 +243,7 @@ export function calcBiquadFunction(
     //   A1 = A2 = B2 = 0
     //   break
     default:
-      console.error('calcBiquadFunction: unknown filter type')
+      console.error('calcBiQuadCoefficients: unknown filter type')
   }
   return { A0, A1, A2, B1, B2 }
 }
@@ -251,7 +251,7 @@ export function calcBiquadFunction(
 export function calcMagnitudeForFrequency(
   sampleRate: number,
   width: number,
-  vars: BiQuadFunction
+  vars: BiQuadCoefficients
 ) {
   const { A0, A1, A2, B1, B2 } = vars
   const phi = Math.sin((2 * Math.PI * width) / sampleRate / 2) ** 2
@@ -304,7 +304,7 @@ export function calcMagnitudes(
   minFreq: number,
   maxFreq: number,
   steps: number,
-  vars: BiQuadFunction
+  vars: BiQuadCoefficients
 ): Magnitude[] {
   const magPlot = []
 
@@ -394,14 +394,17 @@ export const plotCurve = (
   return path
 }
 
-export const calcFilterFunction = (filter: GraphFilter, scale: GraphScale) => {
-  const { freq, q, gain, type } = filter
+export const calcFilterCoefficients = (
+  filter: GraphFilter,
+  scale: GraphScale
+) => {
+  const { type, freq, q, gain } = filter
   const { sampleRate } = scale
-  return calcBiquadFunction(sampleRate, type, freq, q, gain)
+  return calcBiQuadCoefficients(sampleRate, type, freq, q, gain)
 }
 
 export const calcFilterMagnitudes = (
-  vars: BiQuadFunction,
+  vars: BiQuadCoefficients,
   scale: GraphScale,
   width: number,
   precisionDivider = 2

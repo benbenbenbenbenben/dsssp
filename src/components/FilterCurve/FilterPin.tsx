@@ -5,13 +5,13 @@ import {
   getCenterLine,
   scaleMagnitude
 } from '../../math'
-import { type GraphFilter, type BiQuadFunction } from '../../types'
+import { type GraphFilter, type BiQuadCoefficients } from '../../types'
 import { getZeroGain } from '../../utils'
 import { useGraph } from '../..'
 
 export type FilterPinProps = {
   filter: GraphFilter
-  vars: BiQuadFunction
+  vars: BiQuadCoefficients
   width?: number
   opacity?: CSSProperties['opacity']
   color?: CSSProperties['color']

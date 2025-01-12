@@ -32,7 +32,7 @@ export type GraphPoint = {
   y: number
 }
 
-export type BiQuadFunction = {
+export type BiQuadCoefficients = {
   A0: number
   A1: number
   A2: number

@@ -1,7 +1,7 @@
 import { useEffect, useRef, type CSSProperties } from 'react'
 
-import { calcFilterFunction, calcFilterMagnitudes } from '../../math'
-import { type BiQuadFunction, type GraphFilter } from '../../types'
+import { calcFilterCoefficients, calcFilterMagnitudes } from '../../math'
+import { type BiQuadCoefficients, type GraphFilter } from '../../types'
 import {
   type FrequencyResponseCurveProps,
   FrequencyResponseCurve,
@@ -78,7 +78,7 @@ export type FilterCurveProps = Omit<
    * @param index The index of the filter whose parameters changed.
    * @param vars The newly calculated BiQuad function parameters for the filter.
    */
-  onVarsChange?: (index: number, vars: BiQuadFunction) => void
+  onVarsChange?: (index: number, vars: BiQuadCoefficients) => void
 }
 
 /**
@@ -117,7 +117,7 @@ export const FilterCurve = ({
 
   const prevFilterHashRef = useRef('')
 
-  const vars = calcFilterFunction(filter, scale)
+  const vars = calcFilterCoefficients(filter, scale)
   const magnitudes = calcFilterMagnitudes(vars, scale, width, resolutionFactor)
 
   useEffect(() => {

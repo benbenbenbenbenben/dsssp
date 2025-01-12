@@ -3,7 +3,7 @@ import type React from 'react'
 import { useMemo, useRef, useState, type CSSProperties } from 'react'
 
 import {
-  calcFilterFunction,
+  calcFilterCoefficients,
   calcFrequency,
   calcMagnitude,
   getCenterLine,
@@ -11,7 +11,7 @@ import {
   scaleMagnitude,
   stripTail
 } from '../../math'
-import { type BiQuadFunction, type GraphFilter } from '../../types'
+import { type BiQuadCoefficients, type GraphFilter } from '../../types'
 import {
   getIconStyles,
   getIconSymbol,
@@ -26,7 +26,7 @@ export type FilterChangeEvent = Partial<GraphFilter> & {
   index: number
   ended?: boolean
   // precalculated BiQuad coefficients for the filter, generated only for the last event
-  vars?: BiQuadFunction
+  vars?: BiQuadCoefficients
 }
 
 export type FilterPointProps = {
@@ -210,7 +210,7 @@ export const FilterPoint = ({
       freq: moveFreq.current,
       gain: moveGain.current
     }
-    const vars = calcFilterFunction(newFilter, scale)
+    const vars = calcFilterCoefficients(newFilter, scale)
 
     onChange?.({
       index,

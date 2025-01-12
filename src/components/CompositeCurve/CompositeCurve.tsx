@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useCallback } from 'react'
 import {
-  calcBiquadFunction,
+  calcBiQuadCoefficients,
   calcCompositeMagnitudes,
   calcMagnitudes
 } from '../../math'
@@ -81,7 +81,7 @@ export const CompositeCurve = ({
       if (!newCache[key]) {
         const { freq, q, gain, type } = filter
         const steps = width / resolutionFactor
-        const vars = calcBiquadFunction(sampleRate, type, freq, q, gain)
+        const vars = calcBiQuadCoefficients(sampleRate, type, freq, q, gain)
         newCache[key] =
           calcMagnitudes(sampleRate, minFreq, maxFreq, steps, vars) || []
       }
