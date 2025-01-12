@@ -79,9 +79,9 @@ export const CompositeCurve = ({
     filters.forEach((filter) => {
       const key = memoizedGetFilterKey(filter)
       if (!newCache[key]) {
-        const { freq, q, gain, type } = filter
+        const { type, freq, gain, q } = filter
         const steps = width / resolutionFactor
-        const vars = calcBiQuadCoefficients(sampleRate, type, freq, q, gain)
+        const vars = calcBiQuadCoefficients(sampleRate, type, freq, gain, q)
         newCache[key] =
           calcMagnitudes(sampleRate, minFreq, maxFreq, steps, vars) || []
       }

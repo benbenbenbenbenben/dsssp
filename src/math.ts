@@ -395,18 +395,17 @@ export const plotCurve = (
 }
 
 export const calcFilterCoefficients = (
-  filter: GraphFilter,
-  scale: GraphScale
+  sampleRate: number,
+  filter: GraphFilter
 ) => {
   const { type, freq, gain, q } = filter
-  const { sampleRate } = scale
   return calcBiQuadCoefficients(sampleRate, type, freq, gain, q)
 }
 
 export const calcFilterMagnitudes = (
-  vars: BiQuadCoefficients,
   scale: GraphScale,
   width: number,
+  vars: BiQuadCoefficients,
   precisionDivider = 2
 ) => {
   const { minFreq, maxFreq, sampleRate } = scale
