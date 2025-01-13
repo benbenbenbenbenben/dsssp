@@ -63,7 +63,7 @@ export type GraphScale = {
   octaveLabels: number[]
 }
 
-type FilterThemeColors = {
+export type GraphThemeFilterColors = {
   // point colors for each state
   point?: CSSProperties['color']
   drag?: CSSProperties['color']
@@ -151,6 +151,6 @@ export type GraphTheme = {
     gradientOpacity: CSSProperties['opacity']
 
     defaultColor: CSSProperties['color']
-    colors: FilterThemeColors[]
+    colors: GraphThemeFilterColors[]
   }
 }
