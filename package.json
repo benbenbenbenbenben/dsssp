@@ -50,11 +50,11 @@
     "./font": {
       "import": {
         "types": "./dist/font.d.ts",
-        "default": "./dist/style.css"
+        "default": "./dist/index.css"
       },
       "require": {
         "types": "./dist/font.d.ts",
-        "default": "./dist/style.css"
+        "default": "./dist/index.css"
       }
     }
   },
