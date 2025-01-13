@@ -5,7 +5,6 @@ import { type BiQuadCoefficients, type GraphFilter } from '../../types'
 import {
   type FrequencyResponseCurveProps,
   FrequencyResponseCurve,
-  getZeroGain,
   useGraph
 } from '../..'
 import { FilterPin } from '.'
@@ -129,7 +128,6 @@ export const FilterCurve = ({
   }, [filter, vars, onVarsChange])
 
   if (!vars || !magnitudes?.length) return null
-  if (filter.gain === 0 && !getZeroGain(filter.type)) return null
 
   const zeroValue = filter.type === 'BYPASS'
   if (zeroValue && !showBypass) return null

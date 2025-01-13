@@ -34,7 +34,6 @@ export const FrequencyResponseCurve = ({
     height,
     theme: { curve }
   } = useGraph()
-  if (magnitudes.length === 0) return null
 
   const points = scaleMagnitudes(magnitudes, scale, width, height)
   const path = plotCurve(points, scale, width, height)
