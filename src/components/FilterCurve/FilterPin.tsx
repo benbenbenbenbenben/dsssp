@@ -58,7 +58,7 @@ export const FilterPin = ({
     pointY += scaleMagnitude(gain, minGain, maxGain, height)
   }
 
-  const centerMagnitude = calcMagnitudeForFrequency(sampleRate, freq, vars)
+  const centerMagnitude = calcMagnitudeForFrequency(vars, freq, sampleRate)
   const magnitudeY = scaleMagnitude(centerMagnitude, minGain, maxGain, height)
   const deltaX = pointY > magnitudeY
   const x = logScale.x(freq)

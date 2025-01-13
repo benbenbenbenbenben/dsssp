@@ -81,9 +81,9 @@ export const CompositeCurve = ({
       if (!newCache[key]) {
         const { type, freq, gain, q } = filter
         const steps = width / resolutionFactor
-        const vars = calcBiQuadCoefficients(sampleRate, type, freq, gain, q)
+        const vars = calcBiQuadCoefficients(type, freq, gain, q, sampleRate)
         newCache[key] =
-          calcMagnitudes(sampleRate, minFreq, maxFreq, steps, vars) || []
+          calcMagnitudes(vars, steps, minFreq, maxFreq, sampleRate) || []
       }
     })
 

@@ -116,8 +116,8 @@ export const FilterCurve = ({
 
   const prevFilterHashRef = useRef('')
 
-  const vars = calcFilterCoefficients(scale.sampleRate, filter)
-  const magnitudes = calcFilterMagnitudes(scale, width, vars, resolutionFactor)
+  const vars = calcFilterCoefficients(filter, scale.sampleRate)
+  const magnitudes = calcFilterMagnitudes(vars, scale, width, resolutionFactor)
 
   useEffect(() => {
     const filterHash = JSON.stringify(filter)

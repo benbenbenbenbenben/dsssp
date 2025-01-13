@@ -51,11 +51,11 @@ export const getLogScaleFn = (
 }
 
 export function calcBiQuadCoefficients(
-  sampleRate: number,
   type: FilterType,
   frequency: number,
   peakGain: number,
-  Q: number
+  Q: number = 0.707,
+  sampleRate: number = 44100
 ): BiQuadCoefficients {
   let A0 = 0
   let A1 = 0
@@ -249,9 +249,9 @@ export function calcBiQuadCoefficients(
 }
 
 export function calcMagnitudeForFrequency(
-  sampleRate: number,
+  vars: BiQuadCoefficients,
   width: number,
-  vars: BiQuadCoefficients
+  sampleRate: number = 44100
 ) {
   const { A0, A1, A2, B1, B2 } = vars
   const phi = Math.sin((2 * Math.PI * width) / sampleRate / 2) ** 2
@@ -300,17 +300,17 @@ export const calcFrequency = (
 }
 
 export function calcMagnitudes(
-  sampleRate: number,
+  vars: BiQuadCoefficients,
+  steps: number,
   minFreq: number,
   maxFreq: number,
-  steps: number,
-  vars: BiQuadCoefficients
+  sampleRate: number = 44100
 ): Magnitude[] {
   const magPlot = []
 
   for (let index = 0; index < steps; index++) {
     const frequency = calcFrequency(index, steps, minFreq, maxFreq)
-    const magnitude = calcMagnitudeForFrequency(sampleRate, frequency, vars)
+    const magnitude = calcMagnitudeForFrequency(vars, frequency, sampleRate)
     // var amplitude = calcAmplitudeForFrequency(magnitude);
     // var deviation = Math.abs(magnitude) + Math.abs(amplitude - 1);
     magPlot.push({ frequency, magnitude /*, amplitude, deviation */ })
@@ -395,22 +395,22 @@ export const plotCurve = (
 }
 
 export const calcFilterCoefficients = (
-  sampleRate: number,
-  filter: GraphFilter
+  filter: GraphFilter,
+  sampleRate: number = 44100
 ) => {
   const { type, freq, gain, q } = filter
-  return calcBiQuadCoefficients(sampleRate, type, freq, gain, q)
+  return calcBiQuadCoefficients(type, freq, gain, q, sampleRate)
 }
 
 export const calcFilterMagnitudes = (
+  vars: BiQuadCoefficients,
   scale: GraphScale,
   width: number,
-  vars: BiQuadCoefficients,
   precisionDivider = 2
 ) => {
   const { minFreq, maxFreq, sampleRate } = scale
   const steps = width / precisionDivider
-  const magnitudes = calcMagnitudes(sampleRate, minFreq, maxFreq, steps, vars)
+  const magnitudes = calcMagnitudes(vars, steps, minFreq, maxFreq, sampleRate)
   return magnitudes
 }
 
