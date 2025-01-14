@@ -32,13 +32,5 @@ export default defineConfig({
       // Exclude peer dependencies from the bundle to reduce bundle size
       external: ['react/jsx-runtime', ...Object.keys(peerDependencies)]
     }
-  },
-  test: {
-    environment: 'jsdom',
-    setupFiles: './src/test/setup.ts',
-    coverage: {
-      all: false,
-      enabled: true
-    }
   }
 })
