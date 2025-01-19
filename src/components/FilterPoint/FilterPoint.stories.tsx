@@ -88,7 +88,7 @@ export const WithLabel: Story = {
 export const WithIcon: Story = {
   args: {
     ...defaultProps,
-    filter: { freq: 500, gain: -2, q: 0.7, type: 'PEAK' },
+    filter: { freq: 500, gain: 2, q: 0.7, type: 'PEAK' },
     showIcon: true,
     labelColor: 'inherit'
   }
