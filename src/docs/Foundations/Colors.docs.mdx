@@ -30,17 +30,60 @@ const customTheme: GraphThemeOverride = {
 type GraphThemeFilterColors = {
   // point colors for each state
   point?: CSSProperties['color']
-  drag?: CSSProperties['color']
+  drag?:  CSSProperties['color']
   active?: CSSProperties['color']
   // point background colors for each state
   background?: CSSProperties['color']
   dragBackground?: CSSProperties['color']
   activeBackground?: CSSProperties['color']
   // gradient stop color
-  // gradient's start color is always transparent, unless `fill` prop is set to true
+  // start color is always transparent, unless `fill` prop is set to true: `<FilterGradient fill />`
   gradient?: CSSProperties['color']
   // curve color
   curve?: CSSProperties['color']
 }
 ```
 `drag` and `active` colors for both points and backgrounds may not be assigned. In this case, the component will fallback to the `point` color for all states. [FilterCurve](?path=/docs/components-filtercurve--docs) also uses the `active` color value to highlight itself when the active flag is set.
+
+
+### Palettes
+
+The [demo]() project provides several custom palettes with colors defined for all states, either as [hardcoded values](https://github.com/NumberOneBot/dsssp-demo/blob/main/src/configs/palettes/chakra.ts) or as [re-exports](https://github.com/NumberOneBot/dsssp-demo/blob/main/src/configs/palettes/tailwind1.ts) of predefined colors from a third-party UI library. Here is an example of using Tailwind CSS colors as a source for your graph theme:
+
+```js
+import { type GraphThemeFilterColors } from 'dsssp'
+import tailwindColors from 'tailwindcss/colors'
+
+type TailwindColorKey = keyof typeof tailwindColors
+
+const generateTailwindPalette = (
+  colorKeys: TailwindColorKey[]
+): GraphThemeFilterColors[] =>
+  colorKeys.map((key) => {
+    const currentColor = tailwindColors[key]
+    return {
+      point:  currentColor[400],
+      active: currentColor[300],
+      curve:  currentColor[500],
+      gradient: currentColor[600],
+      background: currentColor[600]
+    }
+  })
+
+const customTheme: GraphThemeOverride = {
+  // ...
+  filters: {
+    colors: generateTailwindPalette([
+      'rose',
+      'orange',
+      'yellow',
+      'green',
+      'teal',
+      'sky',
+      'violet'
+    ])
+  }
+  // ...
+}
+
+```

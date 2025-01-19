@@ -442,8 +442,5 @@ export const calcCompositeMagnitudes = (magnitudes: Magnitude[][]) => {
   return compositeMags
 }
 
-export const limitRange = (value: number, min: number, max: number) => {
-  if (value < min) return min
-  if (value > max) return max
-  return value
-}
+export const limitRange = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max)
