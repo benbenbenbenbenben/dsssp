@@ -27,9 +27,9 @@
     "processing",
     "engineering"
   ],
-  "funding": "https://github.com/NumberOneBot/dsssp?sponsor=1",
+  "funding": "https://github.com/numberonebot/dsssp?sponsor=1",
   "bugs": {
-    "url": "https://github.com/NumberOneBot/dsssp/issues"
+    "url": "https://github.com/numberonebot/dsssp/issues"
   },
   "type": "module",
   "files": [
