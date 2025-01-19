@@ -1,11 +1,16 @@
 {
   "name": "dsssp",
+  "type": "module",
   "private": false,
   "version": "0.2.3-alpha.0",
   "author": "Oleksiy Strelets",
   "license": "AGPL-3.0-only",
   "homepage": "https://dsssp.io",
   "description": "React Library for Audio Processing and Visualization",
+  "funding": "https://github.com/numberonebot/dsssp?sponsor=1",
+  "bugs": {
+    "url": "https://github.com/numberonebot/dsssp/issues"
+  },
   "keywords": [
     "react",
     "react-components",
@@ -27,11 +32,6 @@
     "processing",
     "engineering"
   ],
-  "funding": "https://github.com/numberonebot/dsssp?sponsor=1",
-  "bugs": {
-    "url": "https://github.com/numberonebot/dsssp/issues"
-  },
-  "type": "module",
   "files": [
     "dist"
   ],
