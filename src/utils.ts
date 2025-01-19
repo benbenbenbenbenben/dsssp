@@ -16,6 +16,9 @@ export const getPointerPosition = (e: MouseEvent | TouchEvent) => {
   }
 }
 
+export const getZeroFreq = (type: FilterType) =>
+  ['BYPASS', 'GAIN'].includes(type) || !type
+
 export const getZeroGain = (type: FilterType) =>
   [
     'LOWPASS1',
@@ -25,10 +28,7 @@ export const getZeroGain = (type: FilterType) =>
     'BANDPASS',
     'BYPASS',
     'NOTCH'
-  ].includes(type)
-
-export const getZeroFreq = (type: FilterType) =>
-  ['BYPASS', 'GAIN'].includes(type)
+  ].includes(type) || !type
 
 export const getZeroQ = (type: FilterType) =>
   [
@@ -40,7 +40,7 @@ export const getZeroQ = (type: FilterType) =>
     'LOWPASS1',
     'BYPASS',
     'GAIN'
-  ].includes(type)
+  ].includes(type) || !type
 
 export const getIconStyles = (
   type: FilterType | undefined | null,
