@@ -32,7 +32,7 @@ const preview: Preview = {
         order: [
           'Introduction',
           'Getting Started',
-          'Demo',
+          'Demo Project',
           'Foundations',
           ['Audio Filters', 'Themes', 'Colors', 'Icons'],
           'Container',
