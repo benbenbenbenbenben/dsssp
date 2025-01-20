@@ -32,6 +32,6 @@ Our documentation includes a full-scale [demo project](https://numberonebot.gith
 
 This project is licensed under the [GNU AGPL-3.0 License](LICENSE), which ensures that any modifications or use of this library in networked services must be shared under the same license.
 
-### Contact
+## Contact
 
 If you have any questions, feedback, or would like to discuss commercial licensing, please reach out to the author at [alex.strelets@gmail.com](mailto:alex.strelets@gmail.com).
