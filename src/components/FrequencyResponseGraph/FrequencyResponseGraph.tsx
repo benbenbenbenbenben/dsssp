@@ -26,15 +26,40 @@ export type GraphThemeOverride = Exact<
   DeepPartial<GraphTheme>
 >
 
+export type FrequencyResponseGraphProps = {
+  /**
+   * Width of the SVG element in pixels
+   */
+  width: number
+  /**
+   * Height of the SVG element in pixels
+   */
+  height: number
+  /**
+   * Scale configuration to override default frequency and gain ranges
+   * @default defaultScale
+   */
+  scale?: Partial<GraphScale>
+  /**
+   * Theme override for colors and styles
+   * @default defaultTheme
+   */
+  theme?: GraphThemeOverride
+  /**
+   * Child components to render inside the graph
+   */
+  children?: React.ReactNode
+}
+
+/**
+ * This component renders a frequency response graph with customizable dimensions, scaling and theming.
+ * It provides the base SVG container and context for rendering filter curves, points and other graph elements.
+ *
+ * Uses deep merge to combine default theme/scale with provided overrides. Arrays are completely replaced rather than merged.
+ */
 export const FrequencyResponseGraph = forwardRef<
   SVGSVGElement,
-  {
-    width: number
-    height: number
-    scale?: Partial<GraphScale>
-    theme?: GraphThemeOverride
-    children?: React.ReactNode
-  }
+  FrequencyResponseGraphProps
 >((props, forwardedRef): React.ReactElement => {
   const ref = useRef<SVGSVGElement>(null)
   useImperativeHandle(forwardedRef, () => ref.current!)

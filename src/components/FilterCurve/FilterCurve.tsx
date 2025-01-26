@@ -14,26 +14,30 @@ export type FilterCurveProps = Omit<
   'magnitudes' | 'dotted'
 > & {
   /**
-   * Filter to render
+   * Filter parameters object defining type, frequency, gain and Q values
    */
   filter: GraphFilter
   /**
-   * Index of the color in the theme colors array to use if no `color` prop is provided
+   * Index in the theme colors array. Used for consistent coloring across
+   * multiple filters when no explicit color is provided
+   * @default -1
    */
   index?: number
   /**
-   * Show vertical pin to connect the curve to its FilterPoint
+   * Renders a vertical pin connecting the curve to its corresponding FilterPoint
+   * Useful for NOTCH, LOWPASS, and HIGHPASS filter types
+   * @default false
    */
   showPin?: boolean
   /**
    * Show Bypass curve
-   *
    * For most use cases showing zero curve is not necessary
    * @default false
    */
   showBypass?: boolean
   /**
    * Active state (trigger it to highlight the curve along with hovered FilterPoint)
+   * @default false
    */
   active?: boolean
   /**
@@ -68,24 +72,36 @@ export type FilterCurveProps = Omit<
   activeLineWidth?: number
   /**
    * Adjusts the resolution of the curve by reducing the number of points based on the graph's width.
+   * Lower values = more points = smoother curve but slower performance.
    * @default 2
    */
   resolutionFactor?: number
   /**
+   * Optional gradient ID to fill the curve with a gradient.
+   * The gradient must be defined elsewhere in the SVG.
+   * @default undefined
+   */
+  gradientId?: string
+  /**
    * Callback invoked when the BiQuad parameters for the specified filter index change.
-   *
-   * @param index The index of the filter whose parameters changed.
-   * @param vars The newly calculated BiQuad function parameters for the filter.
+   * Useful for syncing filter parameters with Web Audio API nodes.
+   * @param index - The index of the filter whose parameters changed
+   * @param vars - The newly calculated BiQuad function parameters for the filter
    */
   onVarsChange?: (index: number, vars: BiQuadCoefficients) => void
 }
 
 /**
- * This component renders the frequency response curve of a given filter on the graph.
- * It displays the filter's shape and can optionally show a vertical pin to connect it with specific types of `FilterPoint`'s, such as `NOTCH`, `LOWPASS`, `HIGHPASS`.
+ * Renders a frequency response curve for a single filter.
+ * Visualizes filter's magnitude response and provides interactive controls
+ * when used with FilterPoint component.
  *
- * Uses `defaultColor` from the theme as a fallback when filter colors are not specified. `BYPASS` curve automatically fallbacks to `zeroPoint.color` from the theme.
- */
+ * Features:
+ * - BiQuad coefficient calculation
+ * - Active state support
+ * - Optional vertical pin
+ * - Performance optimization
+ **/
 export const FilterCurve = ({
   filter,
   color,

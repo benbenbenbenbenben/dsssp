@@ -5,17 +5,47 @@ import { getIconStyles, getIconSymbol } from '../../utils'
 import '../../icons/font.css'
 
 export type FilterIconProps = {
+  /**
+   * Filter type to display
+   * Can be provided directly or via filter prop
+   */
   type?: FilterType
+  /**
+   * Filter gain value to adjust icon appearance
+   * Can be provided directly or via filter prop
+   */
   gain?: number
+  /**
+   * Filter object containing type and gain
+   * Alternative to providing type and gain separately
+   */
   filter?: GraphFilter
+  /**
+   * Icon size in pixels
+   * @default 24
+   */
   size?: number
+  /**
+   * Icon color
+   * @default '#FFFFFF'
+   */
   color?: string
+  /**
+   * Additional CSS styles
+   */
   style?: CSSProperties
+  /**
+   * Additional CSS classes
+   */
   className?: string
 }
 
 export type FilterTypedIconProps = Omit<FilterIconProps, 'type'>
 
+/**
+ * Renders filter type icons using custom font symbols.
+ * Icons automatically adjust their appearance based on filter gain.
+ */
 export const FilterIcon = ({
   color = '#FFFFFF',
   size = 24,

@@ -5,13 +5,37 @@ import { getPointerPosition } from '../../utils'
 import { useGraph } from '../..'
 
 export type PointerTrackerProps = {
+  /**
+   * Width of the crosshair guide lines
+   * @default theme.background.tracker.lineWidth
+   */
   lineWidth?: number
+  /**
+   * Color of the crosshair guide lines
+   * @default theme.background.tracker.lineColor
+   */
   lineColor?: CSSProperties['color']
+  /**
+   * Color of the frequency and gain labels
+   * @default theme.background.tracker.labelColor
+   */
   labelColor?: CSSProperties['color']
+  /**
+   * Background color of label containers
+   * @default theme.background.tracker.backgroundColor
+   */
   backgroundColor?: CSSProperties['color']
+  /**
+   * Number of decimal places for gain value display
+   * @default 1
+   */
   gainPrecision?: number
 }
 
+/**
+ * Displays frequency and gain values at the current pointer position.
+ * Shows crosshair guides and value labels that follow the pointer.
+ **/
 export const PointerTracker = ({
   lineWidth,
   lineColor,

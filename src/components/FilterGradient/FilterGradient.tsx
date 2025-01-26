@@ -38,6 +38,11 @@ export type FilterGradientProps = {
   fill?: boolean
 }
 
+/**
+ * Creates a linear gradient for filter curve fills.
+ * Gradient direction automatically adjusts based on filter gain.
+ * Used in conjunction with FilterCurve component.
+ */
 export const FilterGradient = ({
   id,
   filter,

@@ -5,20 +5,45 @@ import { type Magnitude } from '../../types'
 import { useGraph } from '../..'
 
 export type FrequencyResponseCurveProps = {
+  /**
+   * Array of magnitude values defining the curve shape
+   */
   magnitudes: Magnitude[]
-  color?: string
+  /**
+   * Color override for the curve stroke
+   * @default theme.curve.color
+   */
+  color?: CSSProperties['color']
+  /**
+   * Opacity override for the curve stroke
+   * @default theme.curve.opacity
+   */
   opacity?: CSSProperties['opacity']
+  /**
+   * Line width override for the curve stroke
+   * @default theme.curve.width
+   */
   lineWidth?: number
+  /**
+   * Whether to render the curve with a dotted/dashed line style
+   * @default false
+   */
   dotted?: boolean
   /**
-   * Gradient Id to fill the curve with a gradient
+   * Optional gradient ID to fill the curve with a gradient
+   * The gradient must be defined elsewhere in the SVG
+   * @default ''
    */
   gradientId?: string
 }
 
 /**
- * This component renders the given curve described as an array of Magnitudes on the graph.
- * It is the basic curve component used internally to render the `CompositeCurve` and `FilterCurve`. It can be used to render custom curves as well.
+ * Renders a frequency response curve from an array of magnitude values.
+ * This is the basic curve component used internally by `CompositeCurve` and `FilterCurve`.
+ * Can also be used directly to render custom frequency response curves.
+ *
+ * Uses `theme.curve` values as defaults for styling when color/opacity/width are not specified.
+ * Supports optional gradient fills and dotted line styles.
  */
 export const FrequencyResponseCurve = ({
   magnitudes,

@@ -7,13 +7,16 @@ import {
 import { type GraphFilter, type Magnitude } from '../../types'
 import { useGraph, FrequencyResponseCurve } from '..'
 
+const getFilterKey = (filter: GraphFilter) =>
+  `${filter.type}_${filter.freq}_${filter.q}_${filter.gain}`
+
 type CompositeCurveProps = {
   /**
-   * Array of filters to combine for the final composite curve
+   * Array of filters to combine into a single frequency response curve
    */
   filters: GraphFilter[]
   /**
-   * Dotted curve style
+   * Whether to render the curve with a dotted/dashed line style
    * @default false
    */
   dotted?: boolean
@@ -34,16 +37,19 @@ type CompositeCurveProps = {
   lineWidth?: number
   /**
    * Adjusts the resolution of the curve by reducing the number of points based on the graph's width.
-   *
-   * Calculations of the composite curve are expensive, so use this prop to optimize performance if more than 10 filters applied.
+   * Lower values = more points = smoother curve but slower performance.
+   * Recommended to increase this value when rendering more than 10 filters.
    * @default 2
    */
   resolutionFactor?: number
 }
-
-const getFilterKey = (filter: GraphFilter) =>
-  `${filter.type}_${filter.freq}_${filter.q}_${filter.gain}`
-
+/**
+ * Renders a composite frequency response curve by combining multiple filter responses.
+ * Uses magnitude caching to optimize performance when filters change.
+ *
+ * Supports custom styling through color, opacity and line width props.
+ * For better performance with many filters, adjust resolutionFactor.
+ */
 export const CompositeCurve = ({
   filters,
   dotted = false,
