@@ -83,6 +83,14 @@ export type FilterCurveProps = Omit<
    */
   gradientId?: string
   /**
+   * Additional CSS classes to apply to the curve path
+   */
+  className?: string
+  /**
+   * Additional inline styles to apply to the curve path
+   */
+  style?: CSSProperties
+  /**
    * Callback invoked when the BiQuad parameters for the specified filter index change.
    * Useful for syncing filter parameters with Web Audio API nodes.
    * @param index - The index of the filter whose parameters changed
@@ -119,6 +127,9 @@ export const FilterCurve = ({
   activeColor,
   activeLineWidth,
   activeOpacity,
+
+  className,
+  style,
 
   onVarsChange
 }: FilterCurveProps) => {
@@ -180,6 +191,8 @@ export const FilterCurve = ({
         opacity={curveOpacity}
         lineWidth={curveWidth}
         gradientId={gradientId}
+        className={className}
+        style={style}
       />
     </>
   )

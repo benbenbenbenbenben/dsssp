@@ -1,5 +1,10 @@
 import type React from 'react'
-import { forwardRef, useImperativeHandle, useRef } from 'react'
+import {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  type CSSProperties
+} from 'react'
 import merge from 'deepmerge'
 
 import { defaultScale, defaultTheme } from '../../defaults'
@@ -49,6 +54,14 @@ export type FrequencyResponseGraphProps = {
    * Child components to render inside the graph
    */
   children?: React.ReactNode
+  /**
+   * Additional CSS classes to apply to the graph container
+   */
+  className?: string
+  /**
+   * Additional inline styles to apply to the graph container
+   */
+  style?: CSSProperties
 }
 
 /**
@@ -64,7 +77,15 @@ export const FrequencyResponseGraph = forwardRef<
   const ref = useRef<SVGSVGElement>(null)
   useImperativeHandle(forwardedRef, () => ref.current!)
 
-  const { width, height, scale = {}, theme = {}, children } = props
+  const {
+    width,
+    height,
+    scale = {},
+    theme = {},
+    style = {},
+    className = '',
+    children
+  } = props
   const mergedTheme: GraphTheme = merge(defaultTheme, theme as GraphTheme)
   const mergedScale: GraphScale = merge(defaultScale, scale, {
     arrayMerge: (_, source) => source // overwrite arrays
@@ -83,16 +104,18 @@ export const FrequencyResponseGraph = forwardRef<
 
   return (
     <svg
-      id={graphId}
       ref={ref}
+      id={graphId}
+      className={className}
+      viewBox={`0 0 ${width} ${height}`}
       style={{
         width,
         height,
-        userSelect: 'none',
         position: 'relative',
-        verticalAlign: 'middle'
+        verticalAlign: 'middle',
+        userSelect: 'none',
+        ...style
       }}
-      viewBox={`0 0 ${width} ${height}`}
     >
       <style>{resetStyles}</style>
       <GraphProvider

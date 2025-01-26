@@ -146,6 +146,15 @@ export type FilterPointProps = {
    */
   activeBackgroundOpacity?: CSSProperties['opacity']
 
+  /**
+   * Additional CSS classes to apply to the filter point
+   */
+  className?: string
+  /**
+   * Additional inline styles to apply to the filter point
+   */
+  style?: CSSProperties
+
   // Event Handlers
   /**
    * Called when filter parameters change during drag
@@ -210,6 +219,9 @@ export const FilterPoint = ({
   backgroundOpacity,
   dragBackgroundOpacity,
   activeBackgroundOpacity,
+  className,
+  style,
+
   onChange,
   onEnter,
   onLeave,
@@ -434,11 +446,12 @@ export const FilterPoint = ({
         fillOpacity={fillOpacity}
         stroke={strokeColor}
         strokeWidth={strokeWidth}
-        style={{ cursor: 'pointer', pointerEvents: 'auto' }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onMouseDown={(e) => dragStart(e as unknown as MouseEvent)}
         onTouchStart={(e) => dragStart(e as unknown as TouchEvent)}
+        style={{ cursor: 'pointer', pointerEvents: 'auto', ...style }}
+        className={className}
       />
       {Boolean(label) && (
         <text

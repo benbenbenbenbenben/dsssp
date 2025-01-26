@@ -31,13 +31,13 @@ export type FilterIconProps = {
    */
   color?: string
   /**
-   * Additional CSS styles
-   */
-  style?: CSSProperties
-  /**
-   * Additional CSS classes
+   * Additional CSS classes to apply to the filter icon
    */
   className?: string
+  /**
+   * Additional inline styles to apply to the filter icon
+   */
+  style?: CSSProperties
 }
 
 export type FilterTypedIconProps = Omit<FilterIconProps, 'type'>

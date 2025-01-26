@@ -35,6 +35,14 @@ export type FrequencyResponseCurveProps = {
    * @default ''
    */
   gradientId?: string
+  /**
+   * Additional CSS classes to apply to the curve path
+   */
+  className?: string
+  /**
+   * Additional inline styles to apply to the curve path
+   */
+  style?: CSSProperties
 }
 
 /**
@@ -51,7 +59,9 @@ export const FrequencyResponseCurve = ({
   color,
   opacity,
   lineWidth,
-  gradientId = ''
+  gradientId = '',
+  className,
+  style
 }: FrequencyResponseCurveProps) => {
   const {
     scale,
@@ -78,6 +88,8 @@ export const FrequencyResponseCurve = ({
       strokeLinecap="round"
       {...(dotted ? { strokeDasharray: '1,3' } : {})}
       fill={gradientId ? `url(#${gradientId})` : 'none'}
+      className={className}
+      style={style}
     />
   )
 }

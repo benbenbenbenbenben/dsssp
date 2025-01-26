@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, type CSSProperties } from 'react'
 
 import { type GraphFilter } from '../../types'
 import { getZeroGain } from '../../utils'
@@ -36,6 +36,14 @@ export type FilterGradientProps = {
    * @default theme.filters.staticGradient || false
    */
   fill?: boolean
+  /**
+   * Additional CSS classes to apply to the filter gradient
+   */
+  className?: string
+  /**
+   * Additional inline styles to apply to the filter gradient
+   */
+  style?: CSSProperties
 }
 
 /**
@@ -49,7 +57,9 @@ export const FilterGradient = ({
   index = 0,
   opacity,
   color,
-  fill = false
+  fill = false,
+  className,
+  style
 }: FilterGradientProps) => {
   const {
     theme: { filters }
@@ -79,6 +89,8 @@ export const FilterGradient = ({
       x1="0%"
       x2="0%"
       {...gradientDirection}
+      className={className}
+      style={style}
     >
       <stop
         offset="0%"

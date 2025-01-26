@@ -1,4 +1,10 @@
-import { useEffect, useMemo, useState, useCallback } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+  type CSSProperties
+} from 'react'
 import {
   calcBiQuadCoefficients,
   calcCompositeMagnitudes,
@@ -42,6 +48,14 @@ type CompositeCurveProps = {
    * @default 2
    */
   resolutionFactor?: number
+  /**
+   * Additional CSS classes to apply to the curve path
+   */
+  className?: string
+  /**
+   * Additional inline styles to apply to the curve path
+   */
+  style?: CSSProperties
 }
 /**
  * Renders a composite frequency response curve by combining multiple filter responses.
@@ -56,7 +70,9 @@ export const CompositeCurve = ({
   color = '#FFFFFF',
   opacity = 1,
   lineWidth = 1.5,
-  resolutionFactor = 2
+  resolutionFactor = 2,
+  className,
+  style
 }: CompositeCurveProps) => {
   const { scale, width } = useGraph()
   const { minFreq, maxFreq, sampleRate } = scale
@@ -114,6 +130,8 @@ export const CompositeCurve = ({
         color={color}
         opacity={opacity}
         lineWidth={lineWidth}
+        className={className}
+        style={style}
       />
     </>
   )
