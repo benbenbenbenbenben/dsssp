@@ -60,6 +60,7 @@ export type GraphScale = {
   maxGain: number
   dbSteps: number
   octaveTicks: number
+  majorTicks: number[]
   octaveLabels: number[]
 }
 

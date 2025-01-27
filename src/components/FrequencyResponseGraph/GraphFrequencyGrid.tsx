@@ -4,7 +4,7 @@ export const GraphFrequencyGrid = () => {
   const {
     height,
     logScale,
-    scale: { octaveLabels, octaveTicks },
+    scale: { octaveLabels, octaveTicks, majorTicks },
     theme: {
       background: {
         grid: { lineColor, lineWidth },
@@ -13,7 +13,7 @@ export const GraphFrequencyGrid = () => {
     }
   } = useGraph()
 
-  const ticks = logScale.ticks(octaveTicks) // 10 ticks per octave
+  const ticks = octaveTicks ? logScale.ticks(octaveTicks) : [0, 0]
   const lastOctave = octaveLabels.at(-1)
 
   return (
@@ -21,7 +21,7 @@ export const GraphFrequencyGrid = () => {
       {ticks.slice(1, -1).map((tick) => {
         const tickX = logScale.x(tick)
 
-        const width = [100, 1000, 10000].includes(tick)
+        const width = majorTicks.includes(tick)
           ? lineWidth.major
           : lineWidth.minor
 

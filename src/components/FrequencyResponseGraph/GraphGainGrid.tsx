@@ -15,10 +15,14 @@ export const GraphGainGrid = () => {
     }
   } = useGraph()
 
+  if (!dbSteps) return null
+
+  const steps = dbSteps || maxGain // default to maxGain if not provided, showing only the center line
+
   const dBs = Array.from(
-    { length: (maxGain - minGain) / dbSteps + 1 },
+    { length: (maxGain - minGain) / steps + 1 },
     (_, i) => {
-      return maxGain - i * dbSteps
+      return maxGain - i * steps
     }
   )
 

@@ -13,7 +13,8 @@ The library offers two levels of customization: **themes** and **configuration p
 Theme object provides a centralized way to manage the look and feel of all components: Frequency Response Graph, Filters, Curves and Gradients. <br/>
 Think of it as **the one ring to rule them all** in your theming hierarchy. While individual Filter Components have their own properties for colors, sizes, and other visual aspects, these should be primarily used for fine-tuning and overrides.
 
-The `GraphTheme` object, when passed as a property to the `FrequencyResponseGraph` component, merges with the default theme. This allows you to modify specific visual elements without redefining the entire theme structure. The same behavior applies to the `GraphScale` property, which controls the graph's [scaling](?path=/docs/container-frequencyresponsegraph--docs) parameters.
+The `GraphTheme` object, when passed as a property to the `FrequencyResponseGraph` component, merges with the default theme. This allows you to modify specific visual elements without redefining the entire theme structure. The same behavior applies to the `GraphScale` property, which controls the graph's [scaling](#structure-of-the-default-scale) parameters.
+
 
 #### Structure of the Default Theme
 
@@ -21,7 +22,7 @@ The `GraphTheme` object, when passed as a property to the `FrequencyResponseGrap
 
 Since each application may require a different number of filters, the `filters.colors` array in the built-in theme is empty by design. You'll need to populate it with your color values - check out the [next section](?path=/docs/foundations-colors--docs) to learn more.
 
-TypeScript developers can use the `GraphThemeOverride` type when customizing theme parameters. This type ensures that only valid predefined keys and values can be used,  safeguarding against typos.
+TypeScript developers can use the `GraphThemeOverride` type when customizing theme parameters. This type ensures that only valid predefined keys and values can be used, safeguarding against typos.
 
 ```jsx
 import { type GraphThemeOverride } from 'dsssp'
@@ -39,4 +40,43 @@ const customTheme: GraphThemeOverride = {
 // ...
 
 <FrequencyResponseGraph theme={customTheme} />
+```
+
+
+## Graph Scale
+
+The `GraphScale` object, when passed as a property to the FrequencyResponseGraph component, merges with the default scale configuration. It allows you to modify specific scaling parameters such as frequency range and sample rate, magnitude and octave ticks and labels. Passing 0 to `dbSteps` will disable the dB scale, while setting it to the same value as `maxGain` will leave only the center line.
+
+#### Structure of the Default Scale
+
+```jsx
+export const defaultScale: GraphScale = {
+  minFreq: 20,
+  maxFreq: 20000,
+  sampleRate: 44100, // 48000 / 96000 / 192000
+  minGain: -16,
+  maxGain: 16,
+  dbSteps: 4, // 0 to disable
+  octaveTicks: 10, // ticks per octave (0 to disable)
+  octaveLabels: [20, 40, 60, 100, 200, 500, 1000, 2000, 5000, 10000, 20000],
+  majorTicks: [100, 1000, 10000] // ticks with the major line width, same as zero gain
+}
+```
+
+TypeScript developers can use the `GraphScaleOverride` as a safeguard when customizing parameters.
+
+```jsx
+import { type GraphScaleOverride } from 'dsssp'
+
+export const customScale: GraphScaleOverride = {
+  minGain: -12,
+  maxGain: 12,
+  dbSteps: 12,
+  octaveTicks: 0,
+  octaveLabels: [125, 1000, 5000]
+}
+
+// ...
+
+<FrequencyResponseGraph scale={customScale} />
 ```

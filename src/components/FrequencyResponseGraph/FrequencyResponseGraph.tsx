@@ -31,6 +31,8 @@ export type GraphThemeOverride = Exact<
   DeepPartial<GraphTheme>
 >
 
+export type GraphScaleOverride = Partial<GraphScale>
+
 export type FrequencyResponseGraphProps = {
   /**
    * Width of the SVG element in pixels
@@ -44,7 +46,7 @@ export type FrequencyResponseGraphProps = {
    * Scale configuration to override default frequency and gain ranges
    * @default defaultScale
    */
-  scale?: Partial<GraphScale>
+  scale?: GraphScaleOverride
   /**
    * Theme override for colors and styles
    * @default defaultTheme
