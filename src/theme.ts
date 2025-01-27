@@ -4,6 +4,7 @@ export const defaultTheme: GraphTheme = {
   background: {
     // background grid lines
     grid: {
+      dotted: false,
       lineColor: '#3D4C5F',
       lineWidth: { minor: 0.25, major: 0.5, center: 1, border: 0.25 }
     },

@@ -49,6 +49,12 @@ type CompositeCurveProps = {
    */
   resolutionFactor?: number
   /**
+   * Optional gradient ID to fill the curve with a gradient
+   * The gradient must be defined by `FilterGradient` component and referenced by its ID
+   * @default undefined
+   */
+  gradientId?: string
+  /**
    * Additional CSS classes to apply to the curve path
    */
   className?: string
@@ -71,6 +77,7 @@ export const CompositeCurve = ({
   opacity = 1,
   lineWidth = 1.5,
   resolutionFactor = 2,
+  gradientId,
   className,
   style
 }: CompositeCurveProps) => {
@@ -130,6 +137,7 @@ export const CompositeCurve = ({
         color={color}
         opacity={opacity}
         lineWidth={lineWidth}
+        gradientId={gradientId}
         className={className}
         style={style}
       />

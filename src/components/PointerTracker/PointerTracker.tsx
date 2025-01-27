@@ -56,11 +56,11 @@ export const PointerTracker = ({
     }
   } = useGraph()
 
-  const strokeDasharray = '1,3'
+  const color = labelColor || tracker.labelColor
+  const fillColor = backgroundColor || tracker.backgroundColor
   const strokeColor = lineColor || tracker.lineColor
   const strokeWidth = lineWidth || tracker.lineWidth
-  const fillColor = backgroundColor || tracker.backgroundColor
-  const color = labelColor || tracker.labelColor
+  const strokeDasharray = '1,2'
 
   const fontSizePadding = (fontSize || 0) + 3
 

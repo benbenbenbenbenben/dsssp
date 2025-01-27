@@ -77,8 +77,8 @@ export type FilterCurveProps = Omit<
    */
   resolutionFactor?: number
   /**
-   * Optional gradient ID to fill the curve with a gradient.
-   * The gradient must be defined elsewhere in the SVG.
+   * Optional gradient ID to fill the curve with a gradient
+   * The gradient must be defined by `FilterGradient` component and referenced by its ID
    * @default undefined
    */
   gradientId?: string

@@ -83,6 +83,7 @@ export type GraphThemeFilterColors = {
 export type GraphTheme = {
   background: {
     grid: {
+      dotted: boolean
       lineColor: CSSProperties['color']
       lineWidth: {
         minor: number

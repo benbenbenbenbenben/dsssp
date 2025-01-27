@@ -31,8 +31,8 @@ export type FrequencyResponseCurveProps = {
   dotted?: boolean
   /**
    * Optional gradient ID to fill the curve with a gradient
-   * The gradient must be defined elsewhere in the SVG
-   * @default ''
+   * The gradient must be defined by `FilterGradient` component and referenced by its ID
+   * @default undefined
    */
   gradientId?: string
   /**
@@ -59,7 +59,7 @@ export const FrequencyResponseCurve = ({
   color,
   opacity,
   lineWidth,
-  gradientId = '',
+  gradientId,
   className,
   style
 }: FrequencyResponseCurveProps) => {

@@ -10,9 +10,9 @@ export type FilterGradientProps = {
    */
   id: string
   /**
-   * Filter to render
+   * Filter to render. Leave it empty to assign the gradient to composite curves.
    */
-  filter: GraphFilter
+  filter?: GraphFilter
   /**
    * Index of the color in the theme colors array to use if no `color` prop is provided
    */
@@ -71,13 +71,15 @@ export const FilterGradient = ({
 
   let gradientDirection
 
-  const zeroGain = useMemo(() => getZeroGain(filter.type), [filter.type])
+  const filterGain = filter?.gain || 1
+  const filterType = filter?.type || 'GAIN'
+  const zeroGain = useMemo(() => getZeroGain(filterType), [filterType])
 
   const startColor = fill || filters.fill ? stopColor : false
 
   if (zeroGain) {
     gradientDirection = { y1: '140%', y2: '0%' }
-  } else if (filter.gain <= 0) {
+  } else if (filterGain <= 0) {
     gradientDirection = { y1: '100%', y2: '0%' }
   } else {
     gradientDirection = { y1: '0%', y2: '100%' }

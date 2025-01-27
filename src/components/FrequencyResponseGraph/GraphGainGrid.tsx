@@ -9,7 +9,7 @@ export const GraphGainGrid = () => {
     scale: { minGain, maxGain, dbSteps },
     theme: {
       background: {
-        grid: { lineColor, lineWidth },
+        grid: { dotted, lineColor, lineWidth },
         label: { color: labelColor, fontSize, fontFamily }
       }
     }
@@ -27,6 +27,7 @@ export const GraphGainGrid = () => {
   )
 
   const centerY = getCenterLine(minGain, maxGain, height)
+  const strokeDasharray = '1,2'
 
   return (
     <>
@@ -34,6 +35,7 @@ export const GraphGainGrid = () => {
         if (index === 0) return null
         const tickY = `${(index / (dBs.length - 1)) * 100}%`
         const tickLabel = tick > 0 ? `+${tick}` : tick
+
         return (
           <React.Fragment key={tick}>
             <line
@@ -43,6 +45,7 @@ export const GraphGainGrid = () => {
               y2={tickY}
               stroke={lineColor}
               strokeWidth={lineWidth.minor}
+              {...(dotted ? { strokeDasharray } : {})}
             />
             {index !== 0 && index !== dBs.length - 1 && (
               <text
@@ -68,6 +71,7 @@ export const GraphGainGrid = () => {
         y2={centerY}
         stroke={lineColor}
         strokeWidth={lineWidth.center}
+        {...(dotted ? { strokeDasharray } : {})}
       />
       <text
         y={12}

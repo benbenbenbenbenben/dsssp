@@ -7,7 +7,7 @@ export const GraphFrequencyGrid = () => {
     scale: { octaveLabels, octaveTicks, majorTicks },
     theme: {
       background: {
-        grid: { lineColor, lineWidth },
+        grid: { dotted, lineColor, lineWidth },
         label: { color: labelColor, fontSize, fontFamily }
       }
     }
@@ -15,6 +15,7 @@ export const GraphFrequencyGrid = () => {
 
   const ticks = octaveTicks ? logScale.ticks(octaveTicks) : [0, 0]
   const lastOctave = octaveLabels.at(-1)
+  const strokeDasharray = '1,2'
 
   return (
     <>
@@ -34,6 +35,7 @@ export const GraphFrequencyGrid = () => {
             y2="100%"
             stroke={lineColor}
             strokeWidth={width}
+            {...(dotted ? { strokeDasharray } : {})}
           />
         )
       })}
