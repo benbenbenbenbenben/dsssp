@@ -78,6 +78,7 @@
     "version-minor": "npm version minor",
     "version-patch": "npm version patch",
     "version-prepatch": "npm version prepatch --preid=alpha",
+    "publish": "npm publish",
     "publish:alpha": "npm publish --tag alpha"
   },
   "devDependencies": {
