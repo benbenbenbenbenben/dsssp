@@ -14,7 +14,6 @@ export const GraphFrequencyGrid = () => {
   } = useGraph()
 
   const ticks = octaveTicks ? logScale.ticks(octaveTicks) : [0, 0]
-  const lastOctave = octaveLabels.at(-1)
   const strokeDasharray = '1,2'
 
   return (
@@ -46,8 +45,8 @@ export const GraphFrequencyGrid = () => {
           <text
             key={octave}
             y={height - 4}
-            x={octaveX + (octave === lastOctave ? -4 : 4)}
-            textAnchor={octave === lastOctave ? 'end' : 'start'}
+            x={octaveX + (octave > 10_000 ? -4 : 4)}
+            textAnchor={octave > 10_000 ? 'end' : 'start'}
             fill={labelColor}
             fontSize={fontSize}
             fontFamily={fontFamily}
