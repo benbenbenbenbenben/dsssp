@@ -62,8 +62,9 @@ export const CustomTheme: Story = {
           lineWidth: { minor: 0.5, major: 1.5, center: 1.5, border: 0 }
         },
         gradient: {
-          start: '#141D22',
-          stop: '#141D22'
+          start: '#0d1417',
+          stop: '#24353e',
+          direction: 'HORIZONTAL'
         },
         label: {
           fontSize: 10,

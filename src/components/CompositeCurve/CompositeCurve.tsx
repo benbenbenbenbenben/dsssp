@@ -28,17 +28,17 @@ type CompositeCurveProps = {
   dotted?: boolean
   /**
    * Composite curve color
-   * @default theme.curve.composite.color || '#FFFFFF'
+   * @default theme.curve.color || '#FFFFFF'
    */
   color?: string
   /**
    * Composite curve opacity
-   * @default theme.curve.composite.opacity || 1
+   * @default theme.curve.opacity || 1
    */
   opacity?: number
   /**
    * Composite curve line width
-   * @default theme.curve.composite.width || 1.5
+   * @default theme.curve.width || 1.5
    */
   lineWidth?: number
   /**
@@ -73,9 +73,9 @@ type CompositeCurveProps = {
 export const CompositeCurve = ({
   filters,
   dotted = false,
-  color = '#FFFFFF',
-  opacity = 1,
-  lineWidth = 1.5,
+  color,
+  opacity,
+  lineWidth,
   resolutionFactor = 2,
   gradientId,
   className,
