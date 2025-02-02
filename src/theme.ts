@@ -11,7 +11,8 @@ export const defaultTheme: GraphTheme = {
     // background gradient
     gradient: {
       start: '#1E2530',
-      stop: '#000000'
+      stop: '#000000',
+      direction: 'VERTICAL'
     },
     // frequency and gain labels
     label: {

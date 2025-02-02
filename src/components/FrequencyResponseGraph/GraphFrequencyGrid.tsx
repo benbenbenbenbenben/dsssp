@@ -51,7 +51,7 @@ export const GraphFrequencyGrid = () => {
             fontSize={fontSize}
             fontFamily={fontFamily}
           >
-            {(octave < 1000 ? octave : `${octave / 1000}k`) + 'Hz'}
+            {(octave < 1_000 ? octave : `${octave / 1000}k`) + 'Hz'}
           </text>
         )
       })}

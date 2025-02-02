@@ -1,5 +1,9 @@
 import { type CSSProperties } from 'react'
 
+import { type directions } from './components/FrequencyResponseGraph/GraphGradient'
+
+export type GraphGradientDirection = keyof typeof directions
+
 export const filterTypes = {
   BYPASS: 0x00,
   PEAK: 0x06,
@@ -95,6 +99,7 @@ export type GraphTheme = {
     gradient: {
       start: CSSProperties['color']
       stop: CSSProperties['color']
+      direction: GraphGradientDirection
     }
 
     label: {

@@ -1,10 +1,37 @@
 import { useGraph } from '.'
 
+export const directions = {
+  VERTICAL: {
+    x1: '0',
+    y1: '0',
+    x2: '0',
+    y2: '1'
+  },
+  HORIZONTAL: {
+    x1: '0',
+    y1: '0',
+    x2: '1',
+    y2: '0'
+  },
+  DIAGONAL_TL_BR: {
+    x1: '0',
+    y1: '0',
+    x2: '1',
+    y2: '1'
+  },
+  DIAGONAL_BL_TR: {
+    x1: '0',
+    y1: '1',
+    x2: '1',
+    y2: '0'
+  }
+} as const
+
 export const GraphGradient = () => {
   const {
     theme: {
       background: {
-        gradient: { start, stop },
+        gradient: { start, stop, direction },
         grid: {
           lineColor,
           lineWidth: { border: borderWidth }
@@ -18,10 +45,7 @@ export const GraphGradient = () => {
     <>
       <linearGradient
         id={id}
-        x1="0"
-        y1="0"
-        x2="0"
-        y2="1"
+        {...directions[direction]}
       >
         <stop
           offset="0%"

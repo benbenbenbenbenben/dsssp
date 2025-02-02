@@ -1,6 +1,7 @@
 import { Meta, Source } from '@storybook/blocks'
 
 import ThemeSourceCode from '../../theme.ts?raw'
+import ScaleSourceCode from '../../scale.ts?raw'
 
 <Meta title="Foundations/Themes" parameters={{ viewMode: 'docs' }} />
 
@@ -49,19 +50,7 @@ The `GraphScale` object, when passed as a property to the FrequencyResponseGraph
 
 #### Structure of the Default Scale
 
-```jsx
-export const defaultScale: GraphScale = {
-  minFreq: 20,
-  maxFreq: 20000,
-  sampleRate: 44100, // 48000 / 96000 / 192000
-  minGain: -16,
-  maxGain: 16,
-  dbSteps: 4, // 0 to disable
-  octaveTicks: 10, // ticks per octave (0 to disable)
-  octaveLabels: [20, 40, 60, 100, 200, 500, 1000, 2000, 5000, 10000, 20000],
-  majorTicks: [100, 1000, 10000] // ticks with the major line width, same as zero gain
-}
-```
+<Source dark code={ScaleSourceCode.split("\n").slice(2).join("\n")} language="javascript" />
 
 TypeScript developers can use the `GraphScaleOverride` as a safeguard when customizing parameters.
 
