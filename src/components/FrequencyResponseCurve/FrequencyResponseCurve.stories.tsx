@@ -1,6 +1,5 @@
 import React from 'react'
 import { type Meta, type StoryObj } from '@storybook/react'
-import '@fontsource/monaspace-krypton'
 
 import { FrequencyResponseCurve } from '.'
 import { FrequencyResponseGraph } from '../..'
