@@ -73,7 +73,7 @@ export type GraphThemeFilterColors = {
   point?: CSSProperties['color']
   drag?: CSSProperties['color']
   active?: CSSProperties['color']
-  // point background colors for each state
+  // background colors for each state
   background?: CSSProperties['color']
   dragBackground?: CSSProperties['color']
   activeBackground?: CSSProperties['color']

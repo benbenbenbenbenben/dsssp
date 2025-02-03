@@ -411,7 +411,7 @@ export const FilterPoint = ({
   const fillColor = zeroValue
     ? zeroBackground || zeroPoint.background
     : dragging
-      ? dragBackground || colors?.[index]?.drag || bgColor
+      ? dragBackground || colors?.[index]?.dragBackground || bgColor
       : active || hovered
         ? activeBackground || colors?.[index]?.activeBackground || bgColor
         : bgColor

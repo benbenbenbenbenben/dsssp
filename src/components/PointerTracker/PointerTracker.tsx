@@ -147,7 +147,7 @@ export const PointerTracker = ({
       <rect
         width={freqWidth + 6}
         height={fontSizePadding}
-        fill={backgroundColor}
+        fill={fillColor}
         stroke={strokeColor}
         x={mouse.x - freqWidth / 2 - 3}
         y={height - fontSizePadding - 1}
