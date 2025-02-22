@@ -7,6 +7,7 @@ export const defaultScale: GraphScale = {
   minGain: -16,
   maxGain: 16,
   dbSteps: 4, // 0 to disable
+  dbLabels: true,
   octaveTicks: 10, // ticks per octave (0 to disable)
   octaveLabels: [20, 40, 60, 100, 200, 500, 1000, 2000, 5000, 10000, 20000],
   majorTicks: [100, 1000, 10000] // ticks with the major line width, same as zero gain

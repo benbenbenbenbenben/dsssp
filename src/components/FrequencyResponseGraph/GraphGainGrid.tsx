@@ -6,7 +6,7 @@ import { useGraph } from '.'
 export const GraphGainGrid = () => {
   const {
     height,
-    scale: { minGain, maxGain, dbSteps },
+    scale: { minGain, maxGain, dbSteps, dbLabels },
     theme: {
       background: {
         grid: { dotted, lineColor, lineWidth },
@@ -47,7 +47,7 @@ export const GraphGainGrid = () => {
               strokeWidth={lineWidth.minor}
               {...(dotted ? { strokeDasharray } : {})}
             />
-            {index !== 0 && index !== dBs.length - 1 && (
+            {dbLabels && index !== 0 && index !== dBs.length - 1 && (
               <text
                 x={3}
                 y={tickY}
@@ -73,15 +73,17 @@ export const GraphGainGrid = () => {
         strokeWidth={lineWidth.center}
         {...(dotted ? { strokeDasharray } : {})}
       />
-      <text
-        y={12}
-        x={5}
-        fill={labelColor}
-        fontSize={fontSize}
-        fontFamily={fontFamily}
-      >
-        dB
-      </text>
+      {dbLabels && (
+        <text
+          y={12}
+          x={5}
+          fill={labelColor}
+          fontSize={fontSize}
+          fontFamily={fontFamily}
+        >
+          dB
+        </text>
+      )}
     </>
   )
 }

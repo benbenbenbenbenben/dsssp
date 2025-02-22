@@ -2,102 +2,89 @@ import { useEffect, useRef, type CSSProperties } from 'react'
 
 import { calcFilterCoefficients, calcFilterMagnitudes } from '../../math'
 import { type BiQuadCoefficients, type GraphFilter } from '../../types'
-import {
-  type FrequencyResponseCurveProps,
-  FrequencyResponseCurve,
-  useGraph
-} from '../..'
+import { FrequencyResponseCurve, useGraph } from '../..'
 import { FilterPin } from '.'
+import { type DefaultCurveProps } from '../types'
 
-export type FilterCurveProps = Omit<
-  FrequencyResponseCurveProps,
-  'magnitudes' | 'dotted'
-> & {
-  /**
-   * Filter parameters object defining type, frequency, gain and Q values
-   */
-  filter: GraphFilter
-  /**
-   * Index in the theme colors array. Used for consistent coloring across
-   * multiple filters when no explicit color is provided
-   * @default -1
-   */
-  index?: number
-  /**
-   * Renders a vertical pin connecting the curve to its corresponding FilterPoint
-   * Useful for NOTCH, LOWPASS, and HIGHPASS filter types
-   * @default false
-   */
-  showPin?: boolean
-  /**
-   * Show Bypass curve
-   * For most use cases showing zero curve is not necessary
-   * @default false
-   */
-  showBypass?: boolean
+export type ActiveStateProps = {
   /**
    * Active state (trigger it to highlight the curve along with hovered FilterPoint)
    * @default false
    */
   active?: boolean
   /**
-   * Curve color
-   * @default theme.colors[index].curve || theme.filters.defaultColor || '#00FF00'
-   */
-  color?: string
-  /**
    * Active curve color
    * @default theme.colors[index].active || color || theme.filters.defaultColor || '#00FF00'
    */
   activeColor?: string
   /**
-   * Curve opacity
-   * @default theme.curve.opacity.normal || 0.5
-   */
-  opacity?: CSSProperties['opacity']
-  /**
    * Active curve opacity
-   * @default theme.curve.opacity.active || 0.7
+   * @default theme.filters.curve.opacity.active || 0.7
    */
   activeOpacity?: CSSProperties['opacity']
   /**
-   * Curve line width
-   * @default theme.curve.width.normal || 1.5
-   */
-  lineWidth?: number
-  /**
    * Active curve line width
-   * @default theme.curve.width.active || 1.5
+   * @default theme.filters.curve.width.active || 1.5
    */
   activeLineWidth?: number
-  /**
-   * Adjusts the resolution of the curve by reducing the number of points based on the graph's width.
-   * Lower values = more points = smoother curve but slower performance.
-   * @default 2
-   */
-  resolutionFactor?: number
-  /**
-   * Optional gradient ID to fill the curve with a gradient
-   * The gradient must be defined by `FilterGradient` component and referenced by its ID
-   * @default undefined
-   */
-  gradientId?: string
-  /**
-   * Additional CSS classes to apply to the curve path
-   */
-  className?: string
-  /**
-   * Additional inline styles to apply to the curve path
-   */
-  style?: CSSProperties
-  /**
-   * Callback invoked when the BiQuad parameters for the specified filter index change.
-   * Useful for syncing filter parameters with Web Audio API nodes.
-   * @param index - The index of the filter whose parameters changed
-   * @param vars - The newly calculated BiQuad function parameters for the filter
-   */
-  onVarsChange?: (index: number, vars: BiQuadCoefficients) => void
 }
+
+export type FilterCurveProps = DefaultCurveProps &
+  ActiveStateProps & {
+    /**
+     * Filter parameters object defining type, frequency, gain and Q values
+     */
+    filter: GraphFilter
+    /**
+     * Index in the theme colors array. Used for consistent coloring across
+     * multiple filters when no explicit color is provided
+     * @default -1
+     */
+    index?: number
+    /**
+     * Renders a vertical pin connecting the curve to its corresponding FilterPoint
+     * Useful for NOTCH, LOWPASS, and HIGHPASS filter types
+     * @default false
+     */
+    showPin?: boolean
+    /**
+     * Show Bypass curve
+     * For most use cases showing zero curve is not necessary
+     * @default false
+     */
+    showBypass?: boolean
+    /**
+     * @override
+     * Curve color
+     * @default theme.colors[index].curve || theme.filters.defaultColor || '#00FF00'
+     */
+    color?: string
+    /**
+     * @override
+     * Curve opacity
+     * @default theme.filters.curve.opacity.normal || 0.5
+     */
+    opacity?: CSSProperties['opacity']
+    /**
+     * @override
+     * Curve line width
+     * @default theme.filters.curve.width.normal || 1.5
+     */
+    lineWidth?: number
+    /**
+     * Adjusts the resolution of the curve by reducing the number of points based on the graph's width.
+     * Lower values = more points = smoother curve but slower performance.
+     * @default 2
+     */
+    resolutionFactor?: number
+    /**
+     * Callback invoked when the BiQuad parameters for the specified filter change.
+     * Useful for syncing filter parameters with Web Audio API nodes.
+     * @param index - The index of the filter whose parameters changed
+     * @param vars - The newly calculated BiQuad function parameters for the filter
+     */
+    onChange?: (index: number, vars: BiQuadCoefficients) => void
+  }
 
 /**
  * Renders a frequency response curve for a single filter.
@@ -131,7 +118,7 @@ export const FilterCurve = ({
   className,
   style,
 
-  onVarsChange
+  onChange
 }: FilterCurveProps) => {
   const {
     scale,
@@ -149,10 +136,10 @@ export const FilterCurve = ({
   useEffect(() => {
     const filterHash = JSON.stringify(filter)
     if (vars && prevFilterHashRef.current !== filterHash) {
-      onVarsChange?.(index, vars)
+      onChange?.(index, vars)
       prevFilterHashRef.current = filterHash
     }
-  }, [filter, vars, onVarsChange])
+  }, [filter, vars, onChange])
 
   if (!vars || !magnitudes?.length) return null
 

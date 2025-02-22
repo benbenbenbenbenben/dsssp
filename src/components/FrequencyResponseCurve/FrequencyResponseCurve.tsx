@@ -1,48 +1,15 @@
-import { type CSSProperties } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
+import { type DefaultCurveProps, easingSplines } from '../types'
 import { plotCurve, scaleMagnitudes } from '../../math'
 import { type Magnitude } from '../../types'
 import { useGraph } from '../..'
 
-export type FrequencyResponseCurveProps = {
+export type FrequencyResponseCurveProps = DefaultCurveProps & {
   /**
    * Array of magnitude values defining the curve shape
    */
   magnitudes: Magnitude[]
-  /**
-   * Color override for the curve stroke
-   * @default theme.curve.color
-   */
-  color?: CSSProperties['color']
-  /**
-   * Opacity override for the curve stroke
-   * @default theme.curve.opacity
-   */
-  opacity?: CSSProperties['opacity']
-  /**
-   * Line width override for the curve stroke
-   * @default theme.curve.width
-   */
-  lineWidth?: number
-  /**
-   * Whether to render the curve with a dotted/dashed line style
-   * @default false
-   */
-  dotted?: boolean
-  /**
-   * Optional gradient ID to fill the curve with a gradient
-   * The gradient must be defined by `FilterGradient` component and referenced by its ID
-   * @default undefined
-   */
-  gradientId?: string
-  /**
-   * Additional CSS classes to apply to the curve path
-   */
-  className?: string
-  /**
-   * Additional inline styles to apply to the curve path
-   */
-  style?: CSSProperties
 }
 
 /**
@@ -50,7 +17,7 @@ export type FrequencyResponseCurveProps = {
  * This is the basic curve component used internally by `CompositeCurve` and `FilterCurve`.
  * Can also be used directly to render custom frequency response curves.
  *
- * Uses `theme.curve` values as defaults for styling when color/opacity/width are not specified.
+ * Uses `theme.curve` values as defaults for styling, when color/opacity/width are not specified.
  * Supports optional gradient fills and dotted line styles.
  */
 export const FrequencyResponseCurve = ({
@@ -61,7 +28,10 @@ export const FrequencyResponseCurve = ({
   lineWidth,
   gradientId,
   className,
-  style
+  style,
+  animate = false,
+  easing = 'easeInOut',
+  duration = 300 // ms
 }: FrequencyResponseCurveProps) => {
   const {
     scale,
@@ -70,8 +40,27 @@ export const FrequencyResponseCurve = ({
     theme: { curve }
   } = useGraph()
 
+  const previousPathRef = useRef<string>('')
+  const [initialized, setInitialized] = useState(false)
+
   const points = scaleMagnitudes(magnitudes, scale, width, height)
   const path = plotCurve(points, scale, width, height)
+
+  // Single effect to handle both initialization and updates
+  useEffect(() => {
+    if (!initialized) {
+      // First time - create flat line with same number of points
+      const zeroes = new Array(magnitudes.length).fill(0)
+      const initialPoints = scaleMagnitudes(zeroes, scale, width, height)
+      previousPathRef.current = plotCurve(initialPoints, scale, width, height)
+      setInitialized(true)
+    } else {
+      previousPathRef.current = path
+    }
+  }, [path, magnitudes.length, scale, width, height])
+
+  // Don't render animation until initialized
+  const showAnimation = animate && initialized && previousPathRef.current
 
   const curveColor = color || curve.color
   const curveWidth = lineWidth || curve.width
@@ -90,6 +79,20 @@ export const FrequencyResponseCurve = ({
       fill={gradientId ? `url(#${gradientId})` : 'none'}
       className={className}
       style={style}
-    />
+    >
+      {showAnimation && (
+        <animate
+          key={path} // Forces new animation when path changes
+          attributeName="d"
+          from={previousPathRef.current}
+          to={path}
+          dur={`${duration}ms`}
+          fill="freeze"
+          calcMode="spline"
+          keySplines={easingSplines[easing]}
+          repeatCount="1"
+        />
+      )}
+    </path>
   )
 }

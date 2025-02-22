@@ -30,7 +30,13 @@ const meta: Meta<typeof FilterCurve> = {
     lineWidth: { control: { type: 'range', min: 0.1, max: 4, step: 0.1 } },
     activeLineWidth: {
       control: { type: 'range', min: 0.1, max: 4, step: 0.1 }
-    }
+    },
+    animate: { control: { type: 'boolean' } },
+    easing: {
+      control: { type: 'select' },
+      options: ['linear', 'easeIn', 'easeOut', 'easeInOut', 'elastic']
+    },
+    duration: { control: { type: 'range', min: 0, max: 1000, step: 50 } }
   }
 }
 export default meta
