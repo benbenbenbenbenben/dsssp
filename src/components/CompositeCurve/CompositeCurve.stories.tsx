@@ -33,7 +33,7 @@ const meta: Meta<typeof CompositeCurve> = {
     animate: { control: { type: 'boolean' } },
     easing: {
       control: { type: 'select' },
-      options: ['linear', 'easeIn', 'easeOut', 'easeInOut', 'elastic', 'bounce']
+      options: ['linear', 'easeIn', 'easeOut', 'easeInOut']
     },
     duration: { control: { type: 'range', min: 0, max: 1000, step: 50 } }
   }
