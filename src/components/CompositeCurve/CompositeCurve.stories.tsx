@@ -27,7 +27,15 @@ const meta: Meta<typeof CompositeCurve> = {
     color: { control: { type: 'color' } },
     opacity: { control: { type: 'range', min: 0, max: 1, step: 0.1 } },
     lineWidth: { control: { type: 'range', min: 0.1, max: 4, step: 0.1 } },
-    resolutionFactor: { control: { type: 'range', min: 1, max: 50, step: 0.5 } }
+    resolutionFactor: {
+      control: { type: 'range', min: 1, max: 50, step: 0.5 }
+    },
+    animate: { control: { type: 'boolean' } },
+    easing: {
+      control: { type: 'select' },
+      options: ['linear', 'easeIn', 'easeOut', 'easeInOut', 'elastic', 'bounce']
+    },
+    duration: { control: { type: 'range', min: 0, max: 1000, step: 50 } }
   }
 }
 export default meta

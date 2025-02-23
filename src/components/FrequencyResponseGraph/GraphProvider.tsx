@@ -1,7 +1,7 @@
 'use client'
 
 import type React from 'react'
-import { createContext } from 'react'
+import { createContext, useMemo } from 'react'
 
 import {
   type GraphScale,
@@ -39,14 +39,22 @@ export const GraphProvider = ({
   width: number
   logScale: LogScaleFunction
 }) => {
-  const contextValue = {
-    svgRef,
-    theme,
-    scale,
-    logScale,
-    height,
-    width
-  }
+  // Memoize theme and scale separately to catch actual value changes
+  const memoizedTheme = useMemo(() => theme, [JSON.stringify(theme)])
+
+  const memoizedScale = useMemo(() => scale, [JSON.stringify(scale)])
+
+  const contextValue = useMemo(
+    () => ({
+      svgRef,
+      theme: memoizedTheme,
+      scale: memoizedScale,
+      logScale,
+      height,
+      width
+    }),
+    [svgRef, memoizedTheme, memoizedScale, logScale, height, width]
+  )
 
   return (
     <GraphContext.Provider value={contextValue}>

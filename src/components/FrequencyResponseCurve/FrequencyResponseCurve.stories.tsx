@@ -31,7 +31,7 @@ const meta: Meta<typeof FrequencyResponseCurve> = {
     animate: { control: { type: 'boolean' } },
     easing: {
       control: { type: 'select' },
-      options: ['linear', 'easeIn', 'easeOut', 'easeInOut', 'elastic']
+      options: ['linear', 'easeIn', 'easeOut', 'easeInOut', 'elastic', 'bounce']
     },
     duration: { control: { type: 'range', min: 0, max: 1000, step: 50 } }
   }
