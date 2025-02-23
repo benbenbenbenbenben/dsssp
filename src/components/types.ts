@@ -5,10 +5,7 @@ export const easingSplines = {
   linear: '0 0 1 1',
   easeIn: '0.42 0 1 1',
   easeOut: '0 0 0.58 1',
-  easeInOut: '0.42 0 0.58 1',
-  // Cubic bezier curves for more dramatic effects
-  elastic: '0.64 0 0.78 1.5',
-  bounce: '0.32 1.5 0.67 0.78'
+  easeInOut: '0.42 0 0.58 1'
 } as const
 
 export type EasingType = keyof typeof easingSplines

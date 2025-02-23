@@ -54,10 +54,7 @@ export const FrequencyResponseCurve = ({
     const currentPath = plotCurve(points, scale, width, height)
     const initialPath = plotCurve(flatPoints, scale, width, height)
 
-    return {
-      currentPath,
-      initialPath
-    }
+    return { currentPath, initialPath }
   }, [magnitudes, scale, width, height])
 
   // Handle initial mount state
@@ -103,10 +100,13 @@ export const FrequencyResponseCurve = ({
           to={currentPath}
           fill="freeze"
           repeatCount="1"
-          calcMode="spline"
           attributeName="d"
           dur={`${duration}ms`}
+          calcMode="spline"
+          keyTimes="0;1"
           keySplines={easingSplines[easing]}
+          additive="replace"
+          accumulate="none"
         />
       )}
     </path>
