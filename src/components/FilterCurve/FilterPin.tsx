@@ -12,7 +12,7 @@ import { useGraph } from '../..'
 export type FilterPinProps = {
   filter: GraphFilter
   vars: BiQuadCoefficients
-  width?: number
+  lineWidth?: number
   opacity?: CSSProperties['opacity']
   color?: CSSProperties['color']
 }
@@ -20,7 +20,7 @@ export const FilterPin = ({
   filter,
   vars,
   opacity,
-  width,
+  lineWidth,
   color
 }: FilterPinProps) => {
   const { scale, height, logScale } = useGraph()
@@ -71,7 +71,7 @@ export const FilterPin = ({
         y1={pointY}
         y2={magnitudeY}
         stroke={color}
-        strokeWidth={width}
+        strokeWidth={lineWidth}
         strokeOpacity={opacity}
       />
     )

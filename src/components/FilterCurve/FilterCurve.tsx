@@ -99,24 +99,28 @@ export type FilterCurveProps = DefaultCurveProps &
  **/
 export const FilterCurve = ({
   filter,
-  color,
   index = -1,
-  lineWidth,
-  opacity,
-
   resolutionFactor = 2,
 
+  color,
+  dotted,
+  opacity,
+  lineWidth,
   gradientId,
+
   showPin = false,
   showBypass = false,
+
   active = false,
-
   activeColor,
-  activeLineWidth,
   activeOpacity,
+  activeLineWidth,
 
-  className,
   style,
+  easing,
+  animate,
+  duration, // ms
+  className,
 
   onChange
 }: FilterCurveProps) => {
@@ -169,17 +173,21 @@ export const FilterCurve = ({
           filter={filter}
           color={curveColor}
           opacity={curveOpacity}
-          width={curveWidth}
+          lineWidth={curveWidth}
         />
       )}
       <FrequencyResponseCurve
         magnitudes={magnitudes}
+        dotted={dotted}
         color={curveColor}
         opacity={curveOpacity}
         lineWidth={curveWidth}
         gradientId={gradientId}
-        className={className}
         style={style}
+        easing={easing}
+        animate={animate}
+        duration={duration}
+        className={className}
       />
     </>
   )

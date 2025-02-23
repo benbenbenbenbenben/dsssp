@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useMemo, useRef } from 'react'
 
 import { type DefaultCurveProps, easingSplines } from '../types'
 import { plotCurve, scaleMagnitudes } from '../../math'
@@ -40,37 +40,53 @@ export const FrequencyResponseCurve = ({
     theme: { curve }
   } = useGraph()
 
-  const previousPathRef = useRef<string>('')
-  const [initialized, setInitialized] = useState(false)
+  // Track first mount and previous path
+  const firstMount = useRef(true)
+  const prevPathRef = useRef<string>('')
+  // Reference to animate element
+  const animateRef = useRef<SVGAnimateElement>(null)
 
-  const points = scaleMagnitudes(magnitudes, scale, width, height)
-  const path = plotCurve(points, scale, width, height)
+  // Memoize paths calculation
+  const { currentPath, initialPath } = useMemo(() => {
+    const points = scaleMagnitudes(magnitudes, scale, width, height)
+    const flatPoints = points.map((p) => ({ x: p.x, y: height / 2 }))
 
-  // Single effect to handle both initialization and updates
-  useEffect(() => {
-    if (!initialized) {
-      // First time - create flat line with same number of points
-      const zeroes = new Array(magnitudes.length).fill(0)
-      const initialPoints = scaleMagnitudes(zeroes, scale, width, height)
-      previousPathRef.current = plotCurve(initialPoints, scale, width, height)
-      setInitialized(true)
-    } else {
-      previousPathRef.current = path
+    const currentPath = plotCurve(points, scale, width, height)
+    const initialPath = plotCurve(flatPoints, scale, width, height)
+
+    return {
+      currentPath,
+      initialPath
     }
-  }, [path, magnitudes.length, scale, width, height])
+  }, [magnitudes, scale, width, height])
 
-  // Don't render animation until initialized
-  const showAnimation = animate && initialized && previousPathRef.current
+  // Handle initial mount state
+  useLayoutEffect(() => {
+    if (firstMount.current) {
+      prevPathRef.current = initialPath
+      firstMount.current = false
+    }
+  }, [initialPath])
+
+  // Update previous path and trigger animation
+  useLayoutEffect(() => {
+    if (!firstMount.current && animate && animateRef.current) {
+      prevPathRef.current = currentPath
+      animateRef.current.beginElement()
+    }
+  }, [magnitudes, animate])
+
+  // Determine which path to display
+  const displayPath = animate && firstMount.current ? initialPath : currentPath
+  const fromPath = prevPathRef.current || initialPath
 
   const curveColor = color || curve.color
   const curveWidth = lineWidth || curve.width
   const curveOpacity = opacity || curve.opacity
 
-  // NOTE: center line should be rendered on top of all filter curves but behind the final, resulting one
-
   return (
     <path
-      d={path}
+      d={displayPath}
       stroke={curveColor}
       strokeWidth={curveWidth}
       strokeOpacity={curveOpacity}
@@ -80,17 +96,17 @@ export const FrequencyResponseCurve = ({
       className={className}
       style={style}
     >
-      {showAnimation && (
+      {animate && (
         <animate
-          key={path} // Forces new animation when path changes
-          attributeName="d"
-          from={previousPathRef.current}
-          to={path}
-          dur={`${duration}ms`}
+          ref={animateRef}
+          from={fromPath}
+          to={currentPath}
           fill="freeze"
-          calcMode="spline"
-          keySplines={easingSplines[easing]}
           repeatCount="1"
+          calcMode="spline"
+          attributeName="d"
+          dur={`${duration}ms`}
+          keySplines={easingSplines[easing]}
         />
       )}
     </path>

@@ -1,10 +1,4 @@
-import {
-  useEffect,
-  useMemo,
-  useState,
-  useCallback,
-  type CSSProperties
-} from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import {
   calcBiQuadCoefficients,
   calcCompositeMagnitudes,
@@ -12,35 +6,16 @@ import {
 } from '../../math'
 import { type GraphFilter, type Magnitude } from '../../types'
 import { useGraph, FrequencyResponseCurve } from '..'
+import type { DefaultCurveProps } from '../types'
 
 const getFilterKey = (filter: GraphFilter) =>
   `${filter.type}_${filter.freq}_${filter.q}_${filter.gain}`
 
-type CompositeCurveProps = {
+type CompositeCurveProps = DefaultCurveProps & {
   /**
    * Array of filters to combine into a single frequency response curve
    */
   filters: GraphFilter[]
-  /**
-   * Whether to render the curve with a dotted/dashed line style
-   * @default false
-   */
-  dotted?: boolean
-  /**
-   * Composite curve color
-   * @default theme.curve.color || '#FFFFFF'
-   */
-  color?: string
-  /**
-   * Composite curve opacity
-   * @default theme.curve.opacity || 1
-   */
-  opacity?: number
-  /**
-   * Composite curve line width
-   * @default theme.curve.width || 1.5
-   */
-  lineWidth?: number
   /**
    * Adjusts the resolution of the curve by reducing the number of points based on the graph's width.
    * Lower values = more points = smoother curve but slower performance.
@@ -48,20 +23,6 @@ type CompositeCurveProps = {
    * @default 2
    */
   resolutionFactor?: number
-  /**
-   * Optional gradient ID to fill the curve with a gradient
-   * The gradient must be defined by `FilterGradient` component and referenced by its ID
-   * @default undefined
-   */
-  gradientId?: string
-  /**
-   * Additional CSS classes to apply to the curve path
-   */
-  className?: string
-  /**
-   * Additional inline styles to apply to the curve path
-   */
-  style?: CSSProperties
 }
 /**
  * Renders a composite frequency response curve by combining multiple filter responses.
@@ -72,14 +33,19 @@ type CompositeCurveProps = {
  */
 export const CompositeCurve = ({
   filters,
-  dotted = false,
+  resolutionFactor = 2,
+
   color,
+  dotted,
   opacity,
   lineWidth,
-  resolutionFactor = 2,
   gradientId,
-  className,
-  style
+
+  style,
+  easing,
+  animate,
+  duration, // ms
+  className
 }: CompositeCurveProps) => {
   const { scale, width } = useGraph()
   const { minFreq, maxFreq, sampleRate } = scale
@@ -128,18 +94,23 @@ export const CompositeCurve = ({
     return calcCompositeMagnitudes(allMags)
   }, [magnitudesCache])
 
+  if (!compositeMagnitudes.length) return null
+
   return (
     <>
       <use href="#centerLine" />
       <FrequencyResponseCurve
         magnitudes={compositeMagnitudes}
-        dotted={dotted}
         color={color}
+        dotted={dotted}
         opacity={opacity}
         lineWidth={lineWidth}
         gradientId={gradientId}
-        className={className}
         style={style}
+        easing={easing}
+        animate={animate}
+        duration={duration}
+        className={className}
       />
     </>
   )
