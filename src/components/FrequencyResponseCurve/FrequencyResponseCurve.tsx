@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef } from 'react'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { type DefaultCurveProps, easingSplines } from '../types'
 import { plotCurve, scaleMagnitudes } from '../../math'
@@ -20,6 +20,7 @@ export type FrequencyResponseCurveProps = DefaultCurveProps & {
  * Uses `theme.curve` values as defaults for styling, when color/opacity/width are not specified.
  * Supports optional gradient fills and dotted line styles.
  */
+
 export const FrequencyResponseCurve = ({
   magnitudes,
   dotted = false,
@@ -40,13 +41,10 @@ export const FrequencyResponseCurve = ({
     theme: { curve }
   } = useGraph()
 
-  // Track first mount and previous path
-  const firstMount = useRef(true)
-  const prevPathRef = useRef<string>('')
-  // Reference to animate element
-  const animateRef = useRef<SVGAnimateElement>(null)
+  const curveColor = color || curve.color
+  const curveWidth = lineWidth || curve.width
+  const curveOpacity = opacity || curve.opacity
 
-  // Memoize paths calculation
   const { currentPath, initialPath } = useMemo(() => {
     const points = scaleMagnitudes(magnitudes, scale, width, height)
     const flatPoints = points.map((p) => ({ x: p.x, y: height / 2 }))
@@ -57,33 +55,25 @@ export const FrequencyResponseCurve = ({
     return { currentPath, initialPath }
   }, [magnitudes, scale, width, height])
 
-  // Handle initial mount state
+  const animateRef = useRef<SVGAnimateElement>(null)
+  const [fromPath, setFromPath] = useState(initialPath)
+  const [toPath, setToPath] = useState(initialPath)
+
   useLayoutEffect(() => {
-    if (firstMount.current) {
-      prevPathRef.current = initialPath
-      firstMount.current = false
+    if (animate) {
+      setFromPath(toPath)
+      animateRef.current?.beginElement()
+      // Delay updating the previous path by one frame to avoid flickering in Safari
+      // This ensures that the animation starts from the current state and smoothly transitions to the new state
+      requestAnimationFrame(() => {
+        setToPath(currentPath)
+      })
     }
-  }, [initialPath])
-
-  // Update previous path and trigger animation
-  useLayoutEffect(() => {
-    if (!firstMount.current && animate && animateRef.current) {
-      prevPathRef.current = currentPath
-      animateRef.current.beginElement()
-    }
-  }, [magnitudes, animate])
-
-  // Determine which path to display
-  const displayPath = animate && firstMount.current ? initialPath : currentPath
-  const fromPath = prevPathRef.current || initialPath
-
-  const curveColor = color || curve.color
-  const curveWidth = lineWidth || curve.width
-  const curveOpacity = opacity || curve.opacity
+  }, [currentPath, animate])
 
   return (
     <path
-      d={displayPath}
+      d={animate ? fromPath : currentPath}
       stroke={curveColor}
       strokeWidth={curveWidth}
       strokeOpacity={curveOpacity}
@@ -97,7 +87,7 @@ export const FrequencyResponseCurve = ({
         <animate
           ref={animateRef}
           from={fromPath}
-          to={currentPath}
+          to={toPath}
           fill="freeze"
           repeatCount="1"
           attributeName="d"
