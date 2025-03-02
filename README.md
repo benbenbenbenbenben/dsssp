@@ -1,4 +1,5 @@
 ![](assets/screenshot.png)
+![](assets/transition.gif)
 
 # DSSSP
 
@@ -8,9 +9,9 @@
 
 ## React Library for Audio Processing and Visualization
 
-[DSSSP](https://dsssp.io) is a React component library for visualizing and managing audio filters. These components are designed to serve as the core UI elements of audio editing tools and interfaces, enabling users to interactively configure all filter parameters. Essentially, it is a conversion of proprietary audio processing and visualization tools from professional desktop software to a web-based environment.
+[DSSSP](https://dsssp.io) is a React component library for visualizing and editing audio filters. These components are designed to serve as the core UI elements of audio production tools and interfaces, enabling users to interactively configure all filter parameters. Essentially, it is a conversion of proprietary audio processing and visualization tools from professional desktop software to a web-based environment.
 
-The library's rendering system is based on SVG and provides a logarithmic frequency graph for audio spectrum representation, a set of components to render and manipulate biquad filters, and mathematical functions to calculate the resulting signal curve. Filters support drag-and-drop and mouse wheel interactions, direct property updates (**Gain**, **Frequency**, **Q-Factor**), and implement common audio filter types.
+The library's rendering system is based on SVG and provides a logarithmic frequency graph for audio spectrum representation, a set of components to render and manipulate biquad filters, and mathematical functions to calculate the resulting signal curve. Filters support **drag-and-drop** and **mouse wheel** interactions, direct property updates (**Gain**, **Frequency**, **Q-Factor**), **animated transitions** between curves, and implement common audio filter types.
 
 ## Installation
 
@@ -26,7 +27,9 @@ Visit [dsssp.io/docs](https://dsssp.io/docs/) to view the full documentation.
 
 ## Examples
 
-Our documentation includes a full-scale [demo project](https://numberonebot.github.io/dsssp-demo/) that showcases each library component across various use cases and provides a starting point for your own projects. The source code of the demo is available in its own [repository](https://github.com/numberonebot/dsssp-demo).
+Our documentation includes a full-scale [demo project](https://github.com/NumberOneBot/dsssp-demo) that showcases each library component across various use cases and provides a starting point for your own projects.
+
+Visit the [dsssp.io/demo](https://dsssp.io/demo/) to see it live.
 
 ## Licensing
 
