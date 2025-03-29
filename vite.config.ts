@@ -10,7 +10,12 @@ import { peerDependencies } from './package.json'
 export default defineConfig({
   plugins: [
     react(),
-    dts({ rollupTypes: true }), // Output .d.ts files
+    dts({
+      rollupTypes: false, // disable inline declarations
+      insertTypesEntry: true, // add "types" entry to package.json
+      outDir: 'dist', // output declarations in dist
+      entryRoot: 'src'
+    }), // Output .d.ts files
     viteStaticCopy({
       targets: [
         {

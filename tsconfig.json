@@ -13,7 +13,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     // Skip the type checking for declaration files to improve performance.
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     // Allow importing modules with ".json" extension.
     "resolveJsonModule": true,
     // "declarationMap" need to be enabled to let Vite generates source map files.
